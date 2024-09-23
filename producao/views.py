@@ -1,0 +1,32 @@
+from django.shortcuts import render
+from .models import OrdemProducao, ApontamentoProducao
+from .forms import OrdemProducaoForm
+from django.http import HttpResponseRedirect, Http404
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
+# Create your views here.
+
+def ordem_de_producao(request, ordem_producao_id):
+    ordem_producao = OrdemProducao.objects.get(id = ordem_producao_id)
+
+    context = {'ordem_producao': ordem_producao}
+    return render(request, 'producao/ordem_producao.html', context)
+
+def list_ordem_producao(request):
+    ordens_producao = OrdemProducao.objects.order_by('data_criacao')
+    context = {'ordens_producao' : ordens_producao}
+    return render(request, 'producao/list-ordem-producao.html', context)
+
+def nova_ordem_producao(request):
+    if request.method != 'POST':
+        form = OrdemProducaoForm()
+    else:
+        form = OrdemProducaoForm(request.POST)
+        if form.is_valid():
+            nova_ordem_producao = form.save(commit=False)
+            nova_ordem_producao.save()
+            # return HttpResponseRedirect(reverse('topics'))
+
+    context = {'form': form}
+    return render(request, 'producao/new_ordem_producao.html', context)

@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div>
+        <div>
+            <!-- <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example"> -->
+            <form action="{% url 'new_ordem' %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                
+                {% block buttons %}
+                    <div class="col-auto">
+                        <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
+                    </div>
+                {% endblock buttons %}
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function(){
+            document.getElementById("id_data_previsao").type = "date";
+        }
+    </script>
+
+{% endblock content %}

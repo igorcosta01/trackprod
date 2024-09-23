@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+
+{% block header %}
+    </br>
+    <div class="py-3 bg-light text-center">
+        <h2 class="display-5">Produtos</h2>
+    </div>
+{% endblock header %}
+
+{% block content %}
+
+{% block buttons %}
+  <div class="d-grid gap-2" style="margin-top: 10px;">
+      <a class="btn btn-primary" href="{% url 'novo_produto'%}" role="button">Adicionar Produto</a>
+  </div>
+{% endblock buttons %}
+
+</br>
+    <table class="table table-hover">
+        <thead >
+          <tr>
+            <th scope="col">N° Produto</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Material</th>
+            <th scope="col">Cor</th>
+          </tr>
+        </thead>
+        <tbody class="table table-hover">
+        {% for produto in list_produtos %}
+          <!-- <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'"> -->
+          <tr>
+            <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
+            <th scope="row">{{ produto.id }}</th>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.codigo }}</td>
+            <td>{{ produto.descricao }}</td>
+            <td>{{ produto.material }}</td>
+            <td>{{ produto.cor }}</td>
+          </tr>
+        {% empty %}
+          Não produtos cadastrados
+        {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock content %}
