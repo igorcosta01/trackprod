@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div>
+        <div style="margin-top: 1%;">
+            <h3> N° Produto: {{ produto.id }} </h3>
+        </div>
+        <div>
+            ID
+            <input class="form-control" type="text" value="{{ produto.id }}" disabled></br>
+            Tipo
+            <input class="form-control" type="text" value="{{ produto.nome }}" disabled></br>
+            Codigo
+            <input class="form-control" type="text" value="{{ produto.codigo }}" disabled></br>
+            Descrição
+            <input class="form-control" type="text" value="{{ produto.descricao }}" disabled></br>
+            Material
+            <input class="form-control" type="text" value="{{ produto.material }}" disabled></br>
+            Peso
+            <input class="form-control" type="text" value="{{ produto.peso }}" disabled></br>
+            Volume
+            <input class="form-control" type="text" value="{{ produto.volume }}" disabled></br>
+            Cor
+            <input class="form-control" type="text" value="{{ produto.cor }}" disabled></br>
+
+        </div>
+    </div>
+
+{% endblock content %}

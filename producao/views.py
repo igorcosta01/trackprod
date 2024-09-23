@@ -26,7 +26,7 @@ def nova_ordem_producao(request):
         if form.is_valid():
             nova_ordem_producao = form.save(commit=False)
             nova_ordem_producao.save()
-            # return HttpResponseRedirect(reverse('topics'))
+            return HttpResponseRedirect(reverse('list_ordens'))
 
     context = {'form': form}
     return render(request, 'producao/new_ordem_producao.html', context)

@@ -4,6 +4,12 @@ from .models import Produto
 
 # Create your views here.
 
+def produto(request, produto_id):
+    produto = Produto.objects.get(id = produto_id)
+
+    context = {'produto': produto}
+    return render(request, 'produto/produto.html', context)
+
 def novo_produto(request):
     """Página de cadastro de produto"""
     if request.method != 'POST':

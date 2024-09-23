@@ -1,5 +1,9 @@
 {% extends "core/base.html" %}
 
+{% load static %}
+{% load humanize %}
+
+
 {% block header %}
     </br>
     <div class="py-3 bg-light text-center">
@@ -25,6 +29,7 @@
             <th scope="col">Quantidade</th>
             <th scope="col">Previsão Entrega</th>
             <th scope="col">Status</th>
+            <th scope="col">Ação</th>
           </tr>
         </thead>
         <tbody class="table table-hover">
@@ -32,11 +37,12 @@
           <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
             <th scope="row">{{ ordem_producao.id }}</th>
-            <td>{{ ordem_producao.produto.id }}</td>
+            <td>{{ ordem_producao.produto.codigo }}</td>
             <td>{{ ordem_producao.produto.nome }}</td>
-            <td>{{ ordem_producao.quantidade }}</td>
-            <td><a>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</a></td>
-            <td><a>{{ ordem_producao.status }}</a></td>
+            <td>{{ ordem_producao.quantidade|intcomma }}</td>
+            <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
+            <td>{{ ordem_producao.get_status_display }}</td>
+            <td><a href="{% url 'novo_produto' %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar

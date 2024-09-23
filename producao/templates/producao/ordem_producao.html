@@ -8,16 +8,24 @@
         <div style="margin-top: 1%;">
             <h3> N° OP: {{ ordem_producao }} </h3>
         </div>
-        <div>
-            N° Produto
-            <input class="form-control" type="text" value="{{ ordem_producao.produto}}" disabled></br>
-            Tipo Produto
-            <input class="form-control" type="text" value="{{ ordem_producao.produto.nome}}" disabled></br>
-            Previsão Entrega
-            <input class="form-control" type="text" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}" disabled></br>
-            Status
-            <input class="form-control" type="text" value="{{ ordem_producao.status}}" disabled></br>
+        <div style="display: flex; justify-content: space-around;">
+            <div>
+                N° Produto </br>
+                <input class="form-control" type="text" value="{{ ordem_producao.produto}}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Tipo Produto </br>
+                <input class="form-control" type="text" value="{{ ordem_producao.produto.nome}}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Previsão Entrega </br>
+                <input class="form-control" type="text" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Status
+                <input class="form-control" type="text" value="{{ ordem_producao.status}} " disabled style="width: 100%;"></br>
+            </div>
+
         </div>
-    </div>
 
 {% endblock content %}

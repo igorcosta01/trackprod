@@ -29,10 +29,9 @@
         </thead>
         <tbody class="table table-hover">
         {% for produto in list_produtos %}
-          <!-- <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'"> -->
-          <tr>
+          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'produto' produto.id  %}'">
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-            <th scope="row">{{ produto.id }}</th>
+            <th scope="row">#00{{ produto.id }}</th>
             <td>{{ produto.nome }}</td>
             <td>{{ produto.codigo }}</td>
             <td>{{ produto.descricao }}</td>
