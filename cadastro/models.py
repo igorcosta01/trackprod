@@ -43,14 +43,14 @@ class Material(models.Model):
         return f"{self.nome} ({self.codigo})"
 
 class Maquina(models.Model):
-    nome_maquina = models.CharField(max_length=255)
+    nome = models.CharField(max_length=255)
     codigo = models.CharField(max_length=50, unique=True)
-    observacao = models.TextField(max_length=300)
+    observacao = models.CharField(max_length=300, blank=True, null=True)
     capacidade_producao = models.DecimalField(max_digits=10, decimal_places=2)
     em_manutencao = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.nome_maquina
+        return self.nome
 
 class Funcionario(models.Model):
     nome_funcionario = models.CharField(max_length=100)
