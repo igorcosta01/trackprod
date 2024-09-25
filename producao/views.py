@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+def index(request):
+    """Index da aplicação"""
+    return render(request, 'index.html')
+
 def ordem_de_producao(request, ordem_producao_id):
     ordem_producao = OrdemProducao.objects.get(id = ordem_producao_id)
 
