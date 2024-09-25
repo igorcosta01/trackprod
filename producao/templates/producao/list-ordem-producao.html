@@ -26,7 +26,9 @@
             <th scope="col">OP</th>
             <th scope="col">ID Produto</th>
             <th scope="col">Tipo</th>
-            <th scope="col">Quantidade</th>
+            <th scope="col">Qtd Pedido</th>
+            <th scope="col">Qtd Apontada</th>
+            <th scope="col">Saldo</th>
             <th scope="col">Previsão Entrega</th>
             <th scope="col">Status</th>
             <th scope="col">Ação</th>
@@ -40,8 +42,16 @@
             <td>{{ ordem_producao.produto.codigo }}</td>
             <td>{{ ordem_producao.produto.nome }}</td>
             <td>{{ ordem_producao.quantidade|intcomma }}</td>
+            <td>Adicionar</td>
+            <td>Adicionar</td>
             <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
-            <td>{{ ordem_producao.get_status_display }}</td>
+            {% if ordem_producao.status == "em_producao"%}
+              <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
+            {% elif ordem_producao.status == "pendente" %}
+             <td> <span class="badge text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
+            {% else %}
+              <td> <span class="badge text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
+            {% endif %}
             <td><a href="{% url 'novo_produto' %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
           </tr>
         {% empty %}
