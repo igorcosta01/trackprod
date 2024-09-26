@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import OrdemProducao, ApontamentoProducao
+from .models import OrdemProducao, ApontamentoProducao, Maquina
 from .forms import OrdemProducaoForm, MaquinaForm
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
@@ -36,7 +36,8 @@ def nova_ordem_producao(request):
     return render(request, 'producao/new_ordem_producao.html', context)
 
 
-##################### MAQUINAS #####################
+############################################  MAQUINAS  ############################################
+
 def nova_maquina(request):
     if request.method != 'POST':
         form = MaquinaForm()
@@ -48,3 +49,8 @@ def nova_maquina(request):
     
     context = {'form': form}
     return render(request, 'maquina/nova_maquina.html', context)
+
+def list_maquinas(request):
+    maquinas = Maquina.objects.all()
+    context = {'maquinas': maquinas}
+    return render(request, 'producao/list_maquinas', context)
