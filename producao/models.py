@@ -1,5 +1,5 @@
 from django.db import models
-from cadastro.models import Produto, Maquina, Funcionario
+from cadastro.models import Produto, Funcionario
 # Create your models here.
 
 class OrdemProducao(models.Model):
@@ -20,6 +20,16 @@ class OrdemProducao(models.Model):
 
     def __str__(self):
         return f"000{self.id}"
+    
+class Maquina(models.Model):
+    nome = models.CharField(max_length=255)
+    codigo = models.CharField(max_length=50, unique=True)
+    observacao = models.CharField(max_length=300, blank=True, null=True)
+    capacidade_producao = models.DecimalField(max_digits=10, decimal_places=2)
+    em_manutencao = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nome
 
 class ApontamentoProducao(models.Model):
     ordem_producao = models.ForeignKey(OrdemProducao, on_delete=models.CASCADE)
@@ -35,3 +45,4 @@ class ApontamentoProducao(models.Model):
 
     def __str__(self):
         return f"Apontamento OP {self.ordem_producao.id} - {self.maquina.nome_maquina}"
+    

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import ProdutoForm, UnidadeMedidaForm, MaquinaForm
+from .forms import ProdutoForm, UnidadeMedidaForm
 from .models import Produto
 
 # Create your views here.
@@ -29,15 +29,3 @@ def list_produtos(request):
     context = {'list_produtos': list_produtos}
     return render(request, 'produto/list_produtos.html', context)
 
-##################### MAQUINAS #####################
-def nova_maquina(request):
-    if request.method != 'POST':
-        form = MaquinaForm()
-    else:
-        form = MaquinaForm(request.POST)
-        if form.is_valid():
-            nova_maquina = form.save(commit=False)
-            nova_maquina.save()
-    
-    context = {'form': form}
-    return render(request, 'maquina/nova_maquina.html', context)

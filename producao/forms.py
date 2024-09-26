@@ -1,5 +1,5 @@
 from django import forms
-from .models import OrdemProducao
+from .models import OrdemProducao, Maquina
 
 class OrdemProducaoForm(forms.ModelForm):
     class Meta:
@@ -14,3 +14,14 @@ class OrdemProducaoForm(forms.ModelForm):
             'data_previsao': 'Previsão',
             'status': 'Status',
         }
+
+class MaquinaForm(forms.ModelForm):
+    class Meta:
+        model = Maquina
+        fields = ['nome', 'codigo', 'observacao', 'capacidade_producao']
+        labels = {
+            'nome': 'Maquina', 
+            'codigo': 'Código', 
+            'observacao': 'Observação', 
+            'capacidade_producao': 'Capacidade Produtiva (Dia)'
+            }

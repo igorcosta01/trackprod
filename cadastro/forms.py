@@ -1,5 +1,5 @@
 from django import forms
-from cadastro.models import Produto, UnidadeMedida, Material, Maquina
+from cadastro.models import Produto, UnidadeMedida, Material
 
 class ProdutoForm(forms.ModelForm):
     class Meta:
@@ -23,14 +23,3 @@ class UnidadeMedidaForm(forms.ModelForm):
             'unidade_medida': 'Nome UM',
             'abreviacao': 'Abreviação'
         }
-
-class MaquinaForm(forms.ModelForm):
-    class Meta:
-        model = Maquina
-        fields = ['nome', 'codigo', 'observacao', 'capacidade_producao']
-        labels = {
-            'nome': 'Maquina', 
-            'codigo': 'Código', 
-            'observacao': 'Observação', 
-            'capacidade_producao': 'Capacidade Produtiva (Dia)'
-            }

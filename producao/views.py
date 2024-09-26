@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import OrdemProducao, ApontamentoProducao
-from .forms import OrdemProducaoForm
+from .forms import OrdemProducaoForm, MaquinaForm
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -34,3 +34,17 @@ def nova_ordem_producao(request):
 
     context = {'form': form}
     return render(request, 'producao/new_ordem_producao.html', context)
+
+
+##################### MAQUINAS #####################
+def nova_maquina(request):
+    if request.method != 'POST':
+        form = MaquinaForm()
+    else:
+        form = MaquinaForm(request.POST)
+        if form.is_valid():
+            nova_maquina = form.save(commit=False)
+            nova_maquina.save()
+    
+    context = {'form': form}
+    return render(request, 'maquina/nova_maquina.html', context)
