@@ -15,7 +15,7 @@
 
 {% block buttons %}
   <div class="d-grid gap-2" style="margin-top: 10px;">
-      <a class="btn btn-primary" href="{% url 'nova_maquina'%}" role="button">Adicionar OP</a>
+      <a class="btn btn-primary" href="{% url 'nova_maquina'%}" role="button">Adicionar Maquina</a>
   </div>
 {% endblock buttons %}
 
@@ -23,36 +23,27 @@
     <table class="table table-hover">
         <thead >
           <tr>
-            <th scope="col">OP</th>
-            <th scope="col">ID Produto</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Qtd Pedido</th>
-            <th scope="col">Qtd Apontada</th>
-            <th scope="col">Saldo</th>
-            <th scope="col">Previsão Entrega</th>
+            <th scope="col">Maquina</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Capacidade Produtiva</th>
             <th scope="col">Status</th>
             <th scope="col">Ação</th>
           </tr>
         </thead>
         <tbody class="table table-hover">
-        {% for ordem_producao in ordens_producao %}
-          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
+        {% for maquina in maquinas %}
+          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'maquina' maquina.id  %}'">
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-            <th scope="row">{{ ordem_producao.id }}</th>
-            <td>{{ ordem_producao.produto.codigo }}</td>
-            <td>{{ ordem_producao.produto.nome }}</td>
-            <td>{{ ordem_producao.quantidade|intcomma }}</td>
-            <td>Adicionar</td>
-            <td>Adicionar</td>
+            <th scope="row">{{ maquina.nome }}</th>
+            <td>{{ maquina.codigo }}</td>
+            <td>{{ maquina.capacidade_producao|intcomma }}</td>
             <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
-            {% if ordem_producao.status == "em_producao"%}
-              <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
-            {% elif ordem_producao.status == "pendente" %}
-             <td> <span class="badge text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
+            {% if maquina.is_active == True %}
+              <td><span class="badge text-bg-success">Ativa</span></td>
             {% else %}
-              <td> <span class="badge text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
+              <td> <span class="badge text-bg-warning">Inativa</span></td>
             {% endif %}
-            <td><a href="{% url 'novo_produto' %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
+            <td><a href="{% url 'index' %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar

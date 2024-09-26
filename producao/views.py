@@ -38,6 +38,12 @@ def nova_ordem_producao(request):
 
 ############################################  MAQUINAS  ############################################
 
+def maquina(request, maquina_id):
+    maquina = Maquina.objects.get(id = maquina_id)
+
+    context = {'maquina': maquina}
+    return render(request, 'maquina/maquina.html', context)
+
 def nova_maquina(request):
     if request.method != 'POST':
         form = MaquinaForm()
@@ -46,6 +52,7 @@ def nova_maquina(request):
         if form.is_valid():
             nova_maquina = form.save(commit=False)
             nova_maquina.save()
+            return HttpResponseRedirect(reverse('list_maquinas'))
     
     context = {'form': form}
     return render(request, 'maquina/nova_maquina.html', context)
@@ -53,4 +60,4 @@ def nova_maquina(request):
 def list_maquinas(request):
     maquinas = Maquina.objects.all()
     context = {'maquinas': maquinas}
-    return render(request, 'producao/list_maquinas', context)
+    return render(request, 'maquina/list_maquinas.html', context)

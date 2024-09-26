@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div>
+        <div style="display: flex; justify-content: space-around;">
+            <div>
+                Maquina </br>
+                <input class="form-control" type="text" value="{{ maquina.nome}}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Codigo</br>
+                <input class="form-control" type="text" value="{{ maquina.codigo }}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Capacidade Produtiva </br>
+                <input class="form-control" type="text" value="{{ maquina.capacidade_producao }}" disabled style="width: 100%;">
+            </div>
+            <div>
+                Status
+                <input class="form-control" type="text" value="{{ maquina.status }} " disabled style="width: 100%;"></br>
+            </div>
+            <div>
+                Capacidade Produtiva </br>
+                <input class="form-control" type="text" value="{{ maquina.date_added | date:'d/m/Y' }}" disabled style="width: 100%;">
+            </div>
+        </div>
+
+{% endblock content %}

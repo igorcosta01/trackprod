@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .forms import ProdutoForm, UnidadeMedidaForm
 from .models import Produto
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -20,9 +22,11 @@ def novo_produto(request):
         if form.is_valid():
             novo_produto = form.save(commit=False)
             novo_produto.save()
+            return HttpResponseRedirect(reverse('list_produtos'))
     
     context = {'form': form}
     return render(request, 'produto/novo_produto.html', context)
+    
 
 def list_produtos(request):
     list_produtos = Produto.objects.all()
