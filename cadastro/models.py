@@ -43,9 +43,15 @@ class Material(models.Model):
         return f"{self.nome} ({self.codigo})"
 
 class Funcionario(models.Model):
+
+    STATUS_CHOICES = [
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+    ]
+
     nome_funcionario = models.CharField(max_length=100)
-    matricula_funcionario = models.CharField(max_length=5)
-    ativo = models.BooleanField(default=True)
+    matricula_funcionario = models.CharField(max_length=5, unique=True)
+    status = models.CharField(max_length=7, choices=STATUS_CHOICES, default="ativo")
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
