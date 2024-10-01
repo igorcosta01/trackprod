@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import OrdemProducao, ApontamentoProducao, Maquina
-from .forms import OrdemProducaoForm, MaquinaForm
+from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -61,3 +61,23 @@ def list_maquinas(request):
     maquinas = Maquina.objects.all()
     context = {'maquinas': maquinas}
     return render(request, 'maquina/list_maquinas.html', context)
+
+def edit_maquina(request, maquina_id):
+    """Edita um entrada já cadastrada"""
+    maquina = Maquina.objects.get(id=maquina_id)
+
+    #Garante que o assunto pertence ao usuário atual
+    # if topic.owner != request.user:
+    #     raise Http404
+
+    if request.method != 'POST':
+        form = EditMaquinaForm(instance=maquina)
+    else:
+        # Dados de POST submetidos processa os dados
+        form = EditMaquinaForm(instance=maquina, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('maquina', args=[maquina.id]))
+    
+    context = {'maquina': maquina, 'form': form}
+    return render(request, 'maquina/edit_maquina.html', context)

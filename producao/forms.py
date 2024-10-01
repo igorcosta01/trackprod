@@ -25,3 +25,15 @@ class MaquinaForm(forms.ModelForm):
             'observacao': 'Observação', 
             'capacidade_producao': 'Capacidade Produtiva (Dia)'
             }
+
+class EditMaquinaForm(forms.ModelForm):
+    class Meta:
+        model = Maquina
+        fields = ['nome', 'codigo', 'observacao', 'capacidade_producao', 'status']
+        labels = {
+            'nome': 'Maquina', 
+            'codigo': 'Código', 
+            'observacao': 'Observação', 
+            'capacidade_producao': 'Capacidade Produtiva (Dia)',
+            'status': 'Status', 
+            }

@@ -22,12 +22,18 @@ class OrdemProducao(models.Model):
         return self.id
     
 class Maquina(models.Model):
+
+    STATUS_CHOICES = [
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+    ]
+        
     nome = models.CharField(max_length=255)
     codigo = models.CharField(max_length=50, unique=True)
     observacao = models.CharField(max_length=300, blank=True, null=True)
     capacidade_producao = models.DecimalField(max_digits=10, decimal_places=2)
     em_manutencao = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    status = models.CharField(max_length=7, choices=STATUS_CHOICES, default="ativo")
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

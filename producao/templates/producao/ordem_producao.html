@@ -6,7 +6,7 @@
 
     <div>
         <div style="margin-top: 1%;">
-            <h3> N° OP: {{ ordem_producao }} </h3>
+            <h3> N° OP: {{ ordem_producao.id }} </h3>
         </div>
         <div style="display: flex; justify-content: space-around;">
             <div>
@@ -23,7 +23,7 @@
             </div>
             <div>
                 Status
-                <input class="form-control" type="text" value="{{ ordem_producao.status}} " disabled style="width: 100%;"></br>
+                <input class="form-control" type="text" value="{{ ordem_producao.get_status_display}} " disabled style="width: 100%;"></br>
             </div>
 
         </div>

@@ -38,7 +38,7 @@
             <td>{{ maquina.codigo }}</td>
             <td>{{ maquina.capacidade_producao|intcomma }}</td>
             <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
-            {% if maquina.is_active == True %}
+            {% if maquina.status == "ativo" %}
               <td><span class="badge text-bg-success">Ativa</span></td>
             {% else %}
               <td> <span class="badge text-bg-warning">Inativa</span></td>

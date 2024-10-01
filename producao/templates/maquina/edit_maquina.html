@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block header %}
+    </br>
+    <div class="py-3 bg-light text-center">
+        <h2 class="display-5">Adicionar Maquina</h2>
+    </div>
+{% endblock header %}
+
+{% block content %}
+
+    <div>
+        <div>
+            <!-- <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example"> -->
+            <form action="{% url 'edit_maquina' maquina.id %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+            
+                {% block buttons %}
+                    <div class="d-grid gap-2">
+                        <button name="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+                {% endblock buttons %}
+        </div>
+    </div>
+
+{% endblock content %}
