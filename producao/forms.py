@@ -1,5 +1,5 @@
 from django import forms
-from .models import OrdemProducao, Maquina
+from .models import OrdemProducao, Maquina, ApontamentoProducao
 
 class OrdemProducaoForm(forms.ModelForm):
     class Meta:
@@ -37,3 +37,16 @@ class EditMaquinaForm(forms.ModelForm):
             'capacidade_producao': 'Capacidade Produtiva (Dia)',
             'status': 'Status', 
             }
+        
+
+class IniciarProducaoForm(forms.ModelForm):
+    class Meta:
+        model = ApontamentoProducao
+        fields = ['ordem_producao', 'maquina', 'funcionario_apontamento', 'quantidade_produzida', 'inicio_producao']
+        labels = {
+            'ordem_producao': 'Ordem de Produção',
+            'maquina': 'Máquina',
+            'funcionario_apontamento': 'Funcionário (Número de Cadastro)',
+            'quantidade_produzida': 'Quantidade Produzida',
+            'inicio_producao': 'Início da Produção',
+        }

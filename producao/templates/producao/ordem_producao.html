@@ -4,6 +4,12 @@
 
 {% block content %}
 
+{% block buttons %}
+  <div class="d-grid gap-2" style="margin-top: 10px;">
+      <a class="btn btn-primary" href="{% url 'iniciar_producao' ordem_producao.id %}" role="button">Iniciar Producao</a>
+  </div>
+{% endblock buttons %}
+
     <div>
         <div style="margin-top: 1%;">
             <h3> N° OP: {{ ordem_producao.id }} </h3>

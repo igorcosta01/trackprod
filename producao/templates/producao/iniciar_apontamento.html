@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+
+{% block header %}
+    </br>
+    <div class="py-3 bg-light text-center">
+        <h2 class="display-5">Ordens de Produção</h2>
+    </div>
+{% endblock header %}
+
+{% block content %}
+
+</br>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Iniciar Produção</button>
+</form>
+
+
+{% endblock content %}
