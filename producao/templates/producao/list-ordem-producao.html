@@ -24,7 +24,8 @@
         <thead >
           <tr>
             <th scope="col">OP</th>
-            <th scope="col">ID Produto</th>
+            <th scope="col">Produto</th>
+            <th scope="col">Cliente</th>
             <th scope="col">Tipo</th>
             <th scope="col">Qtd Pedido</th>
             <th scope="col">Qtd Apontada</th>
@@ -40,10 +41,11 @@
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
             <th scope="row">{{ ordem_producao.id }}</th>
             <td>{{ ordem_producao.produto.codigo }}</td>
+            <td>{{ ordem_producao.cliente.nome_cliente }}</td>
             <td>{{ ordem_producao.produto.nome }}</td>
             <td>{{ ordem_producao.quantidade|intcomma }}</td>
-            <td>Adicionar</td>
-            <td>Adicionar</td>
+            <td>{{ ordem_producao.quantidade_produzida|intcomma}}</td>
+            <td>{{ ordem_producao.saldo_op }}</td>
             <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
             {% if ordem_producao.status == "em_producao"%}
               <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>

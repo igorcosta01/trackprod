@@ -1,5 +1,5 @@
 from django.db import models
-from cadastro.models import Produto, Funcionario
+from cadastro.models import Produto, Funcionario, Cliente
 # Create your models here.
 
 class OrdemProducao(models.Model):
@@ -9,8 +9,11 @@ class OrdemProducao(models.Model):
         ('finalizada', 'Finalizada'),
     ]
 
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade = models.IntegerField()
+    quantidade = models.FloatField()
+    quantidade_produzida = models.FloatField()
+    saldo_op = models.FloatField(default=quantidade)
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_previsao = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
@@ -19,15 +22,15 @@ class OrdemProducao(models.Model):
         verbose_name_plural = 'ordens_de_producao'
 
     def __str__(self):
-        return self.id
-    
+        return f"{self.id}"
+        
 class Maquina(models.Model):
 
     STATUS_CHOICES = [
         ('ativo', 'Ativo'),
         ('inativo', 'Inativo'),
     ]
-        
+    
     nome = models.CharField(max_length=255)
     codigo = models.CharField(max_length=50, unique=True)
     observacao = models.CharField(max_length=300, blank=True, null=True)
@@ -51,6 +54,14 @@ class ApontamentoProducao(models.Model):
     class Meta:
         verbose_name_plural = 'Apontamentos'
 
+    def save(self, *args, **kwargs):
+        # Atualiza a quantidade produzida da OrdemProducao
+        self.ordem_producao.quantidade_produzida += self.quantidade_produzida
+        self.ordem_producao.saldo_op = self.ordem_producao.saldo_op - self.quantidade_produzida
+        self.ordem_producao.save()
+        
+        super(ApontamentoProducao, self).save(*args, **kwargs)
+
     def __str__(self):
-        return f"Apontamento OP {self.ordem_producao.id} - {self.maquina.nome_maquina}"
+        return f"Apontamento OP {self.ordem_producao.id} - {self.maquina.nome}"
     
