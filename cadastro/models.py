@@ -2,6 +2,27 @@ from django.db import models
 
 # Create your models here.
 
+class Cliente(models.Model):
+
+    TIPOS_CLIENTE = [
+        ('pf', 'Pessoa Física'),
+        ('pj', 'Pessoa Jurídica'),
+    ]
+    
+    nome_cliente = models.CharField(max_length=255)
+    tipo_cliente = models.CharField(max_length=2, choices=TIPOS_CLIENTE, default='pf')
+    cpf_cnpj = models.CharField(max_length=18, unique=True)
+    email = models.EmailField(max_length=254)
+    telefone = models.CharField(max_length=20, blank=True, null=True)
+    endereco = models.TextField()
+    data_cadastro = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nome_cliente
+    
+
+######################## PRODUTO #################################
+
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
     codigo = models.CharField(max_length=50, unique=True)
