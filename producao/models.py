@@ -12,8 +12,8 @@ class OrdemProducao(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.FloatField()
-    quantidade_produzida = models.FloatField()
-    saldo_op = models.FloatField(default=quantidade)
+    quantidade_produzida = models.FloatField(default=0)
+    saldo_op = models.FloatField(blank=True, null=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_previsao = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
@@ -23,6 +23,13 @@ class OrdemProducao(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+    
+    def save(self, *args, **kwargs):
+        # Define o saldo_op como a quantidade total ao criar a OP
+        if not self.pk:  # Verifica se é um novo objeto (ou seja, ainda não foi salvo no banco)
+            self.saldo_op = self.quantidade
+
+        super(OrdemProducao, self).save(*args, **kwargs)  # Salva a instância após atualizar saldo_op
         
 class Maquina(models.Model):
 
