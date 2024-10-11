@@ -65,10 +65,15 @@ class ApontamentoProducao(models.Model):
         # Atualiza a quantidade produzida da OrdemProducao
         self.ordem_producao.quantidade_produzida += self.quantidade_produzida
         self.ordem_producao.saldo_op = self.ordem_producao.saldo_op - self.quantidade_produzida
+        # Atualiza o Status da OP
+        if self.ordem_producao.quantidade_produzida >= self.ordem_producao.quantidade:
+            self.ordem_producao.status = 'finalizada'
+        elif self.ordem_producao.quantidade_produzida > 0:
+            self.ordem_producao.status = 'em_producao'
+
         self.ordem_producao.save()
-        
         super(ApontamentoProducao, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Apontamento OP {self.ordem_producao.id} - {self.maquina.nome}"
+        return f"ID OP: {self.ordem_producao.id} | Maq: {self.maquina.nome}"
     

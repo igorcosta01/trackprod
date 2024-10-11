@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div>
+        <div>
+            <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                
+                {% block buttons %}
+                    <div class="col-auto">
+                        <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
+                    </div>
+                {% endblock buttons %}
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

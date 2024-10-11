@@ -43,9 +43,9 @@
             <td>{{ ordem_producao.produto.codigo }}</td>
             <td>{{ ordem_producao.cliente.nome_cliente }}</td>
             <td>{{ ordem_producao.produto.nome }}</td>
-            <td>{{ ordem_producao.quantidade|intcomma }}</td>
-            <td>{{ ordem_producao.quantidade_produzida|intcomma}}</td>
-            <td>{{ ordem_producao.saldo_op }}</td>
+            <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
+            <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
+            <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
             <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
             {% if ordem_producao.status == "em_producao"%}
               <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
@@ -54,7 +54,7 @@
             {% else %}
               <td> <span class="badge text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
             {% endif %}
-            <td><a href="{% url 'novo_produto' %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
+            <td><a href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar

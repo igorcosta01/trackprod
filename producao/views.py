@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from .models import OrdemProducao, ApontamentoProducao, Maquina
-from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm
+from django.shortcuts import render, get_object_or_404
+from .models import OrdemProducao, Maquina
+from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 # Create your views here.
 
@@ -83,3 +84,24 @@ def edit_maquina(request, maquina_id):
     
     context = {'maquina': maquina, 'form': form}
     return render(request, 'maquina/edit_maquina.html', context)
+
+
+####################### Apontamento ##################################
+
+def apontar_ordem_producao(request, ordem_producao_id):
+
+    ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+
+    if request.method != 'POST':
+        form = ApontamentoProducaoForm()
+    else:
+        form = ApontamentoProducaoForm(request.POST)
+        if form.is_valid():
+            apontamento = form.save(commit=False)
+            apontamento.ordem_producao = ordem_producao
+            apontamento.inicio_producao = timezone.now()
+            apontamento.save()
+            return HttpResponseRedirect(reverse('list_ordens'))
+
+    context = {'form': form, 'ordem_producao': ordem_producao}
+    return render(request, 'producao/apontamento_form.html', context)
