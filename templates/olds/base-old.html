@@ -1,0 +1,109 @@
+{% load django_bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplicativo de anotações" />
+  <meta name="keywords" content="Notas, anotações" />
+  <meta name="author" content="Igor Costa" />
+
+  <title>TrackProd</title>
+
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load static %}
+
+  <link rel="stylesheet" href="{% static 'style/base.css' %}">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+    </div>
+  </nav>
+
+  <div class="row flex-nowrap divCentral">
+    <div class="sidebar">
+      <img class="logo-irfy" src="{% static 'core/logo-irfy2.png' %}">
+
+      <nav class="nav flex-column">
+        <a class="nav-link" href="{% url 'index' %}">
+          <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/home.svg' %}"></span>
+          <span class="description">Home</span>
+        </a>
+        <!-- Dropdown Produção -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuProducao" aria-expanded="false"
+          aria-controls="submenuProducao">
+          <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/factory.svg' %}"></span>
+          <span class="description">Produção</span>
+          <span class="arrow">▼</span>
+        </a>
+        <div class="sub-menu collapse" id="submenuProducao">
+          <a href="{% url 'list_ordens' %}" class="nav-link">
+            <span class="submenuDescription">Ordens de Produção</span>
+          </a>
+          <a href="{% url 'list_maquinas' %}" class="nav-link">
+            <span class="submenuDescription">Máquinas</span>
+          </a>
+        </div>
+        <!-- Dropdown Produto -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuProduto" aria-expanded="false"
+          aria-controls="submenuProduto">
+          <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/product.svg' %}"></span>
+          <span class="description">Produto</span>
+          <span class="arrow">▼</span>
+        </a>
+        <div class="sub-menu collapse" id="submenuProduto">
+          <a href="{% url 'list_produtos' %}" class="nav-link">
+            <span class="submenuDescription">Lista Produtos</span>
+          </a>
+        </div>
+        <!-- Dropdown Estoque -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuEstoque" aria-expanded="false"
+          aria-controls="submenuEstoque">
+          <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/package.svg' %}"></span>
+          <span class="description">Estoque</span>
+          <span class="arrow">▼</span>
+        </a>
+        <div class="sub-menu collapse" id="submenuEstoque">
+          <a href="" class="nav-link">
+            <span class="submenuDescription">Lista Estoque</span>
+          </a>
+        </div>
+        <!-- Dropdown Estoque -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuFuncionarios"
+          aria-expanded="false" aria-controls="submenuFuncionarios">
+          <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/employees.svg' %}"></span>
+          <span class="description">Funcionários</span>
+          <span class="arrow">▼</span>
+        </a>
+        <div class="sub-menu collapse" id="submenuFuncionarios">
+          <a href="{% url 'list_funcionarios' %}" class="nav-link">
+            <span class="submenuDescription">Lista Funcionários</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+    <div class="col py-3">
+      <div>{% block header %}{% endblock header %}</div>
+      <div>{% block content %} {% endblock content %}</div>
+    </div>
+  </div>
+</body>
+
+</html>

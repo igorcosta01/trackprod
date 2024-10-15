@@ -3,11 +3,9 @@
 {% load static %}
 {% load humanize %}
 
-
 {% block header %}
-    </br>
     <div class="py-3 bg-light text-center">
-        <h2 class="display-5">Maquinas</h2>
+        <h2 class="display-4">Maquinas</h2>
     </div>
 {% endblock header %}
 
@@ -37,7 +35,6 @@
             <th scope="row">{{ maquina.nome }}</th>
             <td>{{ maquina.codigo }}</td>
             <td>{{ maquina.capacidade_producao|intcomma }}</td>
-            <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
             {% if maquina.status == "ativo" %}
               <td><span class="badge text-bg-success">Ativa</span></td>
             {% else %}

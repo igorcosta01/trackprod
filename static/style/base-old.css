@@ -1,6 +1,16 @@
-.backSidebar {
-    width: 13%;
-    padding: 0%;
+.divCentral {
+    margin: 0%;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.sidebar {
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 200px;
+    background-color: #212529;
+    transition: width 0.3s;
 }
 .nav-link {
     width: 100%;
@@ -35,6 +45,14 @@
     margin-top: -10%;
 }
 
+.main-content {
+    transition: margin-left 0.3s;
+}
+
+.col {
+    padding: 2%;
+}
+
 .sideIcon {
     padding: 0;
     margin: 0;
@@ -52,8 +70,8 @@
         width: 60px;
     }
 
-    .sidebar .description .arrow .submenuDescription .logo-irfy {
-        display: none !important;
+    .sidebar .description .arrow .submenuDescription {
+        display: none;
     }
 
     .navbar {

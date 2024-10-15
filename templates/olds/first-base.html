@@ -42,54 +42,72 @@
             <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
           </symbol>
         </svg>
-        
-        <main>
-          <header>
-            <div class="px-3 py-2 bg-dark text-white">
-              <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                  <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap" fill="white"><use xlink:href="#bootstrap"/></svg>
+
+        <nav class="navbar navbar-expand-lg bg-dark">
+          <div class="container-fluid" >
+            <!-- ICON BOOTSTRAP -->
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap" fill="white"><use xlink:href="#bootstrap"/></svg>
+            </a>
+            <!-- ICON BOOTSTRAP -->
+            <a class="navbar-brand" href="{% url 'index' %}" style="color: white !important; margin-right: 30px;">TrackProd</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li> -->
+
+                <!-- Menu Produção -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#speedometer2"/></svg>
+                    Produção
                   </a>
-        
-                  <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                      <a href="{% url 'index'%}" class="nav-link text-secondary" style="color: white !important;">
-                        <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#home"/></svg>
-                        <!-- <img src="{% static 'core/icon-home.png' %}" style="width: 30px;" alt="Home Icon"> </br> -->
-                        Home
-                      </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'list_ordens' %}" class="nav-link text-white">
-                        <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#speedometer2"/></svg>
-                        Produção
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="nav-link text-white">
-                        <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#table"/></svg>
-                        Estoque
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{% url 'list_produtos' %}" class="nav-link text-white">
-                        <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#grid"/></svg>
-                        Produtos
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="nav-link text-white">
-                        <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#people-circle"/></svg>
-                        Funcionários
-                      </a>
-                    </li>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'list_ordens' %}">Ordens de Produção</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'list_maquinas' %}">Máquinas</a></li>
                   </ul>
-                </div>
-              </div>
+                <!-- Menu Produtos -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#grid"/></svg>
+                    Produtos
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'list_produtos' %}">Lista Produtos</a></li>
+                  </ul>
+                </li>
+                <!-- Menu Estoque -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#table"/></svg>
+                    Estoque
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Lista Estoque</a></li>
+                  </ul>
+                </li>
+                <!-- Menu Funcionários -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24" fill="white"><use xlink:href="#people-circle"/></svg>
+                    Colaboradores
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'list_funcionarios'%}">Lista Colaboradores</a></li>
+                  </ul>
+                </li>
+              </ul>
             </div>
-          </header>
-        </main>
+          </div>
+        </nav>
             
         <div class="container">
             <div>{% block header %}{% endblock header %}</div>
