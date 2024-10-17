@@ -94,23 +94,28 @@ def edit_maquina(request, maquina_id):
 ####################### Apontamento ##################################
 
 def apontar_ordem_producao(request, ordem_producao_id):
-
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
     op_finalizada = False
+    mostrar_alerta = False  # Controle para exibir o alerta apenas após o POST
 
-    if ordem_producao.status == 'finalizada':
-        status_op = True
-
-    if request.method != 'POST':
-        form = ApontamentoProducaoForm()
-    else:
+    if request.method == 'POST':
         form = ApontamentoProducaoForm(request.POST)
-        if form.is_valid():
+        if ordem_producao.status == 'finalizada':
+            op_finalizada = True
+            mostrar_alerta = True  # Exibe o alerta somente após tentar salvar
+        elif form.is_valid():
             apontamento = form.save(commit=False)
             apontamento.ordem_producao = ordem_producao
             apontamento.inicio_producao = timezone.now()
             apontamento.save()
             return HttpResponseRedirect(reverse('list_ordens'))
+    else:
+        form = ApontamentoProducaoForm()
 
-    context = {'form': form, 'ordem_producao': ordem_producao, 'op_finalizada': op_finalizada}
+    context = {
+        'form': form,
+        'ordem_producao': ordem_producao,
+        'mostrar_alerta': mostrar_alerta  # Passa a flag para o template
+    }
     return render(request, 'producao/apontamento_form.html', context)
+

@@ -11,48 +11,54 @@
 
 {% block content %}
 
-        <div class="container-fluid">
-            <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        {{ form.funcionario_apontamento.label_tag }}  <!-- Label manual -->
-                        {{ form.funcionario_apontamento }}            <!-- Input manual -->
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        {{ form.maquina.label_tag }}
-                        {{ form.maquina }}
-                    </div>
+    <div class="container-fluid">
+        <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.funcionario_apontamento.label_tag }}  <!-- Label manual -->
+                    {{ form.funcionario_apontamento }}            <!-- Input manual -->
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        {{ form.inicio_producao.label_tag }}
-                        {{ form.inicio_producao }}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        {{ form.fim_producao.label_tag }}
-                        {{ form.fim_producao }}
-                    </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.maquina.label_tag }}
+                    {{ form.maquina }}
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        {{ form.quantidade_produzida.label_tag }}
-                        {{ form.quantidade_produzida }}
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.inicio_producao.label_tag }}
+                    {{ form.inicio_producao }}
                 </div>
-                <button type="submit" class="btn btn-primary">Adicionar</button>
-            </form>
+                <div class="col-md-6 mb-3">
+                    {{ form.fim_producao.label_tag }}
+                    {{ form.fim_producao }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.quantidade_produzida.label_tag }}
+                    {{ form.quantidade_produzida }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+    </div>
+
+    {% if mostrar_alerta %}
+        <div class="alert alert-danger fade show mt-3" role="alert">
+            A Ordem de Produção já foi finalizada e não pode mais receber apontamentos. <a href="{% url 'list_ordens' %}" class="alert-link">Voltar para Ordens de Produção</a>
         </div>
+    {% endif %}
 
 {% endblock content %}
 
             
-            <!-- <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                
-                {% block buttons %}
-                    <div class="col-auto">
-                        <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
-                    </div>
-                {% endblock buttons %} -->
+    <!-- <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        
+        {% block buttons %}
+            <div class="col-auto">
+                <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
+            </div>
+        {% endblock buttons %} -->
