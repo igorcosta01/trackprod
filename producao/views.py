@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from .models import OrdemProducao, Maquina
+from .models import OrdemProducao, Maquina, ApontamentoProducao
 from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
@@ -15,14 +16,18 @@ def index(request):
 
 
 def ordem_de_producao(request, ordem_producao_id):
-    ordem_producao = OrdemProducao.objects.get(id = ordem_producao_id)
-
-    context = {'ordem_producao': ordem_producao}
+    # Obter a ordem de produção
+    ordem_producao = OrdemProducao.objects.get(id=ordem_producao_id)
+    
+    # Obter os apontamentos relacionados à ordem de produção
+    apontamentos = ApontamentoProducao.objects.filter(ordem_producao=ordem_producao)
+    
+    context = {'ordem_producao': ordem_producao, 'apontamentos': apontamentos}
     return render(request, 'producao/ordem_producao.html', context)
 
 def list_ordem_producao(request):
     ordens_producao = OrdemProducao.objects.order_by('data_criacao')
-    context = {'ordens_producao' : ordens_producao}
+    context = {'ordens_producao': ordens_producao}
     return render(request, 'producao/list-ordem-producao.html', context)
 
 def nova_ordem_producao(request):
@@ -91,6 +96,10 @@ def edit_maquina(request, maquina_id):
 def apontar_ordem_producao(request, ordem_producao_id):
 
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+    op_finalizada = False
+
+    if ordem_producao.status == 'finalizada':
+        status_op = True
 
     if request.method != 'POST':
         form = ApontamentoProducaoForm()
@@ -103,5 +112,5 @@ def apontar_ordem_producao(request, ordem_producao_id):
             apontamento.save()
             return HttpResponseRedirect(reverse('list_ordens'))
 
-    context = {'form': form, 'ordem_producao': ordem_producao}
+    context = {'form': form, 'ordem_producao': ordem_producao, 'op_finalizada': op_finalizada}
     return render(request, 'producao/apontamento_form.html', context)

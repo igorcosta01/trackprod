@@ -1,31 +1,102 @@
 {% extends "base.html" %}
 
+
+{% load humanize %}
 {% load django_bootstrap5 %}
 
+
 {% block content %}
-
-    <div>
-        <div style="margin-top: 1%;">
-            <h3> N° OP: {{ ordem_producao.id }} </h3>
+    <div class="container">
+        <div style="padding: 1%;">
+            <h3> Ordem de Produção N° {{ ordem_producao.id }} </h3>
         </div>
-        <div style="display: flex; justify-content: space-around;">
-            <div>
-                N° Produto </br>
-                <input class="form-control" type="text" value="{{ ordem_producao.produto}}" disabled style="width: 100%;">
+        <div class="row d-flex justify-content">
+            <div class="col-md-5 mb-4">
+                <label for="disabledTextInput" class="form-label">Cliente</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.cliente }}">
             </div>
-            <div>
-                Tipo Produto </br>
-                <input class="form-control" type="text" value="{{ ordem_producao.produto.nome}}" disabled style="width: 100%;">
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">ID Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto }}">
             </div>
-            <div>
-                Previsão Entrega </br>
-                <input class="form-control" type="text" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}" disabled style="width: 100%;">
+            <div class="col-md-3 mb-4">
+                <label for="disabledTextInput" class="form-label">Tipo Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.nome }}">
             </div>
-            <div>
-                Status
-                <input class="form-control" type="text" value="{{ ordem_producao.get_status_display}} " disabled style="width: 100%;"></br>
-            </div>
-
         </div>
-
+        <div class="row d-flex">
+            <div class="col-md-6 mb-4">
+                <label for="disabledTextInput" class="form-label">Info Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.descricao }}">
+            </div>
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Previsão Entrega</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}">
+            </div>
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Cor</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.cor }}">
+            </div>
+        </div>
+        <!-- Tabela de Apontamentos -->
+        <div class="row">
+            <label class="form-label">Apontamentos</label>
+            <div class="col-md-10 mb-4 p-3 border rounded" style="background-color: #f3f3f3;">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Data Registro</th>
+                            <th>Operador</th>
+                            <th>Qtd Apontada</th>
+                            <th>Máquina</th>
+                            <th>Início</th>
+                            <th>Fim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for apontamento in apontamentos %}
+                        <tr>
+                            <td> {{ apontamento.data_input_apontamento | date:'d/m/Y' }} </td>
+                            <td> {{ apontamento.funcionario_apontamento }} </td>
+                            <td> {{ apontamento.quantidade_produzida | intcomma }} </td>
+                            <td> {{ apontamento.maquina }} </td>
+                            <td> {{ apontamento.inicio_producao | date:'d/m/Y H:s' }} </td>
+                            <td> {{ apontamento.fim_producao | date:'d/m/Y H:s' }} </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">Nenhum apontamento encontrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Quantidade</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.quantidade|floatformat:0|intcomma }}">
+            </div>
+            <div class="col-md-2 mb-4" style="margin-left: 8%;">
+                <label for="disabledTextInput" class="form-label">Quantidade Apontada</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma }}">
+            </div>
+            <div class="col-md-2 mb-4" style="margin-left: 8%;">
+                <label for="disabledTextInput" class="form-label">Saldo</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.saldo_op|floatformat:0|intcomma }}">
+            </div>
+            <div class="col-md-1 mb-4" style="margin-left: 8%;">
+                <label for="disabledTextInput" class="form-label">Status</label>
+                {% if ordem_producao.status == "em_producao"%}
+                <td><span class="badge text-bg-primary d-flex align-items-center justify-content-center"
+                        style="height: 45%; width: 105%;">{{ ordem_producao.get_status_display }}</span></td>
+                {% elif ordem_producao.status == "pendente" %}
+                <td> <span class="badge text-bg-warning d-flex align-items-center justify-content-center"
+                        style="height: 45%; width: 105%;">{{ ordem_producao.get_status_display }}</span></td>
+                {% else %}
+                <td> <span class="badge text-bg-success d-flex align-items-center justify-content-center"
+                        style="height: 45%; width: 105%;">{{ ordem_producao.get_status_display }}</span></td>
+                {% endif %}
+            </div>
+        </div>
 {% endblock content %}

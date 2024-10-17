@@ -44,11 +44,11 @@ class ApontamentoProducaoForm(forms.ModelForm):
         fields = ['funcionario_apontamento', 'maquina', 'inicio_producao', 'quantidade_produzida', 'fim_producao']
 
         widgets = {
-            'funcionario_apontamento': forms.Select(attrs={'class': 'form-control'}),  # Estilizando o select
-            'maquina': forms.Select(attrs={'class': 'form-control'}),  # Estilizando o select
-            'inicio_producao': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),  # Input de data e hora
-            'fim_producao': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),  # Input de data e hora
-            'quantidade_produzida': forms.NumberInput(attrs={'min': '0', 'class': 'form-control'}),  # Input para números
+            'funcionario_apontamento': forms.Select(attrs={'class': 'form-control form-control-sm'}),  # Estilizando o select
+            'maquina': forms.Select(attrs={'class': 'form-control form-control-sm'}),  # Estilizando o select
+            'inicio_producao': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),  # Input de data e hora
+            'fim_producao': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),  # Input de data e hora
+            'quantidade_produzida': forms.NumberInput(attrs={'min': '0', 'class': 'form-control form-control-sm'}),  # Input para números
         }
 
         labels = {

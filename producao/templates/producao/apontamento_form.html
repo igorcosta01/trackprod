@@ -11,7 +11,6 @@
 
 {% block content %}
 
-    <div>
         <div class="container-fluid">
             <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
                 {% csrf_token %}
@@ -43,6 +42,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Adicionar</button>
             </form>
+        </div>
+
+{% endblock content %}
+
             
             <!-- <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
                 {% csrf_token %}
@@ -53,8 +56,3 @@
                         <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
                     </div>
                 {% endblock buttons %} -->
-            </form>
-        </div>
-    </div>
-
-{% endblock content %}

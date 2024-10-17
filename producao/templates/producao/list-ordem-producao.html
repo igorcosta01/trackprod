@@ -19,7 +19,7 @@
 {% endblock buttons %}
 
 </br>
-    <table class="table table-hover">
+    <table class="table table-hover table-sm">
         <thead >
           <tr>
             <th scope="col">OP</th>
@@ -37,23 +37,23 @@
         <tbody class="table table-hover">
         {% for ordem_producao in ordens_producao %}
           <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
-            <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-            <th scope="row">{{ ordem_producao.id }}</th>
-            <td>{{ ordem_producao.produto.codigo }}</td>
-            <td>{{ ordem_producao.cliente.nome_cliente }}</td>
-            <td>{{ ordem_producao.produto.nome }}</td>
-            <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
-            <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
-            <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
-            <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
-            {% if ordem_producao.status == "em_producao"%}
-              <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
-            {% elif ordem_producao.status == "pendente" %}
-             <td> <span class="badge text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
-            {% else %}
-              <td> <span class="badge text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
-            {% endif %}
-            <td><a href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 30px; margin-bottom: -5px;"></a></td>
+              <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
+              <td scope="row">{{ ordem_producao.id }}</td>
+              <td>{{ ordem_producao.produto.codigo }}</td>
+              <td>{{ ordem_producao.cliente.nome_cliente }}</td>
+              <td>{{ ordem_producao.produto.nome }}</td>
+              <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
+              <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
+              <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
+              <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
+              {% if ordem_producao.status == "em_producao"%}
+                <td><span class="badge text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
+              {% elif ordem_producao.status == "pendente" %}
+              <td> <span class="badge text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
+              {% else %}
+                <td> <span class="badge text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
+              {% endif %}
+              <td><a href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'core/icon-apontamento.png' %}" style="width: 15px; margin-bottom: -5px;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar
