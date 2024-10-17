@@ -24,6 +24,7 @@ class Cliente(models.Model):
 ######################## PRODUTO #################################
 
 class Produto(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     nome = models.CharField(max_length=255)
     codigo = models.CharField(max_length=50, unique=True)
     descricao = models.TextField(blank=True)
