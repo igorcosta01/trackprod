@@ -2,30 +2,62 @@
 
 {% load django_bootstrap5 %}
 
+
+{% block header-path %}
+TESTE
+{% endblock header-path %}
+
 {% block content %}
 
-    <div>
-        <div style="margin-top: 1%;">
-            <h3> N° Produto: {{ produto.id }} </h3>
+    <div class="container">
+        <div style="padding: 1%;">
+            <h4 class="display-6"> Produto N° #{{ produto.codigo }} </h4>
         </div>
-        <div>
-            ID
-            <input class="form-control" type="text" value="{{ produto.id }}" disabled></br>
-            Tipo
-            <input class="form-control" type="text" value="{{ produto.nome }}" disabled></br>
-            Codigo
-            <input class="form-control" type="text" value="{{ produto.codigo }}" disabled></br>
-            Descrição
-            <input class="form-control" type="text" value="{{ produto.descricao }}" disabled></br>
-            Material
-            <input class="form-control" type="text" value="{{ produto.material }}" disabled></br>
-            Peso
-            <input class="form-control" type="text" value="{{ produto.peso }}" disabled></br>
-            Volume
-            <input class="form-control" type="text" value="{{ produto.volume }}" disabled></br>
-            Cor
-            <input class="form-control" type="text" value="{{ produto.cor }}" disabled></br>
-
+                <div class="row d-flex justify-content-end">
+            <div class="col-md-2 mb-4">
+                {% block buttons %}
+                        <button href="{% url 'new_ordem'%}" type="button" class="btn btn-primary">Gerar OP</button>
+                {% endblock buttons %}
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-5 mb-4">
+                <label for="disabledTextInput" class="form-label">Cliente</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.cliente }}">
+            </div>
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Cód (SKU)</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.codigo }}">
+            </div>
+            <div class="col-md-3 mb-4">
+                <label for="disabledTextInput" class="form-label">Nome Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.nome }}">
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 mb-4">
+                <label for="disabledTextInput" class="form-label">Info Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.descricao }}">
+            </div>
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Material</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.material }}">
+            </div>
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Peso (g)</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.peso }}">
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-2 mb-4">
+                <label for="disabledTextInput" class="form-label">Volume (ml)</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.volume }}">
+            </div>
+            <div class="col-md-3 mb-4" style="margin-left: 8%;">
+                <label for="disabledTextInput" class="form-label">Cor</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.cor }}">
+            </div>
+            </div>
         </div>
     </div>
 

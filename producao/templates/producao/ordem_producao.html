@@ -16,15 +16,11 @@
 
 {% block content %}
 
-    <div>
-        
-    </div>
-
     <div class="container">
         <div style="padding: 1%;">
             <h3> Ordem de Produção N° #{{ ordem_producao.id }} </h3>
         </div>
-        <div class="row d-flex justify-content">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-5 mb-4">
                 <label for="disabledTextInput" class="form-label">Cliente</label>
                 <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.cliente }}">
@@ -38,7 +34,7 @@
                 <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.nome }}">
             </div>
         </div>
-        <div class="row d-flex">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-6 mb-4">
                 <label for="disabledTextInput" class="form-label">Info Produto</label>
                 <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.descricao }}">
@@ -53,9 +49,10 @@
             </div>
         </div>
         <!-- Tabela de Apontamentos -->
-        <div class="row">
-            <label class="form-label">Apontamentos</label>
+        <div class="row d-flex justify-content-center">
+
             <div class="col-md-10 mb-4 p-3 border rounded" style="background-color: #f3f3f3;">
+                <label class="form-label">Apontamentos</label>
                 <table class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr>
@@ -86,7 +83,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-2 mb-4">
                 <label for="disabledTextInput" class="form-label">Quantidade</label>
                 <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.quantidade|floatformat:0|intcomma }}">
@@ -113,4 +110,5 @@
                 {% endif %}
             </div>
         </div>
+    </div>
 {% endblock content %}

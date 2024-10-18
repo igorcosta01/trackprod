@@ -15,12 +15,12 @@
 {% endblock buttons %}
 
 </br>
-    <table class="table table-hover">
+    <table class="table table-hover table table-sm">
         <thead >
           <tr>
-            <th scope="col">N° Produto</th>
+            <th scope="col">Código (SKU)</th>
+            <th scope="col">Cliente</th>
             <th scope="col">Nome</th>
-            <th scope="col">Codigo</th>
             <th scope="col">Descricao</th>
             <th scope="col">Material</th>
             <th scope="col">Cor</th>
@@ -30,9 +30,9 @@
         {% for produto in list_produtos %}
           <tr style="cursor: pointer;" onclick="window.location.href='{% url 'produto' produto.id  %}'">
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-            <th scope="row">#00{{ produto.id }}</th>
-            <td>{{ produto.nome }}</td>
             <td>{{ produto.codigo }}</td>
+            <td>{{ produto.cliente }}</td>
+            <td>{{ produto.nome }}</td>
             <td>{{ produto.descricao }}</td>
             <td>{{ produto.material }}</td>
             <td>{{ produto.cor }}</td>

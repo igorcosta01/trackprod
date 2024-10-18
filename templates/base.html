@@ -44,7 +44,7 @@
       <div class="col-auto col-md-1 col-xl-1 bg-dark backSidebar">
         <div class="d-flex flex-column align-items-start min-vh-100">
           <div class="sidebar">
-            <img class="logo-irfy" src="{% static 'core/logo-irfy2.png' %}">
+            <img class="logo-irfy rounded img-fluid" src="{% static 'core/logo-irfy2.png' %}">
 
             <nav class="nav flex-column">
               <a class="nav-link" href="{% url 'index' %}">
@@ -107,6 +107,10 @@
         </div>
       </div>
       <div class="col py-3">
+        <div class="header-path">
+          {% block header-path %}
+          {% endblock header-path %}
+        </div>
         <div class="container">
           <div>{% block header %}{% endblock header %}</div>
           <div>{% block content %} {% endblock content %}</div>

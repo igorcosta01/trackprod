@@ -60,7 +60,7 @@
               {% else %}
                 <td> <span class="badge rounded-pill text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
               {% endif %}
-              <td><img class="hover" href="{% url 'apontamento_producao' ordem_producao.id %}" src="{% static 'icons/edit.svg' %}" style="padding: 0;"</td>
+              <td><img class="hover" href="{% url 'apontamento_producao' ordem_producao.id %}" src="{% static 'icons/edit.svg' %}" style="padding: 0;"></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar
