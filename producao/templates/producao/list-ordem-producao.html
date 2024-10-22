@@ -38,7 +38,7 @@
             <th scope="col">Saldo</th>
             <th scope="col">Previsão Entrega</th>
             <th scope="col">Status</th>
-            <th scope="col">Ação</th>
+            <th style="text-align: center;" scope="col">Ação</th>
           </tr>
         </thead>
         <tbody class="table table-hover">
@@ -60,7 +60,7 @@
               {% else %}
                 <td> <span class="badge rounded-pill text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
               {% endif %}
-              <td><img class="hover" href="{% url 'apontamento_producao' ordem_producao.id %}" src="{% static 'icons/edit.svg' %}" style="padding: 0;"></td>
+              <td style="text-align: center;"><a class="p-0" href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'icons/edit.svg' %}" style="padding: 0;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar
