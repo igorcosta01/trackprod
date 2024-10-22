@@ -12,9 +12,7 @@
   </ol>
 </nav>
 
-    <div class="py-3 bg-light text-center">
-        <h2 class="display-4">Ordens de Produção</h2>
-    </div>
+        <h2 style="text-align: center;" class="display-5">Ordens de Produção</h2>
 {% endblock header %}
 
 {% block content %}
@@ -26,39 +24,39 @@
 {% endblock buttons %}
 
 </br>
-    <table class="table table-hover table-sm">
+    <table class="table table-bordered table-hover">
         <thead >
           <tr>
             <th scope="col">OP</th>
-            <th scope="col">Produto</th>
             <th scope="col">Cliente</th>
+            <th scope="col">Produto</th>
             <th scope="col">Tipo</th>
             <th scope="col">Qtd Pedido</th>
             <th scope="col">Qtd Apontada</th>
             <th scope="col">Saldo</th>
             <th scope="col">Previsão Entrega</th>
-            <th scope="col">Status</th>
+            <th style="text-align: center;" scope="col">Status</th>
             <th style="text-align: center;" scope="col">Ação</th>
           </tr>
         </thead>
-        <tbody class="table table-hover">
+        <tbody class="table">
         {% for ordem_producao in ordens_producao %}
-          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
+          <tr onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
               <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-              <td scope="row">{{ ordem_producao.id }}</td>
-              <td>{{ ordem_producao.produto.codigo }}</td>
+              <td scope="row">#000{{ ordem_producao.id }}</td>
               <td>{{ ordem_producao.cliente.nome_cliente }}</td>
+              <td>{{ ordem_producao.produto.codigo }}</td>
               <td>{{ ordem_producao.produto.nome }}</td>
               <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
               <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
               <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
               <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
               {% if ordem_producao.status == "em_producao"%}
-                <td><span class="badge rounded-pill text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
+                <td style="text-align: center;"><span class="badge rounded-pill text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
               {% elif ordem_producao.status == "pendente" %}
-              <td> <span class="badge rounded-pill text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
+               <td style="text-align: center;"><span class="badge rounded-pill text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
               {% else %}
-                <td> <span class="badge rounded-pill text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
+                <td style="text-align: center;"> <span class="badge rounded-pill text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
               {% endif %}
               <td style="text-align: center;"><a class="p-0" href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'icons/edit.svg' %}" style="padding: 0;"></a></td>
           </tr>

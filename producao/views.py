@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import OrdemProducao, Maquina, ApontamentoProducao
+from .models import OrdemProducao, Maquina, ApontamentoProducao, Produto
 from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
@@ -42,6 +42,29 @@ def nova_ordem_producao(request):
 
     context = {'form': form}
     return render(request, 'producao/new_ordem_producao.html', context)
+
+def nova_ordem_producao_modal(request):
+    if request.method == 'POST':
+        produto_id = request.POST.get('produto_id')
+        quantidade = request.POST.get('quantidade')
+        data_previsao = request.POST.get('data_previsao')
+
+        # Obtém o produto e o cliente associado ao produto
+        produto = get_object_or_404(Produto, id=produto_id)
+        cliente = produto.cliente  # Supondo que o cliente esteja associado ao produto
+
+        # Cria uma nova Ordem de Produção com as informações fornecidas
+        nova_ordem = OrdemProducao.objects.create(
+            cliente=cliente,
+            produto=produto,
+            quantidade=quantidade,
+            data_previsao=data_previsao
+        )
+
+        # Redireciona para a lista de ordens de produção ou página de sucesso
+        return HttpResponseRedirect(reverse('list_produtos'))
+
+    return redirect('produto/<produto:id>')  # Em caso de erro ou tentativa de GET
 
 
 ############################################  MAQUINAS  ############################################

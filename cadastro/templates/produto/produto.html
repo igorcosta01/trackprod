@@ -3,23 +3,17 @@
 {% load django_bootstrap5 %}
 
 
-{% block header-path %}
-TESTE
-{% endblock header-path %}
+{% block header %}
+<div class="card-header d-flex justify-content-between">
+    <h4 class="mb-0"> Produto N° #{{ produto.codigo }} </h4>
+    {% block buttons %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Gerar OP</button>
+    {% endblock buttons %}
+</div>
+{% endblock header %}
 
 {% block content %}
-
-    <div class="container">
-        <div style="padding: 1%;">
-            <h4 class="display-6"> Produto N° #{{ produto.codigo }} </h4>
-        </div>
-                <div class="row d-flex justify-content-end">
-            <div class="col-md-2 mb-4">
-                {% block buttons %}
-                        <button href="{% url 'new_ordem'%}" type="button" class="btn btn-primary">Gerar OP</button>
-                {% endblock buttons %}
-            </div>
-        </div>
+</br>
         <div class="row d-flex justify-content-center">
             <div class="col-md-5 mb-4">
                 <label for="disabledTextInput" class="form-label">Cliente</label>
@@ -58,6 +52,35 @@ TESTE
                 <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ produto.cor }}">
             </div>
             </div>
+        </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Gerar Ordem de Produção</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'new_ordem_modal' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="produto_id" value="{{ produto.id }}">
+
+                        <label for="qtdOP">Quantidade</label>
+                        <input type="number" class="form-control" name="quantidade" id="qtdOP" required>
+                    </br>
+                        <label for="dataPrevista">Data de Entrega</label>
+                        <input type="date" class="form-control" name="data_previsao" id="dataPrevista" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Gerar OP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         </div>
     </div>
 
