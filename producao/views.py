@@ -62,9 +62,8 @@ def nova_ordem_producao_modal(request):
         )
 
         # Redireciona para a lista de ordens de produção ou página de sucesso
-        return HttpResponseRedirect(reverse('list_produtos'))
+        return HttpResponseRedirect(reverse('produto' , args=[produto.id]))
 
-    return redirect('produto/<produto:id>')  # Em caso de erro ou tentativa de GET
 
 
 ############################################  MAQUINAS  ############################################
