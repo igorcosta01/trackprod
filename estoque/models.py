@@ -1,5 +1,5 @@
 from django.db import models
-from cadastro.models import UnidadeMedida, Produto
+from cadastro.models import UnidadeMedida, Produto, Funcionario
 from producao.models import OrdemProducao
 
 # Create your models here.
@@ -10,13 +10,13 @@ class ProdutoAcabado(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveBigIntegerField(default=0)
     data_entrada = models.DateField(auto_now_add=True)
-    localizacao = models.CharField(max_length=100)
+    localizacao = models.CharField(max_length=20)
 
     class Meta:
         verbose_name_plural = "Produtos Acabados"
 
     def __str__(self):
-        return f"{self.produto.nome} - {self.quantidade}"
+        return f"{self.produto.codigo} - {self.quantidade}pcs"
 
 class Material(models.Model):
     TIPO_CHOICES = [
@@ -38,13 +38,33 @@ class Material(models.Model):
     def __str__(self):
         return f"{self.nome} ({self.codigo})"
 
-# class MovimentoEstoque(models.Model):
-#     TIPO_MOVIMENTOS_CHOICES = [
-#         ('entrada', 'Entrada'),
-#         ('saida', 'Saída'),
-#         ('ajuste', 'Ajuste'),
-#     ]
+class MovimentoEstoqueAcabado(models.Model):
+    TIPO_MOVIMENTOS_CHOICES = [
+        ('entrada', 'Entrada'),
+        ('saida', 'Saída'),
+    ]
 
-#     material = models.ForeignKey(Material, on_delete=models.CASCADE)
-#     quantidade_movimentada = models.DecimalField(max_digits=10, decimal_places=2)
-#     unidade_medida = models.CharField()
+    produto_acabado = models.ForeignKey(ProdutoAcabado, on_delete=models.CASCADE)
+    tipo_movimento = models.CharField(max_length=10, choices=TIPO_MOVIMENTOS_CHOICES)
+    quantidade_movimentada = models.IntegerField(max_length=10)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
+    data_mov = models.DateTimeField(auto_now_add=True)
+    endereco = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name_plural = "Movimentações PA"
+
+    def save(self, *args, **kwargs):
+        # Atualiza o saldo na model ProdutoAcabado
+        if self.tipo_movimento == 'entrada':
+            self.produto_acabado.quantidade += self.quantidade_movimentada
+        elif self.tipo_movimento == 'saida':
+            self.produto_acabado.quantidade -= self.quantidade_movimentada
+
+        self.produto_acabado.localizacao = self.endereco
+        
+        self.produto_acabado.save()  # Salva a atualização no saldo do produto
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.produto_acabado.produto.codigo} ({self.quantidade_movimentada})pcs"
