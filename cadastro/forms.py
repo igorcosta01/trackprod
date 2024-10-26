@@ -1,5 +1,5 @@
 from django import forms
-from cadastro.models import Produto, UnidadeMedida, Material, Funcionario
+from cadastro.models import Produto, UnidadeMedida, Funcionario
 
 class ProdutoForm(forms.ModelForm):
     class Meta:

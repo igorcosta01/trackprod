@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'cadastro',
     'producao',
+    'estoque',
     'django_bootstrap5',
 ]
 

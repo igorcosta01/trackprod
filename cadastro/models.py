@@ -43,27 +43,9 @@ class UnidadeMedida(models.Model):
 
     def __str__(self):
         return f"{self.unidade_medida} - {self.abreviacao}"
-    
-class Material(models.Model):
-    TIPO_CHOICES = [
-        ('materia_prima', 'Matéria-Prima'),
-        ('produto_acabado', 'Produto Acabado'),
-        ('embalagem', 'Embalagem'),
-        ('outro', 'Outro'),
-    ]
 
-    nome = models.CharField(max_length=255)
-    codigo = models.CharField(max_length=4, unique=True)
-    descricao = models.TextField(blank=True)
-    quantidade_estoque = models.DecimalField(max_digits=10, decimal_places=2)
-    unidade_medida = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE)
 
-    class Meta:
-        verbose_name_plural = 'Materiais'
-
-    def __str__(self):
-        return f"{self.nome} ({self.codigo})"
-
+#################### FUNCIONARIO ####################################
 class Funcionario(models.Model):
 
     STATUS_CHOICES = [
