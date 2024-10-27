@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+
+{% block header %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Produto Acabado</li>
+  </ol>
+</nav>
+
+<h2 style="text-align: center;" class="display-5">Produto Acabado</h2>
+{% endblock header %}
+
+{% block content %}
+
+{% block buttons %}
+<div class="d-grid gap-2" style="margin-top: 10px;">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Gerar OP</button>
+</div>
+
+{% endblock buttons %}
+
+</br>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Código</th>
+      <th scope="col">Nome Cliente</th>
+      <th scope="col">Quantidade</th>
+      <th style="text-align: center;" scope="col">Endereço</th>
+      <th style="text-align: center;" scope="col">Ação</th>
+    </tr>
+  </thead>
+  <tbody class="table">
+    {% for pa in produto_acabado %}
+      <tr onclick="window.location.href='{% url 'produto_acabado' pa.id  %}'">
+        <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
+        <td scope="row">{{ pa.produto.codigo }}</td>
+        <td>{{ pa.produto.cliente }}</td>
+        <td>{{ pa.quantidade | floatformat:0| intcomma }}</td>
+        <td style="text-align: center;">{{ pa.localizacao }}</td>
+        <td style="text-align: center;"><a><button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar</button></a></td>
+      </tr>
+    {% empty %}
+      Não há pedidos.
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Gerar Ordem de Produção</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'new_ordem_modal' %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <input type="hidden" name="produto_acabado" value="{{ produto_acabado.id }}">
+            <input type="hidden" name="tipo_movimento" value="saida">
+
+            <label for="qtdOP">Quantidade</label>
+            <input type="number" class="form-control" name="quantidade" id="qtdPA" required>
+            </br>
+            <label for="qtdOP">Funcionario</label>
+            <input type="text" class="form-control" name="funcionario" id="funcionario" required>
+            </br>
+            <label for="dataPrevista">Data de Despacho</label>
+            <input type="date" class="form-control" name="data" id="dataPrevista" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Gerar OP</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
