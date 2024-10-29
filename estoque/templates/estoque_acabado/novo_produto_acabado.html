@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block header %}
+    </br>
+    <div class="py-3 bg-light text-center">
+        <h2 class="display-4">Entrada Estoque</h2>
+    </div>
+{% endblock header %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <form action="{% url 'novo_produto_acabado' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.produto.label_tag }}  <!-- Label manual -->
+                    {{ form.produto }}            <!-- Input manual -->
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.quantidade.label_tag }}
+                    {{ form.quantidade }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.localizacao.label_tag }}
+                    {{ form.localizacao }}
+                </div>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+    </div>
+
+{% endblock content %}
+
+            
+    <!-- <form action="{% url 'apontamento_producao' ordem_producao.id %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        
+        {% block buttons %}
+            <div class="col-auto">
+                <button name="submit" class="btn btn-primary mb-3">Adicionar</button>
+            </div>
+        {% endblock buttons %} -->

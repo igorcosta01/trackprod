@@ -19,7 +19,7 @@
 
 {% block buttons %}
 <div class="d-grid gap-2" style="margin-top: 10px;">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Gerar OP</button>
+  <a href="{% url 'novo_produto_acabado' %}"><button type="button" class="btn btn-primary">Adicionar Produto Acabado</button></a>
 </div>
 
 {% endblock buttons %}
@@ -51,37 +51,38 @@
   </tbody>
 </table>
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Gerar Ordem de Produção</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="{% url 'new_ordem_modal' %}">
-          {% csrf_token %}
+      <div class="modal-content ">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar ao estoque</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
           <div class="modal-body">
-            <input type="hidden" name="produto_acabado" value="{{ produto_acabado.id }}">
-            <input type="hidden" name="tipo_movimento" value="saida">
-
-            <label for="qtdOP">Quantidade</label>
-            <input type="number" class="form-control" name="quantidade" id="qtdPA" required>
-            </br>
-            <label for="qtdOP">Funcionario</label>
-            <input type="text" class="form-control" name="funcionario" id="funcionario" required>
-            </br>
-            <label for="dataPrevista">Data de Despacho</label>
-            <input type="date" class="form-control" name="data" id="dataPrevista" required>
+              <form method="POST" action="{% url 'novo_produto_acabado' %}">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                      <input type="hidden" name="tipo_movimento" value="entrada">
+                      
+                      <label for="produto">Codigo Produto</label>
+                      <input type="text" class="form-control" name="produto_id" id="produto" required>
+                      </br>
+                      <label for="qtd">Quantidade</label>
+                      <input type="number" class="form-control" name="quantidade" id="qtd" required>
+                      </br>
+                      <label for="funcionario">Matrícula do Funcionário</label>
+                      <input type="number" class="form-control" name="funcionario" id="funcionario" required>
+                      </br>
+                      <label for="endereco">Endereço</label>
+                      <input type="text" class="form-control" name="endereco" id="endereco" required>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                      <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+              </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Gerar OP</button>
-          </div>
-        </form>
       </div>
-    </div>
   </div>
 </div>
 
