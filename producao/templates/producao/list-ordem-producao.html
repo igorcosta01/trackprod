@@ -24,8 +24,8 @@
 {% endblock buttons %}
 
 </br>
-    <table class="table table-bordered table-hover">
-        <thead >
+    <table class="table table-striped table-hover">
+        <thead>
           <tr>
             <th scope="col">OP</th>
             <th scope="col">Cliente</th>
@@ -41,7 +41,7 @@
         </thead>
         <tbody class="table">
         {% for ordem_producao in ordens_producao %}
-          <tr onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
+          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
               <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
               <td scope="row">{{ ordem_producao.id }}</td>
               <td>{{ ordem_producao.cliente.nome_cliente }}</td>
