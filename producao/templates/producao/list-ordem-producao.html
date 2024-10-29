@@ -43,7 +43,7 @@
         {% for ordem_producao in ordens_producao %}
           <tr onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id  %}'">
               <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-              <td scope="row">#000{{ ordem_producao.id }}</td>
+              <td scope="row">{{ ordem_producao.id }}</td>
               <td>{{ ordem_producao.cliente.nome_cliente }}</td>
               <td>{{ ordem_producao.produto.codigo }}</td>
               <td>{{ ordem_producao.produto.nome }}</td>

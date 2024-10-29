@@ -46,7 +46,7 @@ class MovimentoEstoqueAcabado(models.Model):
 
     produto_acabado = models.ForeignKey(ProdutoAcabado, on_delete=models.CASCADE)
     tipo_movimento = models.CharField(max_length=10, choices=TIPO_MOVIMENTOS_CHOICES)
-    quantidade_movimentada = models.IntegerField(max_length=10)
+    quantidade_movimentada = models.IntegerField()
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     data_mov = models.DateTimeField(auto_now_add=True)
     endereco = models.CharField(max_length=20)

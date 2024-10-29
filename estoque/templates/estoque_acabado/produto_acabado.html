@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load humanize %}
+
+
+{% block header %}
+<div class="card-header d-flex justify-content-between">
+    <h4 class="mb-0"> Produto N° #{{ produto_acabado.produto.codigo }} </h4>
+    {% block buttons %}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar Produto</button>
+    {% endblock buttons %}
+</div>
+{% endblock header %}
+
+{% block content %}
+</br>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Cliente</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.cliente }}">
+    </div>
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Cód (SKU)</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.codigo }}">
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Info Produto</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.descricao }}">
+    </div>
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Material</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.material }}">
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Volume (ml)</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.volume }}">
+    </div>
+    <div class="col-md-6 mb-4">
+        <label for="disabledTextInput" class="form-label">Cor</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+            value="{{ produto_acabado.produto.cor }}">
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+
+    <div class="col-md-10 mb-4 p-3 border rounded" style="background-color: #f3f3f3;">
+        <label class="form-label">Movimentações</label>
+        <table class="table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Funcionário</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mov in movimentacoes %}
+                <tr>
+                    <td> {{ mov.get_tipo_movimento_display }} </td>
+                    <td> {{ mov.data_mov | date:'d/m/Y' }} </td>
+                    <td> {{ mov.funcionario }} </td>
+                    <td> {{ mov.quantidade_movimentada | intcomma }} </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">Nenhuma movimentação encontrada.</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: end;"> SALDO</td>
+                    <td> <strong> {{ produto_acabado.quantidade }} </strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Despachar - {{ produto_acabado.produto.codigo }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'mov_estoque_acabado' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="produto_id" value="{{ produto_acabado.id }}">
+                        <input type="hidden" name="tipo_movimento" value="saida">
+                        <input type="hidden" name="endereco" value="{{ produto_acabado.localizacao }}">
+
+                        <label for="qtdOP">Quantidade</label>
+                        <input type="number" class="form-control" name="quantidade" id="qtd" required>
+                        </br>
+                        <label for="dataPrevista">Data de Despacho</label>
+                        <input type="date" class="form-control" name="data_mov" id="data_mov" required>
+                        </br>
+                        <label for="qtdOP">Matrícula do Funcionário</label>
+                        <input type="number" class="form-control" name="funcionario" id="funcionario" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
