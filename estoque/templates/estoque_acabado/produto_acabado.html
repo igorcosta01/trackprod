@@ -3,12 +3,12 @@
 {% load django_bootstrap5 %}
 {% load humanize %}
 
-
 {% block header %}
 <div class="card-header d-flex justify-content-between">
     <h4 class="mb-0"> Produto N° #{{ produto_acabado.produto.codigo }} </h4>
     {% block buttons %}
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar Produto</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Entrada</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Saída</button>
     {% endblock buttons %}
 </div>
 {% endblock header %}

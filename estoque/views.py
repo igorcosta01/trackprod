@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario
+from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto
 from .forms import ProdutoAcabadoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -25,18 +25,27 @@ def produto_acabado(request, produto_acabado_id):
     return render(request, 'estoque_acabado/produto_acabado.html', context)
 
 def novo_produto_acabado(request):
-    if request.method != 'POST':
-        form = ProdutoAcabadoForm()
-    else:
-        form = ProdutoAcabadoForm(request.POST)
-        if form.is_valid():
-            novo_produto_acabado = form.save(commit=False)
-            novo_produto_acabado.save()
-            return HttpResponseRedirect(reverse('list-produto-acabado'))
+    if request.method == 'POST':
+        produto_codigo = request.POST.get('codigo_produto')
+        qtdEntrada = request.POST.get('qtdEntrada')
+        rua = request.POST.get('rua')
+        coluna = request.POST.get('coluna')
+        andar = request.POST.get('andar')
 
-    context = {'form': form}
-    return render(request, 'estoque_acabado/novo_produto_acabado.html', context)
+        localizacao = f"{rua} - {coluna} - {andar}"
 
+        produto = get_object_or_404(Produto, codigo=produto_codigo)
+
+        ProdutoAcabado.objects.create(
+            produto=produto,
+            quantidade=qtdEntrada,
+            localizacao=localizacao,
+        )
+
+        return HttpResponseRedirect(reverse('estoque_acabado/list-produto-acabado.html'))
+    
+    # Se o método não for POST, renderiza o formulário.
+    return render(request, 'estoque_acabado/novo_produto_acabado.html')
 
 def mov_estoque_acabado(request):
     if request.method == 'POST':
