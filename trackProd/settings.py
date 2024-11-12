@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cadastro',
     'producao',
     'estoque',
+    'users',
     'django_bootstrap5',
 ]
 

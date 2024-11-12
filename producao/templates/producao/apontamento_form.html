@@ -49,7 +49,9 @@
             A Ordem de Produção já foi finalizada e não pode mais receber apontamentos. <a href="{% url 'list_ordens' %}" class="alert-link">Voltar para Ordens de Produção</a>
         </div>
     {% endif %}
-
+        <div class="alert alert-danger fade show mt-3" role="alert">
+            {{ erro }}
+        </div>
 {% endblock content %}
 
             

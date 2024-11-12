@@ -1,19 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from .models import OrdemProducao, Maquina, ApontamentoProducao, Produto
 from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from time import sleep
 
 # Create your views here.
 
 def index(request):
-    """Index da aplicação"""
-    return render(request, 'index.html')
-
-
+    if request.user.is_authenticated:
+        """Index da aplicação"""
+        return render(request, 'index.html')
+    else:
+        return HttpResponseRedirect(reverse('login'))
 
 def ordem_de_producao(request, ordem_producao_id):
     # Obter a ordem de produção
@@ -25,6 +27,7 @@ def ordem_de_producao(request, ordem_producao_id):
     context = {'ordem_producao': ordem_producao, 'apontamentos': apontamentos}
     return render(request, 'producao/ordem_producao.html', context)
 
+@login_required(login_url='users/login')
 def list_ordem_producao(request):
     ordens_producao = OrdemProducao.objects.order_by('data_criacao')
     context = {'ordens_producao': ordens_producao}
@@ -130,11 +133,14 @@ def apontar_ordem_producao(request, ordem_producao_id):
             apontamento.ordem_producao = ordem_producao
             apontamento.inicio_producao = timezone.now()
             apontamento.save()
+            msg = "Salvo com Sucesso"
+            sleep(2)
             return HttpResponseRedirect(reverse('list_ordens'))
     else:
         form = ApontamentoProducaoForm()
 
     context = {
+        'msg': msg,
         'form': form,
         'ordem_producao': ordem_producao,
         'mostrar_alerta': mostrar_alerta  # Passa a flag para o template

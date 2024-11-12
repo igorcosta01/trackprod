@@ -7,5 +7,6 @@ urlpatterns = [
     path('cadastro/', include('cadastro.urls')),
     path('producao/', include('producao.urls')),
     path('estoque/', include('estoque.urls')),
+    path('users/', include('users.urls')),
     path('', producao_views.index, name='index')
 ]
