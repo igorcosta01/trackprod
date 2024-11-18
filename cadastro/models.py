@@ -22,7 +22,6 @@ class Cliente(models.Model):
 
 
 ######################## PRODUTO #################################
-
 class Produto(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     nome = models.CharField(max_length=255)
@@ -32,6 +31,15 @@ class Produto(models.Model):
     peso = models.DecimalField(max_digits=10, decimal_places=2)
     volume = models.DecimalField(max_digits=10, decimal_places=2)
     cor = models.CharField(max_length=50)
+
+    
+    peso_liq_caixa = models.DecimalField(max_digits=10, decimal_places=4, blank=True, null=True)
+    peso_brt_caixa = models.DecimalField(max_digits=10, decimal_places=4, blank=True, null=True)
+    codigo_barra = models.CharField(max_length=13, blank=True, null=True)
+    codigo_barra_pct = models.CharField(max_length=13, blank=True, null=True)
+    dimensao_boca = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    dimensao_fundo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    capacidade = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)        
 
     def __str__(self):
         return self.codigo

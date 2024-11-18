@@ -140,7 +140,6 @@ def apontar_ordem_producao(request, ordem_producao_id):
         form = ApontamentoProducaoForm()
 
     context = {
-        'msg': msg,
         'form': form,
         'ordem_producao': ordem_producao,
         'mostrar_alerta': mostrar_alerta  # Passa a flag para o template
