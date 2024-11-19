@@ -9,13 +9,14 @@ from django.views.decorators.http import require_POST
 
 # Create your views here.
 
-
+@login_required
 def list_produto_acabado(request,):
     produto_acabado = ProdutoAcabado.objects.order_by('data_entrada')
 
     context = {'produto_acabado': produto_acabado}
     return render(request, 'estoque_acabado/list-produto-acabado.html', context)
 
+@login_required
 def produto_acabado(request, produto_acabado_id):
     produto_acabado = ProdutoAcabado.objects.get(id = produto_acabado_id)
 
@@ -24,6 +25,7 @@ def produto_acabado(request, produto_acabado_id):
     context = {'movimentacoes': movimentacoes, 'produto_acabado': produto_acabado}
     return render(request, 'estoque_acabado/produto_acabado.html', context)
 
+@login_required
 def novo_produto_acabado(request):
     if request.method == 'POST':
         produto_codigo = request.POST.get('codigo_produto')
@@ -47,6 +49,7 @@ def novo_produto_acabado(request):
     # Se o método não for POST, renderiza o formulário.
     return render(request, 'estoque_acabado/novo_produto_acabado.html')
 
+@login_required
 def mov_estoque_acabado(request):
     if request.method == 'POST':
         produto_id = request.POST.get('produto_id')

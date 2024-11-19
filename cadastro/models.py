@@ -35,8 +35,8 @@ class Produto(models.Model):
     
     peso_liq_caixa = models.DecimalField(max_digits=10, decimal_places=4, blank=True, null=True)
     peso_brt_caixa = models.DecimalField(max_digits=10, decimal_places=4, blank=True, null=True)
-    # cartucho
-    # qtd_total_caixa = 
+    cartucho = models.CharField(max_length=8)
+    qtd_total_caixa = models.IntegerField()
     codigo_barra = models.CharField(max_length=13, blank=True, null=True)
     codigo_barra_pct = models.CharField(max_length=13, blank=True, null=True)
 

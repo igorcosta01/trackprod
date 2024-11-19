@@ -128,3 +128,5 @@ STATICFILES_DIRS = [BASE_DIR / "static"]  # Adicione isso para usar a pasta est√
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = "/users/login"

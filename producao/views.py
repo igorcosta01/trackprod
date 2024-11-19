@@ -17,6 +17,7 @@ def index(request):
     else:
         return HttpResponseRedirect(reverse('login'))
 
+@login_required
 def ordem_de_producao(request, ordem_producao_id):
     # Obter a ordem de produção
     ordem_producao = OrdemProducao.objects.get(id=ordem_producao_id)
@@ -27,12 +28,13 @@ def ordem_de_producao(request, ordem_producao_id):
     context = {'ordem_producao': ordem_producao, 'apontamentos': apontamentos}
     return render(request, 'producao/ordem_producao.html', context)
 
-@login_required(login_url='users/login')
+@login_required
 def list_ordem_producao(request):
     ordens_producao = OrdemProducao.objects.order_by('data_criacao')
     context = {'ordens_producao': ordens_producao}
     return render(request, 'producao/list-ordem-producao.html', context)
 
+@login_required
 def nova_ordem_producao(request):
     if request.method != 'POST':
         form = OrdemProducaoForm()
@@ -46,6 +48,7 @@ def nova_ordem_producao(request):
     context = {'form': form}
     return render(request, 'producao/new_ordem_producao.html', context)
 
+@login_required
 def nova_ordem_producao_modal(request):
     if request.method == 'POST':
         produto_id = request.POST.get('produto_id')
@@ -71,12 +74,14 @@ def nova_ordem_producao_modal(request):
 
 ############################################  MAQUINAS  ############################################
 
+@login_required
 def maquina(request, maquina_id):
     maquina = Maquina.objects.get(id = maquina_id)
 
     context = {'maquina': maquina}
     return render(request, 'maquina/maquina.html', context)
 
+@login_required
 def nova_maquina(request):
     if request.method != 'POST':
         form = MaquinaForm()
@@ -90,11 +95,13 @@ def nova_maquina(request):
     context = {'form': form}
     return render(request, 'maquina/nova_maquina.html', context)
 
+@login_required
 def list_maquinas(request):
     maquinas = Maquina.objects.all()
     context = {'maquinas': maquinas}
     return render(request, 'maquina/list_maquinas.html', context)
 
+@login_required
 def edit_maquina(request, maquina_id):
     """Edita um entrada já cadastrada"""
     maquina = Maquina.objects.get(id=maquina_id)
@@ -118,6 +125,7 @@ def edit_maquina(request, maquina_id):
 
 ####################### Apontamento ##################################
 
+@login_required
 def apontar_ordem_producao(request, ordem_producao_id):
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
     op_finalizada = False
@@ -140,6 +148,7 @@ def apontar_ordem_producao(request, ordem_producao_id):
         form = ApontamentoProducaoForm()
 
     context = {
+        'msg': msg,
         'form': form,
         'ordem_producao': ordem_producao,
         'mostrar_alerta': mostrar_alerta  # Passa a flag para o template
