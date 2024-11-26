@@ -13,10 +13,9 @@ class ProdutoForm(forms.ModelForm):
             'material': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Material'}),
             'peso': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Peso', 'min': '0'}),
             'volume': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Volume', 'min': '0'}),
-            'cor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Cor'}),
         }
 
-        fields = ['cliente', 'nome', 'codigo', 'descricao', 'material', 'peso', 'volume', 'cor']
+        fields = ['cliente', 'nome', 'codigo', 'descricao', 'material', 'peso', 'volume']
         labels = {
             'cliente': 'Cliente',
             'nome': 'Nome Produto',

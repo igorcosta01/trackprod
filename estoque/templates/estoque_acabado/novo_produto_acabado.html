@@ -3,10 +3,7 @@
 {% load django_bootstrap5 %}
 
 {% block header %}
-</br>
-<div class="py-3 bg-light text-center">
-    <h2 class="display-4">Entrada Estoque</h2>
-</div>
+Teste
 {% endblock header %}
 
 {% block content %}
@@ -14,27 +11,32 @@
         <form method="POST" action="{% url 'novo_produto_acabado' %}">
             {% csrf_token %}
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-4 mt-4">
                     <label for="codigo_produto">Produto</label>
                     <input type="text" class="form-control" name="codigo_produto" id="codigo_produto" required>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="qtdEntrada">Quantidade</label>
+                <div class="col-md-6 mb-4 mt-4">
+                    <label for="qtdEntrada">Quantidade Inicial</label>
                     <input type="number" class="form-control" name="qtdEntrada" id="qtdEntrada" required>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div>
+                    Endereçamento
+                </div>
+                <div class="col-md-4 mb-4">
                     <label for="rua">Rua</label>
                     <select name="rua" id="rua" class="form-control" required>
+                        <option value=""></option>
                         <option value="RA">Rua A</option>
                         <option value="RB">Rua B</option>
                         <option value="RC">Rua C</option>
                     </select>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-4">
                     <label for="coluna">Coluna</label>
                     <select name="coluna" id="coluna" class="form-control" required>
+                        <option value=""></option>
                         <option value="C1">Coluna 1</option>
                         <option value="C2">Coluna 2</option>
                         <option value="C3">Coluna 3</option>
@@ -47,16 +49,35 @@
                         <option value="C10">Coluna 10</option>
                     </select>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-4">
                     <label for="andar">Andar</label>
                     <select name="andar" id="andar" class="form-control" required>
+                        <option value=""></option>
                         <option value="A1">Andar 1</option>
                         <option value="A2">Andar 2</option>
                         <option value="A3">Andar 3</option>
                     </select>
                 </div>
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <label for="peso_liq_caixa">Peso Liquido Caixa (KG)</label>
+                        <input type="number" class="form-control" name="peso_liq_caixa" id="peso_liq_caixa" required>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label for="peso_brt_caixa">Peso Bruto Caixa (KG)</label>
+                        <input type="number" class="form-control" name="peso_brt_caixa" id="peso_brt_caixa" required>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label for="cartucho">Acondicionamento por Caixa</label>
+                        <input type="text" class="form-control" name="cartucho" id="cartucho" required>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <label for="qtd_total_caixa">Quantidade Caixa Total</label>
+                        <input type="number" class="form-control" name="qtd_total_caixa" id="qtd_total_caixa" required>
+                    </div>
+                </div>
             </div>
-    <button type="submit" class="btn btn-primary">Adicionar</button>
+    <button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Adicionar</button>
     </form>
 </div>
 

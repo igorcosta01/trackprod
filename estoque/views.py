@@ -33,6 +33,10 @@ def novo_produto_acabado(request):
         rua = request.POST.get('rua')
         coluna = request.POST.get('coluna')
         andar = request.POST.get('andar')
+        peso_liq_caixa = request.POST.get('peso_liq_caixa')
+        peso_brt_caixa = request.POST.get('peso_brt_caixa')
+        cartucho = request.POST.get('cartucho')
+        qtd_total_caixa = request.POST.get('qtd_total_caixa')
 
         localizacao = f"{rua} - {coluna} - {andar}"
 
@@ -42,6 +46,10 @@ def novo_produto_acabado(request):
             produto=produto,
             quantidade=qtdEntrada,
             localizacao=localizacao,
+            peso_liq_caixa=peso_liq_caixa,
+            peso_brt_caixa=peso_brt_caixa,
+            cartucho=cartucho,
+            qtd_total_caixa=qtd_total_caixa
         )
 
         return HttpResponseRedirect(reverse('estoque_acabado/list-produto-acabado.html'))
@@ -55,9 +63,9 @@ def mov_estoque_acabado(request):
         produto_id = request.POST.get('produto_id')
         tipo_movimento = request.POST.get('tipo_movimento')
         quantidade = int(request.POST.get('quantidade'))
-        matricula_funcionario = request.POST.get('funcionario')
         data_mov = request.POST.get('data_mov')
         endereco = request.POST.get('endereco')
+        matricula_funcionario = request.POST.get('funcionario')
 
         # Obtém o ProdutoAcabado correspondente
         produto_acabado = get_object_or_404(ProdutoAcabado, id=produto_id)
