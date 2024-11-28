@@ -95,7 +95,12 @@
                   <span class="submenuDescription">Estoque Acabado</span>
                 </a>
               </div>
-              <!-- Dropdown Estoque -->
+              <div class="sub-menu collapse" id="submenuEstoque">
+                <a href="{% url 'ordens_producao_entrada_estoque' %}" class="nav-link">
+                  <span class="submenuDescription">Entrada Estoque Acabado</span>
+                </a>
+              </div>
+              <!-- Dropdown Funcionários -->
               <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuFuncionarios"
                 aria-expanded="false" aria-controls="submenuFuncionarios">
                 <span class="spanIcon"><img class="sideIcon" src="{% static 'icons/employees.svg' %}"></span>

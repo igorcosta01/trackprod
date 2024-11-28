@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto
+from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto, OrdemProducao
 from .forms import ProdutoAcabadoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -84,3 +84,9 @@ def mov_estoque_acabado(request):
 
         # Redireciona para uma página de sucesso ou detalhe do produto acabado
         return HttpResponseRedirect(reverse('produto_acabado', args=[produto_acabado.id]))
+    
+@login_required
+def ordens_producao_entrada_estoque(request):
+    ordens_producao = OrdemProducao.objects.filter(status="finalizada").order_by('data_criacao')
+    context = {'ordens_producao': ordens_producao}
+    return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)

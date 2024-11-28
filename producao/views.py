@@ -154,4 +154,3 @@ def apontar_ordem_producao(request, ordem_producao_id):
         'mostrar_alerta': mostrar_alerta  # Passa a flag para o template
     }
     return render(request, 'producao/apontamento_form.html', context)
-
