@@ -75,3 +75,14 @@ class MovimentoEstoqueAcabado(models.Model):
 
     def __str__(self):
         return f"{self.produto_acabado.produto.codigo} ({self.quantidade_movimentada})pcs"
+    
+class Drive(models.Model):
+    rua = models.CharField(max_length=1, choices=[('A', 'Rua A'), ('B', 'Rua B'), ('C', 'Rua C')])
+    numero = models.PositiveIntegerField()
+    ocupado = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('rua', 'numero')
+
+    def __str__(self):
+        return f"{self.rua}{self.numero}"

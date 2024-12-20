@@ -31,12 +31,10 @@
             <th scope="col">Cliente</th>
             <th scope="col">Produto</th>
             <th scope="col">Tipo</th>
-            <th scope="col">Qtd Pedido</th>
-            <th scope="col">Qtd Apontada</th>
+            <th scope="col">Quant. Solicitada</th>
+            <th scope="col">Quant. Produzida</th>
             <th scope="col">Saldo</th>
-            <th scope="col">Previsão Entrega</th>
-            <th style="text-align: center;" scope="col">Status</th>
-            <th style="text-align: center;" scope="col">Ação</th>
+            <th style="text-align: center;" scope="col">Entrada Estoque</th>
           </tr>
         </thead>
         <tbody class="table">
@@ -50,15 +48,7 @@
               <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
               <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
               <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
-              <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
-              {% if ordem_producao.status == "em_producao"%}
-                <td style="text-align: center;"><span class="badge rounded-pill text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
-              {% elif ordem_producao.status == "pendente" %}
-               <td style="text-align: center;"><span class="badge rounded-pill text-bg-warning">{{ ordem_producao.get_status_display }}</span></td>
-              {% else %}
-                <td style="text-align: center;"> <span class="badge rounded-pill text-bg-success">{{ ordem_producao.get_status_display }}</span></td>
-              {% endif %}
-              <td style="text-align: center;"><a class="p-0" href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'icons/edit.svg' %}" style="padding: 0;"></a></td>
+              <td style="text-align: center;"><a class="p-0" href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'icons/plus-button.svg' %}" style="padding: 0; color: #098c09;"></a></td>
           </tr>
         {% empty %}
           Não há ordens para visualizar
@@ -67,3 +57,6 @@
       </table>
 
 {% endblock content %}
+
+
+http://www.inovvo.com.br/intranet/insert.php?cmd=123456;19/12/2024 11:00:00;200.65;10;0

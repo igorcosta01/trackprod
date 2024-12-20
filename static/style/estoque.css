@@ -1,0 +1,19 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 10 drives por linha */
+    gap: 10px;
+}
+.drive {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+.drive.livre {
+    background-color: #e0ffe0;
+}
+.drive.ocupado {
+    background-color: #ffe0e0;
+    cursor: not-allowed;
+}

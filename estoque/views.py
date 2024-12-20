@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto, OrdemProducao
+from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto, OrdemProducao, Drive
 from .forms import ProdutoAcabadoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -90,3 +90,14 @@ def ordens_producao_entrada_estoque(request):
     ordens_producao = OrdemProducao.objects.filter(status="finalizada").order_by('data_criacao')
     context = {'ordens_producao': ordens_producao}
     return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
+
+
+def entrada_estoque(request):
+    drives = Drive.objects.order_by('rua', 'numero')
+    if request.method == "POST":
+        drive_id = request.POST.get('drive_id')
+        drive = get_object_or_404(Drive, id=drive_id, ocupado=False)
+        drive.ocupado = True
+        drive.save()
+        # Lógica adicional para associar o produto
+    return render(request, 'estoque_acabado/entrada_estoque.html', {'drives': drives})

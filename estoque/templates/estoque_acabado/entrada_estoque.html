@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block header %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Ordens de Produção Finalizadas</li>
+  </ol>
+</nav>
+
+        <h2 style="text-align: center;" class="display-6">Entrada de Estoque - OP's Finalizadas</h2>
+{% endblock header %}
+
+{% block content %}
+
+{% block buttons %}
+  <div class="d-grid gap-2" style="margin-top: 10px;">
+      <a class="btn btn-primary" href="{% url 'new_ordem'%}" role="button">Adicionar OP</a>
+  </div>
+{% endblock buttons %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'style/estoque.css' %}">
+{% endblock %}
+
+<div>
+    {% for rua in "ABC" %}
+        <h3>Rua {{ rua }}</h3>
+        <div class="grid">
+            {% for drive in drives|dictsort:"numero" %}
+                {% if drive.rua == rua %}
+                    <button 
+                        class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}" 
+                        data-id="{{ drive.id }}"
+                        {% if drive.ocupado %}disabled{% endif %}>
+                        {{ drive.rua }}{{ drive.numero }}
+                    </button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+<script>
+    document.querySelectorAll('.drive').forEach(button => {
+        button.addEventListener('click', () => {
+            const driveId = button.dataset.id;
+            // Fazer um POST com o ID do drive para reservar
+        });
+    });
+</script>
+
+{% endblock content %}
