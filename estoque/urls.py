@@ -10,5 +10,5 @@ urlpatterns = [
     path('mov_estoque_acabado', views.mov_estoque_acabado, name='mov_estoque_acabado'),
     path('novo_produto_acabado', views.novo_produto_acabado, name='novo_produto_acabado'),
     path('ordens_producao_finalizadas/', views.ordens_producao_entrada_estoque, name='ordens_producao_entrada_estoque'),
-    path('entrada_estoque/', views.entrada_estoque, name='entrada_estoque'),
+    path('entrada_estoque/<ordem_producao_id>/', views.entrada_estoque, name='entrada_estoque'),
 ]

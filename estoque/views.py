@@ -30,15 +30,11 @@ def novo_produto_acabado(request):
     if request.method == 'POST':
         produto_codigo = request.POST.get('codigo_produto')
         qtdEntrada = request.POST.get('qtdEntrada')
-        rua = request.POST.get('rua')
-        coluna = request.POST.get('coluna')
-        andar = request.POST.get('andar')
+        localizacao = request.POST.get('drive_id')
         peso_liq_caixa = request.POST.get('peso_liq_caixa')
         peso_brt_caixa = request.POST.get('peso_brt_caixa')
         cartucho = request.POST.get('cartucho')
         qtd_total_caixa = request.POST.get('qtd_total_caixa')
-
-        localizacao = f"{rua} - {coluna} - {andar}"
 
         produto = get_object_or_404(Produto, codigo=produto_codigo)
 
@@ -91,13 +87,37 @@ def ordens_producao_entrada_estoque(request):
     context = {'ordens_producao': ordens_producao}
     return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
 
-
-def entrada_estoque(request):
+def entrada_estoque(request, ordem_producao_id):
     drives = Drive.objects.order_by('rua', 'numero')
-    if request.method == "POST":
-        drive_id = request.POST.get('drive_id')
-        drive = get_object_or_404(Drive, id=drive_id, ocupado=False)
+    ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+    
+    if request.method == 'POST':
+        produto_codigo = request.POST.get('codigo_produto')
+        qtdEntrada = request.POST.get('qtdEntrada')
+        localizacao_id = request.POST.get('drive_id')
+        peso_liq_caixa = request.POST.get('peso_liq_caixa')
+        peso_brt_caixa = request.POST.get('peso_brt_caixa')
+        cartucho = request.POST.get('cartucho')
+        qtd_total_caixa = request.POST.get('qtd_total_caixa')
+
+        produto = get_object_or_404(Produto, codigo=produto_codigo)
+        drive = get_object_or_404(Drive, id=localizacao_id, ocupado=False)
+
+
+        ProdutoAcabado.objects.create(
+            produto=produto,
+            quantidade=qtdEntrada,
+            localizacao=f"{drive.rua}{drive.numero}",	
+            peso_liq_caixa=peso_liq_caixa,
+            peso_brt_caixa=peso_brt_caixa,
+            cartucho=cartucho,
+            qtd_total_caixa=qtd_total_caixa
+        )
+
         drive.ocupado = True
+        drive.produto = produto
         drive.save()
-        # Lógica adicional para associar o produto
-    return render(request, 'estoque_acabado/entrada_estoque.html', {'drives': drives})
+
+        return HttpResponseRedirect(reverse('estoque_acabado:list-produto-acabado'))
+
+    return render(request, 'estoque_acabado/entrada_estoque.html', {'drives': drives, 'ordem_producao': ordem_producao})
