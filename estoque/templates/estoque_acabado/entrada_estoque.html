@@ -11,120 +11,139 @@
   </ol>
 </nav>
 
-        <h2 style="text-align: center;" class="display-6">Entrada de Estoque - OP's Finalizadas</h2>
+<h2 style="text-align: center;" class="display-6">Entrada de Estoque - OP's Finalizadas</h2>
 {% endblock header %}
 
 {% block content %}
 
 {% block buttons %}
-  <div class="d-grid gap-2" style="margin-top: 10px;">
-      {% comment %} <a class="btn btn-primary" href="{% url 'new_ordem'%}" role="button">Adicionar OP</a> {% endcomment %}
-  </div>
+<div class="d-grid gap-2" style="margin-top: 10px;">
+  {% comment %} <a class="btn btn-primary" href="{% url 'new_ordem'%}" role="button">Adicionar OP</a> {% endcomment %}
+</div>
 {% endblock buttons %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'style/estoque.css' %}">
+<link rel="stylesheet" href="{% static 'style/estoque.css' %}">
 {% endblock %}
 
 <div class="container-fluid">
-    {% comment %} 
-      #TODO: Apontar URL correta, e alterar model para salvar corretamente o form.
-    {% endcomment %}
-      <form method="POST" action="{% url 'entrada_estoque' ordem_producao.id %}">
-          {% csrf_token %}
-          <div class="row">
-            <div class="col-md-3 mb-4 mt-4">
-              <label for="ordem_producao">Ordem de Produção</label>
-              <input type="text" class="form-control" name="ordem_producao" id="ordem_producao" value="{{ ordem_producao.id }}" disabled>
-            </div>
-            <div class="col-md-3 mb-4 mt-4">
-              <label for="codigo_produto">Produto</label>
-              <input type="text" class="form-control" name="codigo_produto_display" id="codigo_produto_display" value="{{ ordem_producao.produto }}" disabled>
-              <input type="hidden" name="codigo_produto" id="codigo_produto" value="{{ ordem_producao.produto.codigo }}">
-              <input type="hidden" name="produto_id" id="produto_id" value="{{ ordem_producao.produto.id }}">
-            </div>
-            <div class="col-md-6 mb-4 mt-4">
-              <label for="cliente">Cliente</label>
-              <input type="text" class="form-control" name="codigo_produto_display" id="cliente" value="{{ ordem_producao.cliente }}" disabled>
-            </div>
-            <div class="col-md-6 mb-4 mt-4">
-              <label for="qtdEntrada">Quantidade Solicitada</label>
-              <input type="text" class="form-control" name="qtdEntrada_display" id="qtdEntrada_display" value="{{ ordem_producao.quantidade | floatformat:0 | intcomma }}" disabled>
-              <input type="hidden" name="qtdEntrada" id="qtdEntrada" value="{{ ordem_producao.quantidade }}">
-            </div>
-            <div class="col-md-6 mb-4 mt-4">
-              <label for="qtdEntrada">Quantidade Produzida</label>
-              <input type="text" class="form-control" name="qtdEntrada_display" id="qtdEntrada_display" value="{{ ordem_producao.quantidade_produzida | floatformat:0 | intcomma }}" disabled>
-              <input type="number" name="qtdEntrada" id="qtdEntrada" value="{{ ordem_producao.quantidade_produzida }}">
-            </div>
-          </div>
-            <input type="hidden" name="drive_id" id="drive-id">
-            {% for rua in "ABC" %}
-                <h6>Rua {{ rua }}</h6>
-                <div class="grid">
-                    {% for drive in drives|dictsort:"numero" %}
-                        {% if drive.rua == rua %}
-                            <button 
-                                type="button"
-                                class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}" 
-                                data-id="{{ drive.id }}"
-                                {% if drive.ocupado %}disabled{% endif %}>
-                                {{ drive.rua }}{{ drive.numero }}
-                            </button>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-              <div class="row">
-                  <div class="col-md-3 mb-4">
-                      <label for="peso_liq_caixa">Peso Liquido Caixa (KG)</label>
-                      <input type="number" class="form-control" name="peso_liq_caixa" id="peso_liq_caixa" required>
-                  </div>
-                  <div class="col-md-3 mb-4">
-                      <label for="peso_brt_caixa">Peso Bruto Caixa (KG)</label>
-                      <input type="number" class="form-control" name="peso_brt_caixa" id="peso_brt_caixa" required>
-                  </div>
-                  <div class="col-md-3 mb-4">
-                      <label for="cartucho">Acondicionamento por Caixa</label>
-                      <input type="text" class="form-control" name="cartucho" id="cartucho" required>
-                  </div>
-                  <div class="col-md-3 mb-4">
-                      <label for="qtd_total_caixa">Quantidade Caixa Total</label>
-                      <input type="number" class="form-control" name="qtd_total_caixa" id="qtd_total_caixa" required>
-                  </div>
-              </div>
-          </div>
-    <button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Adicionar</button>
-    </form>
+  {% comment %}
+  #TODO: Apontar URL correta, e alterar model para salvar corretamente o form.
+  {% endcomment %}
+  <form method="POST" action="{% url 'entrada_estoque' ordem_producao.id %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-3 mb-4 mt-4">
+        <label for="ordem_producao">Ordem de Produção</label>
+        <input type="text" class="form-control" name="ordem_producao" id="ordem_producao"
+          value="{{ ordem_producao.id }}" disabled>
+      </div>
+      <div class="col-md-3 mb-4 mt-4">
+        <label for="codigo_produto">Produto</label>
+        <input type="text" class="form-control" name="codigo_produto_display" id="codigo_produto_display"
+          value="{{ ordem_producao.produto }}" disabled>
+        <input type="hidden" name="codigo_produto" id="codigo_produto" value="{{ ordem_producao.produto.codigo }}">
+        <input type="hidden" name="produto_id" id="produto_id" value="{{ ordem_producao.produto.id }}">
+      </div>
+      <div class="col-md-6 mb-4 mt-4">
+        <label for="cliente">Cliente</label>
+        <input type="text" class="form-control" name="codigo_produto_display" id="cliente"
+          value="{{ ordem_producao.cliente }}" disabled>
+      </div>
+      <div class="col-md-6 mb-4 mt-4">
+        <label for="qtdSolicitada">Quantidade Solicitada</label>
+        <input type="text" class="form-control" name="qtdSolicitada_display" id="qtdSolicitada_display"
+          value="{{ ordem_producao.quantidade | floatformat:0 | intcomma }}" disabled>
+        <input type="hidden" name="qtdSolicitada" id="qtdSolicitada" value="{{ ordem_producao.quantidade }}">
+      </div>
+      <div class="col-md-6 mb-4 mt-4">
+        <label for="qtdEntrada">Quantidade Produzida</label>
+        <!-- Exibe o valor como informativo -->
+        <input type="text" class="form-control" name="qtdEntrada_display" id="qtdEntrada_display"
+          value="{{ ordem_producao.quantidade_produzida }}" disabled>
+        
+        <!-- Campo hidden para garantir que o valor de quantidade seja enviado -->
+        <input type="number" name="qtdEntrada">
+      </div>
     </div>
+    <input type="hidden" name="drive_id" id="drive-id">
+    {% for rua in "ABC" %}
+    <h6>Rua {{ rua }}</h6>
+    <div class="grid">
+      {% for drive in drives|dictsort:"numero" %}
+      {% if drive.rua == rua %}
+      <button type="button" class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}"
+        data-id="{{ drive.id }}" {% if drive.ocupado %}disabled{% endif %}>
+        {{ drive.rua }}{{ drive.numero }}
+      </button>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+<div class="row">
+  <div class="col-md-3 mb-4">
+    <label for="peso_liq_caixa">Peso Liquido Caixa (KG)</label>
+    <input type="number" class="form-control" name="peso_liq_caixa" id="peso_liq_caixa" required>
+  </div>
+  <div class="col-md-3 mb-4">
+    <label for="peso_brt_caixa">Peso Bruto Caixa (KG)</label>
+    <input type="number" class="form-control" name="peso_brt_caixa" id="peso_brt_caixa" required>
+  </div>
+  <div class="col-md-3 mb-4">
+    <label for="cartucho">Acondicionamento por Caixa</label>
+    <input type="text" class="form-control" name="cartucho" id="cartucho" required>
+  </div>
+  <div class="col-md-3 mb-4">
+    <label for="qtd_total_caixa">Quantidade Caixa Total</label>
+    <input type="number" class="form-control" name="qtd_total_caixa" id="qtd_total_caixa" required>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 mb-4">
+    <label for="matricula_funcionario">ID Funcionário</label>
+    <input type="text" class="form-control" name="matricula_funcionario" id="matricula_funcionario" required>
+  </div>
+</div>
+</div>
+<button type="submit" class="btn btn-primary" onclick="this.disabled=true; this.form.submit();">Adicionar</button>
+</form>
+{% if messages %}
+<div class="alert">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+</div>
 
-    <script>
-        // Guarda o estado do drive selecionado
-        let selectedDrive = null;
-    
-        document.querySelectorAll('.drive').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove a seleção anterior
-                if (selectedDrive) {
-                    selectedDrive.classList.remove('selected');
-                }
-    
-                // Marca o drive como selecionado
-                selectedDrive = button;
-                button.classList.add('selected');
-    
-                // Atualiza o campo hidden com o ID do drive
-                document.getElementById('drive-id').value = button.dataset.id;
-            });
-        });
-    </script>
-    
-    <style>
-        .drive.selected {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+<script>
+  // Guarda o estado do drive selecionado
+  let selectedDrive = null;
+
+  document.querySelectorAll('.drive').forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove a seleção anterior
+      if (selectedDrive) {
+        selectedDrive.classList.remove('selected');
+      }
+
+      // Marca o drive como selecionado
+      selectedDrive = button;
+      button.classList.add('selected');
+
+      // Atualiza o campo hidden com o ID do drive
+      document.getElementById('drive-id').value = button.dataset.id;
+    });
+  });
+
+</script>
+
+<style>
+  .drive.selected {
+    background-color: #4CAF50;
+    color: white;
+  }
+</style>
 
 {% endblock content %}

@@ -41,7 +41,7 @@
         <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
         <td scope="row">{{ pa.produto.codigo }}</td>
         <td>{{ pa.produto.cliente }}</td>
-        <td>{{ pa.quantidade | floatformat:0| intcomma }}</td>
+        <td>{{ pa.quantidade }}</td>
         <td style="text-align: center;">{{ pa.localizacao }}</td>
         <td style="text-align: center;"><a><button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar</button></a></td>
       </tr>

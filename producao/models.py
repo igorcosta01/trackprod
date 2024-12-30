@@ -17,6 +17,7 @@ class OrdemProducao(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_previsao = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
+    is_estoque = models.BooleanField(default=0)
 
     class Meta:
         verbose_name_plural = 'ordens_de_producao'

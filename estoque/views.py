@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.contrib import messages
+from django.db import transaction
 
 # Create your views here.
 
@@ -29,7 +31,7 @@ def produto_acabado(request, produto_acabado_id):
 def novo_produto_acabado(request):
     if request.method == 'POST':
         produto_codigo = request.POST.get('codigo_produto')
-        qtdEntrada = request.POST.get('qtdEntrada')
+        qtdEntrada = request.POST.get('qtdSolicitada_display')
         localizacao = request.POST.get('drive_id')
         peso_liq_caixa = request.POST.get('peso_liq_caixa')
         peso_brt_caixa = request.POST.get('peso_brt_caixa')
@@ -83,7 +85,7 @@ def mov_estoque_acabado(request):
     
 @login_required
 def ordens_producao_entrada_estoque(request):
-    ordens_producao = OrdemProducao.objects.filter(status="finalizada").order_by('data_criacao')
+    ordens_producao = OrdemProducao.objects.filter(status="finalizada", is_estoque=False).order_by('data_criacao')
     context = {'ordens_producao': ordens_producao}
     return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
 
@@ -93,31 +95,62 @@ def entrada_estoque(request, ordem_producao_id):
     
     if request.method == 'POST':
         produto_codigo = request.POST.get('codigo_produto')
-        qtdEntrada = request.POST.get('qtdEntrada')
+        qtdEntrada = int(request.POST.get('qtdEntrada'))  # Convertendo para inteiro
         localizacao_id = request.POST.get('drive_id')
         peso_liq_caixa = request.POST.get('peso_liq_caixa')
         peso_brt_caixa = request.POST.get('peso_brt_caixa')
         cartucho = request.POST.get('cartucho')
         qtd_total_caixa = request.POST.get('qtd_total_caixa')
+        matricula_funcionario = request.POST.get('matricula_funcionario')
 
         produto = get_object_or_404(Produto, codigo=produto_codigo)
         drive = get_object_or_404(Drive, id=localizacao_id, ocupado=False)
 
+        # Busca o funcionário pela matrícula
+        try:
+            funcionario = Funcionario.objects.get(matricula_funcionario=matricula_funcionario)
+        except Funcionario.DoesNotExist:
+            messages.error(request, 'Funcionário não encontrado!')
+            return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
 
-        ProdutoAcabado.objects.create(
-            produto=produto,
-            quantidade=qtdEntrada,
-            localizacao=f"{drive.rua}{drive.numero}",	
-            peso_liq_caixa=peso_liq_caixa,
-            peso_brt_caixa=peso_brt_caixa,
-            cartucho=cartucho,
-            qtd_total_caixa=qtd_total_caixa
-        )
+        # Inicia a transação
+        try:
+            with transaction.atomic():
+                # Criação do ProdutoAcabado
+                produto_acabado = ProdutoAcabado.objects.create(
+                    produto=produto,
+                    quantidade=qtdEntrada,
+                    localizacao=f"{drive.rua}{drive.numero}",
+                    peso_liq_caixa=peso_liq_caixa,
+                    peso_brt_caixa=peso_brt_caixa,
+                    cartucho=cartucho,
+                    qtd_total_caixa=qtd_total_caixa
+                )
 
-        drive.ocupado = True
-        drive.produto = produto
-        drive.save()
+                # Marca o drive como Ocupado
+                drive.ocupado = True
+                drive.produto = produto
+                drive.save()
 
-        return HttpResponseRedirect(reverse('estoque_acabado:list-produto-acabado'))
+                # Adiciona um flag na OP que já foi dado entrada em estoque
+                ordem_producao.is_estoque = True
+                ordem_producao.save()
+
+                # Criação de uma movimentação de estoque (sem necessidade de passar a quantidade manualmente)
+                movimento = MovimentoEstoqueAcabado(
+                    produto_acabado=produto_acabado,
+                    tipo_movimento='entrada',
+                    quantidade_movimentada=qtdEntrada,
+                    funcionario=funcionario,
+                    endereco=f"{drive.rua}{drive.numero}"
+                )
+                movimento.save()  # A model vai cuidar da atualização da quantidade
+
+                messages.success(request, 'Entrada de estoque realizada com sucesso!')
+                return redirect('list-produto-acabado')
+        except Exception as e:
+            messages.error(request, f"Ocorreu um erro: {str(e)}")
+            return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
 
     return render(request, 'estoque_acabado/entrada_estoque.html', {'drives': drives, 'ordem_producao': ordem_producao})
+
