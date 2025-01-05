@@ -65,3 +65,9 @@
         margin-left: 10%;
     }
 }
+
+#vr {
+    width: 40px;
+    height: 10px;
+    margin-bottom: -2%;
+}

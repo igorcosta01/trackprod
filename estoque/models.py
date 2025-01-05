@@ -73,24 +73,21 @@ class MovimentoEstoqueAcabado(models.Model):
         verbose_name_plural = "Movimentações PA"
 
     def save(self, *args, **kwargs):
-        # Aqui garantimos que o valor da quantidade será alterado apenas uma vez
-        if not self.pk:  # Verifica se a movimentação está sendo criada pela primeira vez
-            with transaction.atomic():  # Garantir que a operação seja atômica
-                # Se for entrada, aumenta a quantidade, se for saída, diminui
+        if not self.pk:  # Apenas na criação
+            with transaction.atomic():
+                # Atualiza a quantidade do ProdutoAcabado
                 if self.tipo_movimento == 'entrada':
                     self.produto_acabado.quantidade += self.quantidade_movimentada
                 elif self.tipo_movimento == 'saida':
                     self.produto_acabado.quantidade -= self.quantidade_movimentada
 
-                # Atualiza a localização do produto
+                # Atualiza a localização
                 self.produto_acabado.localizacao = self.endereco
-                
-                # Salva a atualização no saldo do produto apenas uma vez
                 self.produto_acabado.save()
 
-        # Após a atualização do produto, salva a movimentação de estoque
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.produto_acabado.produto.codigo} ({self.quantidade_movimentada})pcs"
+
 
