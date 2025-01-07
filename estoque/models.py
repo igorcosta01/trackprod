@@ -29,6 +29,8 @@ class ProdutoAcabado(models.Model):
     qtd_total_caixa = models.IntegerField(default=0, null=True)
     codigo_barra = models.CharField(max_length=13, blank=True, null=True)
     codigo_barra_pct = models.CharField(max_length=13, blank=True, null=True)
+    lote = models.CharField(max_length=10, null=True)
+    data_fabricacao = models.DateField(null=True)
 
     class Meta:
         verbose_name_plural = "Produtos Acabados"

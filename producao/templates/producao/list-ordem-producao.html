@@ -61,7 +61,9 @@
               <td style="text-align: center;"><a class="p-0" href="{% url 'apontamento_producao' ordem_producao.id %}"><img src="{% static 'icons/edit.svg' %}" style="padding: 0;"></a></td>
           </tr>
         {% empty %}
-          Não há ordens para visualizar
+          <tr>
+            <td colspan="10" style="text-align: center;">Não há ordens para visualizar</td>
+          </tr>
         {% endfor %}
         </tbody>
       </table>

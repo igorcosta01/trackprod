@@ -62,6 +62,7 @@
                     <th>Data</th>
                     <th>Funcionário</th>
                     <th>Quantidade</th>
+                    <th>Lote</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,16 +72,15 @@
                     <td> {{ mov.data_mov | date:'d/m/Y' }} </td>
                     <td> {{ mov.funcionario }} </td>
                     <td> {{ mov.quantidade_movimentada | intcomma }} </td>
+                    <td> {{ produto_acabado.lote | intcomma }} </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5">Nenhuma movimentação encontrada.</td>
+                    <td colspan="6">Nenhuma movimentação encontrada.</td>
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: end; background-color: white;"> Quantidade Atual:</td>
+                    <td colspan="4" style="text-align: end; background-color: white;"> Quantidade Atual:</td>
                     <td> <strong> {{ produto_acabado.quantidade | intcomma }} UN</strong></td>
                 </tr>
             </tbody>

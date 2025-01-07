@@ -18,6 +18,8 @@ class OrdemProducao(models.Model):
     data_previsao = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
     is_estoque = models.BooleanField(default=0)
+    data_fabricacao = models.DateField(null=True)
+    lote = models.CharField(max_length=10, null=True)
 
     class Meta:
         verbose_name_plural = 'ordens_de_producao'
@@ -69,6 +71,8 @@ class ApontamentoProducao(models.Model):
         # Atualiza o Status da OP
         if self.ordem_producao.quantidade_produzida >= self.ordem_producao.quantidade:
             self.ordem_producao.status = 'finalizada'
+            self.ordem_producao.data_fabricacao = self.fim_producao
+            self.ordem_producao.lote = f"{self.ordem_producao.id}"
         elif self.ordem_producao.quantidade_produzida > 0:
             self.ordem_producao.status = 'em_producao'
 

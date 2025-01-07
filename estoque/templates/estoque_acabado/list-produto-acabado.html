@@ -32,6 +32,7 @@
       <th scope="col">Nome Cliente</th>
       <th scope="col">Quantidade</th>
       <th style="text-align: center;" scope="col">Endereço</th>
+      <th style="text-align: center;" scope="col">Data Fabricação</th>
       <th style="text-align: center;" scope="col">Ação</th>
     </tr>
   </thead>
@@ -41,8 +42,9 @@
         <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
         <td scope="row">{{ pa.produto.codigo }}</td>
         <td>{{ pa.produto.cliente }}</td>
-        <td>{{ pa.quantidade }}</td>
+        <td>{{ pa.quantidade | intcomma }}</td>
         <td style="text-align: center;">{{ pa.localizacao }}</td>
+        <td style="text-align: center;">{{ pa.data_fabricacao | date:'d/m/Y' }}</td>
         <td style="text-align: center;"><a><button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar</button></a></td>
       </tr>
     {% empty %}

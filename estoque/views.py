@@ -14,8 +14,9 @@ from django.db import transaction
 @login_required
 def list_produto_acabado(request,):
     produto_acabado = ProdutoAcabado.objects.order_by('data_entrada')
+    ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
 
-    context = {'produto_acabado': produto_acabado}
+    context = {'produto_acabado': produto_acabado, 'ultima_movimentacao': ultima_movimentacao}
     return render(request, 'estoque_acabado/list-produto-acabado.html', context)
 
 @login_required
@@ -123,7 +124,9 @@ def entrada_estoque(request, ordem_producao_id):
                     peso_liq_caixa=peso_liq_caixa,
                     peso_brt_caixa=peso_brt_caixa,
                     cartucho=cartucho,
-                    qtd_total_caixa=qtd_total_caixa
+                    qtd_total_caixa=qtd_total_caixa,
+                    lote = ordem_producao.lote,
+                    data_fabricacao = ordem_producao.data_fabricacao
                 )
 
                 # Marca o drive como Ocupado

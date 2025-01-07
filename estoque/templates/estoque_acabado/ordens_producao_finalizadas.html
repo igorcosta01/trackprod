@@ -50,8 +50,10 @@
               <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
               <td style="text-align: center;"><a class="p-0" href="{% url 'entrada_estoque' ordem_producao.id %}"><img src="{% static 'icons/plus-button.svg' %}" style="padding: 0; color: #098c09;"></a></td>
           </tr>
-        {% empty %}
-          Não há ordens para visualizar
+          {% empty %}
+          <tr>
+            <td colspan="8" style="text-align: center;">Não há ordens para visualizar</td>
+          </tr>
         {% endfor %}
         </tbody>
       </table>
