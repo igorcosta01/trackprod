@@ -35,9 +35,9 @@ class Produto(models.Model):
     descricao = models.TextField(blank=True, null=True)
     material = models.CharField(max_length=100, null=True)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    volume = models.DecimalField(max_digits=10, decimal_places=2)
+    volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     cor = models.CharField(max_length=50, null=True)
-    status = models.CharField(max_length=7, choices=STATUS_PRODUTO, default="ativo")
+    status = models.CharField(max_length=7, choices=STATUS_PRODUTO, default="ativo", null=True)
 
     def __str__(self):
         return self.codigo
