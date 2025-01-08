@@ -22,7 +22,7 @@ class ProdutoAcabado(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveBigIntegerField(default=0)
     data_entrada = models.DateField(auto_now_add=True)
-    localizacao = models.CharField(max_length=20)
+    localizacao = models.CharField(max_length=5, null=True)
     peso_liq_caixa = models.DecimalField(max_digits=5, decimal_places=3, blank=True, null=True)
     peso_brt_caixa = models.DecimalField(max_digits=5, decimal_places=3, blank=True, null=True)
     cartucho = models.CharField(max_length=8)
@@ -69,7 +69,7 @@ class MovimentoEstoqueAcabado(models.Model):
     quantidade_movimentada = models.IntegerField()
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     data_mov = models.DateTimeField(auto_now_add=True)
-    endereco = models.CharField(max_length=20)
+    endereco = models.CharField(max_length=5, null=True)
 
     class Meta:
         verbose_name_plural = "Movimentações PA"
