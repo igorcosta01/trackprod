@@ -24,38 +24,38 @@
 {% endblock buttons %}
 
 </br>
-    <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">OP</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Produto</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Quant. Solicitada</th>
-            <th scope="col">Quant. Produzida</th>
-            <th scope="col">Saldo</th>
-            <th style="text-align: center;" scope="col">Entrada Estoque</th>
-          </tr>
-        </thead>
-        <tbody class="table">
-        {% for ordem_producao in ordens_producao %}
-          <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id %}'">
-              <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
-              <td scope="row">{{ ordem_producao.id }}</td>
-              <td>{{ ordem_producao.cliente.nome_cliente }}</td>
-              <td>{{ ordem_producao.produto.codigo }}</td>
-              <td>{{ ordem_producao.produto.nome }}</td>
-              <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
-              <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
-              <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
-              <td style="text-align: center;"><a class="p-0" href="{% url 'entrada_estoque' ordem_producao.id %}"><img src="{% static 'icons/plus-button.svg' %}" style="padding: 0; color: #098c09;"></a></td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="8" style="text-align: center;">Não há ordens para visualizar</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">OP</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Produto</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Quant. Solicitada</th>
+        <th scope="col">Quant. Produzida</th>
+        <th scope="col">Saldo</th>
+        <th style="text-align: center;" scope="col">Entrada Estoque</th>
+      </tr>
+    </thead>
+    <tbody class="table">
+    {% for ordem_producao in ordens_producao %}
+      <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id %}'">
+          <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
+          <td scope="row">{{ ordem_producao.id }}</td>
+          <td>{{ ordem_producao.cliente.nome_cliente }}</td>
+          <td>{{ ordem_producao.produto.codigo }}</td>
+          <td>{{ ordem_producao.produto.nome }}</td>
+          <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
+          <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
+          <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
+          <td style="text-align: center;"><a class="p-0" href="{% url 'entrada_estoque' ordem_producao.id %}"><img src="{% static 'icons/plus-button.svg' %}" style="padding: 0; color: #098c09;"></a></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8" style="text-align: center;">Não há ordens para visualizar</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 
 {% endblock content %}

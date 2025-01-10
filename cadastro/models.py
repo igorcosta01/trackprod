@@ -24,19 +24,28 @@ class Cliente(models.Model):
 ######################## PRODUTO #################################
 class Produto(models.Model):
 
+    TIPO_PRODUTO = [
+        ('TAMPA', 'Tampa'),
+        ('COPO', 'Copo'),
+        ('POTE', 'Pote'),
+        ('BANDEJA', 'Bandeja'),
+        ('PRATO', 'Prato'),
+        ('KIT POTE', 'Kit Pote'),
+    ]
+
     STATUS_PRODUTO = [
         ('ativo', 'Ativo'),
         ('inativo', 'Inativo'),
     ]
 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=255)
+    tipo = models.CharField(max_length=10, choices=TIPO_PRODUTO, null=True)
     codigo = models.CharField(max_length=50, unique=True)
     descricao = models.TextField(blank=True, null=True)
-    material = models.CharField(max_length=100, null=True)
+    material = models.CharField(max_length=100, null=True, blank=True)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    volume = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    cor = models.CharField(max_length=50, null=True)
+    volume = models.IntegerField(null=True)
+    cor = models.CharField(max_length=50, null=True, blank=True)
     status = models.CharField(max_length=7, choices=STATUS_PRODUTO, default="ativo", null=True)
 
     def __str__(self):

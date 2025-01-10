@@ -98,10 +98,6 @@ def entrada_estoque(request, ordem_producao_id):
         produto_codigo = request.POST.get('codigo_produto')
         qtdEntrada = int(request.POST.get('qtdEntrada'))
         localizacao_id = request.POST.get('drive_id')
-        peso_liq_caixa = request.POST.get('peso_liq_caixa')
-        peso_brt_caixa = request.POST.get('peso_brt_caixa')
-        cartucho = request.POST.get('cartucho')
-        qtd_total_caixa = request.POST.get('qtd_total_caixa')
         matricula_funcionario = request.POST.get('matricula_funcionario')
 
         produto = get_object_or_404(Produto, codigo=produto_codigo)
@@ -121,10 +117,6 @@ def entrada_estoque(request, ordem_producao_id):
                     produto=produto,
                     quantidade=0,  # Será atualizado pela movimentação
                     localizacao=f"{drive.rua}{drive.numero}",
-                    peso_liq_caixa=peso_liq_caixa,
-                    peso_brt_caixa=peso_brt_caixa,
-                    cartucho=cartucho,
-                    qtd_total_caixa=qtd_total_caixa,
                     lote = ordem_producao.lote,
                     data_fabricacao = ordem_producao.data_fabricacao
                 )

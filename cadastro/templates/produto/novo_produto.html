@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load django_bootstrap5 %}
 
 {% block header %}
@@ -13,46 +12,46 @@
     <div class="container d-block justify-content-center">
         <form action="{% url 'novo_produto' %}" method="POST">
             {% csrf_token %}
-            <div class="row ms-5">
-                <div class="col-md-7 mb-3">
-                    {{ form.nome.label_tag }}
-                    {{ form.nome }}
-                </div>
-            </div>
-            <div class="row ms-5">
-                <div class="col-md-4 mb-3">
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     {{ form.cliente.label_tag }}  <!-- Label manual -->
                     {{ form.cliente }}            <!-- Input manual -->
                 </div>
-                <div class="col-md-2 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="cliente_id">ID do Cliente</label>
                     <input type="text" id="cliente_id" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    {{ form.tipo.label_tag }}
+                    {{ form.tipo }}
                 </div>
                 <div class="col-md-3 mb-3">
                     {{ form.codigo.label_tag }}
                     {{ form.codigo }}
                 </div>
-            </div>
-            <div class="row d-flex justify-content-center">
                 <div class="col-md-4 mb-3">
                     {{ form.material.label_tag }}
                     {{ form.material }}
                 </div>
-                <div class="col-md-2 mb-3">
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-4 mb-3">
                     {{ form.peso.label_tag }}
                     {{ form.peso }}
                 </div>
-                <div class="col-md-2 mb-3">
+                <div class="col-md-4 mb-3">
                     {{ form.volume.label_tag }}
                     {{ form.volume }}
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-4 mb-3">
                     {{ form.cor.label_tag }}
                     {{ form.cor }}
                 </div>
             </div>
             <div class="row d-flex justify-content-center">
-                <div class="col-md-11 mb-3">
+                <div class="col-md-12 mb-3">
                     {{ form.descricao.label_tag }}
                     {{ form.descricao }}
                 </div>

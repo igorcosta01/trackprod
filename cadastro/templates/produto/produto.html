@@ -15,49 +15,44 @@
 
 {% block content %}
 </br>
-<div class="row d-flex justify-content-center">
-    <div class="col-md-5 mb-4">
+<div class="row">
+    <div class="col-md-6 mb-3">
         <label for="disabledTextInput" class="form-label">Cliente</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.cliente }}">
     </div>
-    <div class="col-md-2 mb-4">
-        <label for="disabledTextInput" class="form-label">Cód (SKU)</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-5 mb-3">
+        <label for="disabledTextInput" class="form-label">Tipo</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
+            value="{{ produto.tipo }}">
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="disabledTextInput" class="form-label">Código (SKU)</label>
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.codigo }}">
     </div>
-    <div class="col-md-3 mb-4">
-        <label for="disabledTextInput" class="form-label">Nome Produto</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
-            value="{{ produto.nome }}">
-    </div>
-</div>
-<div class="row d-flex justify-content-center">
-    <div class="col-md-6 mb-4">
-        <label for="disabledTextInput" class="form-label">Info Produto</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
-            value="{{ produto.descricao }}">
-    </div>
-    <div class="col-md-2 mb-4">
+    <div class="col-md-4 mb-3">
         <label for="disabledTextInput" class="form-label">Material</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.material }}">
     </div>
-    <div class="col-md-2 mb-4">
+</div>
+<div class="row">
+    <div class="col-md-4 mb-3">
         <label for="disabledTextInput" class="form-label">Peso (g)</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.peso }}">
     </div>
-</div>
-<div class="row d-flex justify-content-center">
-    <div class="col-md-2 mb-4">
+    <div class="col-md-4 mb-3">
         <label for="disabledTextInput" class="form-label">Volume (ml)</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.volume }}">
     </div>
-    <div class="col-md-3 mb-4" style="margin-left: 8%;">
+    <div class="col-md-4 mb-3"">
         <label for="disabledTextInput" class="form-label">Cor</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto.cor }}">
     </div>
 </div>
