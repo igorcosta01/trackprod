@@ -9,7 +9,6 @@ class OrdemProducao(models.Model):
         ('finalizada', 'Finalizada'),
     ]
 
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.FloatField()
     quantidade_produzida = models.FloatField(default=0)

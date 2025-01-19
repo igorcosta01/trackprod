@@ -18,40 +18,39 @@
 
     <div class="container">
             <h1 class="display-6"> Ordem de Produção N° #{{ ordem_producao.id }}</h1>
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-5 mb-4">
+        <div class="row">
+            <div class="col-md-6 mb-4">
                 <label for="disabledTextInput" class="form-label">Cliente</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.cliente }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.cliente }}">
             </div>
-            <div class="col-md-2 mb-4">
+            <div class="col-md-3 mb-4">
                 <label for="disabledTextInput" class="form-label">ID Produto</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.produto }}">
             </div>
             <div class="col-md-3 mb-4">
                 <label for="disabledTextInput" class="form-label">Tipo Produto</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.nome }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.produto.tipo }}">
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-6 mb-4">
-                <label for="disabledTextInput" class="form-label">Info Produto</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.descricao }}">
+        <div class="row">
+            <div class="col-md-7 mb-4">
+                <label for="disabledTextInput" class="form-label">Descrição Produto</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.produto.descricao }}">
             </div>
             <div class="col-md-2 mb-4">
-                <label for="disabledTextInput" class="form-label">Previsão Entrega</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}">
+                <label for="disabledTextInput" class="form-label">Data Entrega</label>
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.data_previsao | date:'d/m/Y' }}">
             </div>
-            <div class="col-md-2 mb-4">
+            <div class="col-md-3 mb-4">
                 <label for="disabledTextInput" class="form-label">Cor</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.produto.cor }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.produto.cor }}">
             </div>
         </div>
         <!-- Tabela de Apontamentos -->
-        <div class="row d-flex justify-content-center">
-
-            <div class="col-md-10 mb-4 p-3 border rounded" style="background-color: #f3f3f3;">
+        <div class="row">
+            <div class="col-md-12 mb-4 p-3">
                 <label class="form-label">Apontamentos</label>
-                <table class="table table-bordered table-striped table-sm">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Data Registro</th>
@@ -81,18 +80,18 @@
                 </table>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-2 mb-4">
+        <div class="row">
+            <div class="col-md-3 mb-4">
                 <label for="disabledTextInput" class="form-label">Quantidade</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.quantidade|floatformat:0|intcomma }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.quantidade|floatformat:0|intcomma }}">
             </div>
-            <div class="col-md-2 mb-4" style="margin-left: 8%;">
+            <div class="col-md-3 mb-4" style="margin-left: 8%;">
                 <label for="disabledTextInput" class="form-label">Quantidade Apontada</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma }}">
             </div>
             <div class="col-md-2 mb-4" style="margin-left: 8%;">
                 <label for="disabledTextInput" class="form-label">Saldo</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm" value="{{ ordem_producao.saldo_op|floatformat:0|intcomma }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.saldo_op|floatformat:0|intcomma }}">
             </div>
             <div class="col-md-1 mb-4" style="margin-left: 8%;">
                 <label for="disabledTextInput" class="form-label">Status</label>

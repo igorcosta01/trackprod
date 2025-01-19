@@ -73,7 +73,6 @@ def nova_ordem_producao_modal(request):
 
 
 ############################################  MAQUINAS  ############################################
-
 @login_required
 def maquina(request, maquina_id):
     maquina = Maquina.objects.get(id = maquina_id)
@@ -124,7 +123,6 @@ def edit_maquina(request, maquina_id):
 
 
 ####################### Apontamento ##################################
-
 @login_required
 def apontar_ordem_producao(request, ordem_producao_id):
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)

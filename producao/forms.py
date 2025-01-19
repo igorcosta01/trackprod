@@ -5,11 +5,13 @@ class OrdemProducaoForm(forms.ModelForm):
     class Meta:
         model = OrdemProducao
         previsao = forms.DateField(
+
         widget=forms.DateInput(attrs={'type': 'date'})  # Adiciona o widget correto
+        
         )
-        fields = ['cliente', 'produto', 'quantidade', 'data_previsao']
+
+        fields = ['produto', 'quantidade', 'data_previsao']
         labels = {
-            'cliente': 'Cliente',
             'produto': 'Produto',
             'quantidade': 'Quantidade',
             'data_previsao': 'Previsão',

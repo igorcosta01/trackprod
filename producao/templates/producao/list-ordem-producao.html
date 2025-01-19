@@ -33,8 +33,8 @@
             <th scope="col">Tipo</th>
             <th scope="col">Qtd Pedido</th>
             <th scope="col">Qtd Apontada</th>
-            <th scope="col">Saldo</th>
-            <th scope="col">Previsão Entrega</th>
+            <th scope="col" style="text-align: center;">Saldo</th>
+            <th scope="col" style="text-align: center;">Data Entrega</th>
             <th style="text-align: center;" scope="col">Status</th>
             <th style="text-align: center;" scope="col">Ação</th>
           </tr>
@@ -46,11 +46,11 @@
               <td scope="row">{{ ordem_producao.id }}</td>
               <td>{{ ordem_producao.cliente.nome_cliente }}</td>
               <td>{{ ordem_producao.produto.codigo }}</td>
-              <td>{{ ordem_producao.produto.nome }}</td>
+              <td>{{ ordem_producao.produto.tipo }}</td>
               <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
               <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
-              <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
-              <td>{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
+              <td style="text-align: center;">{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>
+              <td style="text-align: center;">{{ ordem_producao.data_previsao | date:'d/m/Y'}}</td>
               {% if ordem_producao.status == "em_producao"%}
                 <td style="text-align: center;"><span class="badge rounded-pill text-bg-primary">{{ ordem_producao.get_status_display }}</span></td>
               {% elif ordem_producao.status == "pendente" %}
