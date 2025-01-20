@@ -23,37 +23,36 @@
   <form method="POST" action="{% url 'entrada_estoque' ordem_producao.id %}">
     {% csrf_token %}
     <div class="row">
-      <div class="col-md-3 mb-4 mt-4">
+      <div class="col-md-3 mb-4 ">
         <label for="ordem_producao">Ordem de Produção</label>
         <input type="text" class="form-control" name="ordem_producao" id="ordem_producao"
           value="{{ ordem_producao.id }}" disabled>
       </div>
-      <div class="col-md-3 mb-4 mt-4">
+      <div class="col-md-3 mb-4">
         <label for="codigo_produto">Produto</label>
         <input type="text" class="form-control" name="codigo_produto_display" id="codigo_produto_display"
           value="{{ ordem_producao.produto }}" disabled>
         <input type="hidden" name="codigo_produto" id="codigo_produto" value="{{ ordem_producao.produto.codigo }}">
         <input type="hidden" name="produto_id" id="produto_id" value="{{ ordem_producao.produto.id }}">
       </div>
-      <div class="col-md-6 mb-4 mt-4">
+      <div class="col-md-6 mb-4">
         <label for="cliente">Cliente</label>
         <input type="text" class="form-control" name="codigo_produto_display" id="cliente"
-          value="{{ ordem_producao.cliente }}" disabled>
+          value="{{ ordem_producao.produto.cliente }}" disabled>
       </div>
-      <div class="col-md-6 mb-4 mt-4">
+      <div class="col-md-6 mb-4">
         <label for="qtdSolicitada">Quantidade Solicitada</label>
         <input type="text" class="form-control" name="qtdSolicitada_display" id="qtdSolicitada_display"
           value="{{ ordem_producao.quantidade | floatformat:0 | intcomma }}" disabled>
         <input type="hidden" name="qtdSolicitada" id="qtdSolicitada" value="{{ ordem_producao.quantidade }}">
       </div>
-      <div class="col-md-6 mb-4 mt-4">
+      <div class="col-md-6 mb-4">
         <label for="qtdEntrada">Quantidade Produzida</label>
         <!-- Exibe o valor como informativo -->
         <input type="text" class="form-control" name="qtdEntrada_display" id="qtdEntrada_display"
           value="{{ ordem_producao.quantidade_produzida }}" disabled>
         
         <!-- Campo hidden para garantir que o valor de quantidade seja enviado -->
-        <input type="number" name="qtdEntrada">
       </div>
     </div>
     <input type="hidden" name="drive_id" id="drive-id">
@@ -71,10 +70,14 @@
     </div>
     {% endfor %}
 </div>
-<div class="row">
+<div class="row mt-4">
   <div class="col-md-3 mb-4">
     <label for="matricula_funcionario">ID Funcionário</label>
     <input type="text" class="form-control" name="matricula_funcionario" id="matricula_funcionario" required>
+  </div>
+  <div class="col-md-3 mb-4">
+    <label for="matricula_funcionario">Quantidade Entrada</label>
+    <input type="number" class="form-control" name="qtdEntrada" id="qtdEntrada" required>
   </div>
 </div>
 </div>

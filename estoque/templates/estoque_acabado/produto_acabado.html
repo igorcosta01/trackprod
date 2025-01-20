@@ -18,40 +18,39 @@
 {% endblock header %}
 
 {% block content %}
-</br>
 <div class="row d-flex justify-content-center">
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Cliente</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.cliente }}">
     </div>
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Cód (SKU)</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.codigo }}">
     </div>
 </div>
 <div class="row d-flex justify-content-center">
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Info Produto</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.descricao }}">
     </div>
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Material</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.material }}">
     </div>
 </div>
 <div class="row d-flex justify-content-center">
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Volume (ml)</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.volume }}">
     </div>
     <div class="col-md-6 mb-4">
         <label for="disabledTextInput" class="form-label">Cor</label>
-        <input disabled type="text" id="disabledTextInput" class="form-control form-control-sm"
+        <input disabled type="text" id="disabledTextInput" class="form-control form-control"
             value="{{ produto_acabado.produto.cor }}">
     </div>
 </div>
@@ -59,7 +58,7 @@
 
     <div class="col-md-12 mb-4 p-3 border rounded">
         <label class="form-label">Histórico de Movimentações</label>
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table">
             <thead>
                 <tr>
                     <th>Tipo</th>
