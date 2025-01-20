@@ -5,24 +5,16 @@
 
 
 {% block header %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Ordens de Produção Finalizadas</li>
-  </ol>
-</nav>
-
-        <h2 style="text-align: center;" class="display-6">Entrada de Estoque - OP's Finalizadas</h2>
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Entrada Estoque</h2>
+      </div>
+      <div style="align-content: center;">
+      </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
-
-{% block buttons %}
-  <div class="d-grid gap-2" style="margin-top: 10px;">
-      <a class="btn btn-primary" href="{% url 'new_ordem'%}" role="button">Adicionar OP</a>
-  </div>
-{% endblock buttons %}
-
 </br>
   <table class="table table-striped table-hover table-bordered">
     <thead>
@@ -34,7 +26,7 @@
         <th scope="col">Quant. Solicitada</th>
         <th scope="col">Quant. Produzida</th>
         <th scope="col">Saldo</th>
-        <th style="text-align: center;" scope="col">Entrada Estoque</th>
+        <th style="text-align: center;" scope="col">Ação</th>
       </tr>
     </thead>
     <tbody class="table">
@@ -42,9 +34,9 @@
       <tr style="cursor: pointer;" onclick="window.location.href='{% url 'ordem_producao' ordem_producao.id %}'">
           <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
           <td scope="row">{{ ordem_producao.id }}</td>
-          <td>{{ ordem_producao.cliente.nome_cliente }}</td>
+          <td>{{ ordem_producao.produto.cliente }}</td>
           <td>{{ ordem_producao.produto.codigo }}</td>
-          <td>{{ ordem_producao.produto.nome }}</td>
+          <td>{{ ordem_producao.produto.tipo }}</td>
           <td>{{ ordem_producao.quantidade|floatformat:0|intcomma }}</td>
           <td>{{ ordem_producao.quantidade_produzida|floatformat:0|intcomma}}</td>
           <td>{{ ordem_producao.saldo_op|floatformat:0|intcomma }}</td>

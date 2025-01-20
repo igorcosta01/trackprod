@@ -5,11 +5,15 @@
 
 {% block header %}
 <div class="card-header d-flex justify-content-between">
-    <h4 class="mb-0"> Produto N° #{{ produto_acabado.produto.codigo }} </h4>
-    {% block buttons %}
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEntrada">Entrada</button>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Saída</button>
-    {% endblock buttons %}
+    <div>
+        <h2 class="display-6 mb-0">Produto N° {{ produto_acabado.produto.codigo }}</h2>
+    </div>
+    <div style="align-content: center;">
+        {% block buttons %}
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEntrada">Entrada</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Saída</button>
+        {% endblock buttons %}
+    </div>
 </div>
 {% endblock header %}
 

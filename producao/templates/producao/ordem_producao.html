@@ -5,23 +5,22 @@
 {% load django_bootstrap5 %}
 
 {% block header %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'list_ordens' %}">Ordens de Produção</a></li>
-            <li class="breadcrumb-item active" aria-current="page">OP # {{ ordem_producao.id }}</li>
-        </ol>
-    </nav>
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Ordem de Produção N° <strong>{{ ordem_producao.id }}</strong></h2>
+      </div>
+      <div style="align-content: center;">
+      </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
 
     <div class="container">
-            <h1 class="display-6"> Ordem de Produção N° #{{ ordem_producao.id }}</h1>
         <div class="row">
             <div class="col-md-6 mb-4">
                 <label for="disabledTextInput" class="form-label">Cliente</label>
-                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.cliente }}">
+                <input disabled type="text" id="disabledTextInput" class="form-control form-control" value="{{ ordem_producao.produto.cliente }}">
             </div>
             <div class="col-md-3 mb-4">
                 <label for="disabledTextInput" class="form-label">ID Produto</label>

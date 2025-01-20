@@ -4,32 +4,22 @@
 {% load humanize %}
 
 {% block header %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Ordens de Produção Finalizadas</li>
-  </ol>
-</nav>
-
-<h2 style="text-align: center;" class="display-6">Entrada de Estoque - OP's Finalizadas</h2>
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Entrada Estoque Acabado</h2>
+      </div>
+      <div style="align-content: center;">
+      </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
-
-{% block buttons %}
-<div class="d-grid gap-2" style="margin-top: 10px;">
-  {% comment %} <a class="btn btn-primary" href="{% url 'new_ordem'%}" role="button">Adicionar OP</a> {% endcomment %}
-</div>
-{% endblock buttons %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'style/estoque.css' %}">
 {% endblock %}
 
 <div class="container-fluid">
-  {% comment %}
-  #TODO: Apontar URL correta, e alterar model para salvar corretamente o form.
-  {% endcomment %}
   <form method="POST" action="{% url 'entrada_estoque' ordem_producao.id %}">
     {% csrf_token %}
     <div class="row">

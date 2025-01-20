@@ -61,7 +61,6 @@ def nova_ordem_producao_modal(request):
 
         # Cria uma nova Ordem de Produção com as informações fornecidas
         nova_ordem = OrdemProducao.objects.create(
-            cliente=cliente,
             produto=produto,
             quantidade=quantidade,
             data_previsao=data_previsao

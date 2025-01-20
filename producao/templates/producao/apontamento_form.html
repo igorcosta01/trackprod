@@ -3,10 +3,13 @@
 {% load django_bootstrap5 %}
 
 {% block header %}
-    </br>
-    <div class="py-3 bg-light text-center">
-        <h2 class="display-4">Apontamento - OP: {{ ordem_producao.id }} </h2>
-    </div>
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Ordem de Produção N° <strong>{{ ordem_producao.id }}</strong></h2>
+      </div>
+      <div style="align-content: center;">
+      </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
@@ -43,17 +46,6 @@
             <button type="submit" class="btn btn-primary">Adicionar</button>
         </form>
     </div>
-
-    
-
-    {% if mostrar_alerta %}
-        <div class="alert alert-danger fade show mt-3" role="alert">
-            A Ordem de Produção já foi finalizada e não pode mais receber apontamentos. <a href="{% url 'list_ordens' %}" class="alert-link">Voltar para Ordens de Produção</a>
-        </div>
-    {% endif %}
-        <div class="alert alert-danger fade show mt-3" role="alert">
-            {{ erro }}
-        </div>
 {% endblock content %}
 
             

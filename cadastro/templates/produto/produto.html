@@ -4,13 +4,16 @@
 
 
 {% block header %}
-<div class="card-header d-flex justify-content-between">
-    <h4 class="mb-0"> Produto N° #{{ produto.codigo }} </h4>
-    {% block buttons %}
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Gerar
-        OP</button>
-    {% endblock buttons %}
-</div>
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Produto N° {{ produto.codigo }}</h2>
+      </div>
+      <div style="align-content: center;">
+        {% block buttons %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Gerar Ordem de Produção</button>
+        {% endblock buttons %}
+      </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
