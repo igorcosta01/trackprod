@@ -28,7 +28,7 @@
             <th scope="col">Tipo</th>
             <th scope="col">Descrição</th>
             <th scope="col">Volume (ML)</th>
-            <th scope="col">Status</th>
+            <th scope="col" style="text-align: center;">Status</th>
           </tr>
         </thead>
         <tbody class="table table-hover">
@@ -37,14 +37,18 @@
             <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
             <td>{{ produto.codigo }}</td>
             <td>{{ produto.cliente }}</td>
-            <td>{{ produto.nome }}</td>
+            <td>{{ produto.get_tipo_display }}</td>
             <td>{{ produto.descricao }}</td>
             {% if produto.volume is None %}
               <td>Não cadastrado</td>
             {% else %}
               <td>{{ produto.volume | intcomma }}ml</td>
             {% endif %}
-            <td>{{ produto.get_status_display }}</td>
+            {% if produto.status == "ativo"%}
+              <td style="text-align: center;"><span class="badge text-bg-primary">{{ produto.get_status_display }}</span></td>
+            {% else %}
+              <td  style="text-align: center;"><span class="badge text-bg-danger">{{ produto.get_status_display }}</span></td>
+            {% endif %}
           </tr>
         {% empty %}
         <tr>
