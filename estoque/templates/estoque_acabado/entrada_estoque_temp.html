@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block header %}
+    <div class="card-header d-flex justify-content-between">
+      <div>
+          <h2 class="display-6 mb-0">Entrada Estoque Acabado</h2>
+      </div>
+      <div style="align-content: center;">
+      </div>
+  </div>
+{% endblock header %}
+
+{% block content %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/estoque.css' %}">
+{% endblock %}
+
+<div class="container-fluid">
+    <form method="POST" action="{% url 'entrada_estoque' %}">
+      {% csrf_token %}
+      <div class="row">
+        <!-- Produto -->
+        <div class="col-md-3 mb-3">
+          <label for="produto_id">Produto (SKU)</label>
+          <select class="form-select" name="produto_id" id="produto_id" required>
+            <option value="" disabled selected>Selecione o produto</option>
+            {% for produto in produtos %}
+            <option value="{{ produto.id }}" 
+                    data-codigo="{{ produto.codigo }}" 
+                    data-cliente="{{ produto.cliente }}" 
+                    data-quantidade="{{ produto.quantidade }}"
+                    data-tipo="{{ produto.get_tipo_display }}"
+                    data-descricao="{{ produto.descricao }}"
+                    data-volume="{{ produto.volume }}">
+              {{ produto.id }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <label for="cliente">Cliente</label>
+          <input type="text" class="form-control" name="cliente" id="cliente" disabled>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="tipo_produto">Tipo</label>
+          <input type="text" class="form-control" name="tipo_produto" id="tipo_produto" disabled>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="descricao_produto">Descrição</label>
+          <input type="text" class="form-control" name="descricao_produto" id="descricao_produto" disabled>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="volume_produto">Volume (ml)</label>
+          <input type="text" class="form-control" name="volume_produto" id="volume_produto" disabled>
+        </div>
+  
+      <!-- Seção de Drive -->
+      <div class="col-md-12 mb-4">
+        <input type="hidden" name="drive_id" id="drive-id">
+        
+        {% for rua in "ABC" %}
+        <h6>Rua {{ rua }}</h6>
+        <div class="grid">
+          {% for drive in drives|dictsort:"numero" %}
+          {% if drive.rua == rua %}
+          <button type="button" class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}"
+            data-id="{{ drive.id }}" {% if drive.ocupado %}disabled{% endif %}>
+            {{ drive.rua }}{{ drive.numero }}
+          </button>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+  
+      <div class="row mt-4">
+        <!-- ID Funcionário -->
+        <div class="col-md-3 mb-4">
+          <label for="matricula_funcionario">Matricula Colaborador</label>
+          <input type="text" class="form-control" name="matricula_funcionario" id="matricula_funcionario" required min="0">
+        </div>
+  
+        <!-- Quantidade Entrada -->
+        <div class="col-md-3 mb-4">
+          <label for="qtdEntrada">Quantidade Entrada</label>
+          <input type="number" class="form-control" name="qtdEntrada" id="qtdEntrada" required>
+        </div>
+
+        <div class="col-md-3 mb-4">
+          <label for="lote">Lote</label>
+          <input type="number" class="form-control" name="lote" id="lote" required min="0">
+        </div>
+
+        <div class="col-md-3 mb-4">
+          <label for="data_fabricacao">Data de Fabricação</label>
+          <input type="date" class="form-control" name="data_fabricacao" id="data_fabricacao" required min="0">
+        </div>
+      </div>
+
+
+  
+      <button type="submit" class="btn btn-primary" id="submit-btn">Adicionar</button>
+    </form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Atualizar os campos automaticamente ao selecionar um produto
+    document.getElementById("produto_id").addEventListener("change", function() {
+        let selectedOption = this.options[this.selectedIndex];
+
+        document.getElementById("volume_produto").value = selectedOption.getAttribute("data-volume") || "";
+        document.getElementById("tipo_produto").value = selectedOption.getAttribute("data-tipo") || "";
+        document.getElementById("cliente").value = selectedOption.getAttribute("data-cliente") || "";
+        document.getElementById("descricao_produto").value = selectedOption.getAttribute("data-descricao") || "";
+    });
+
+    // Selecionar Drive e armazenar no campo hidden
+    let selectedDrive = null;
+    document.querySelectorAll(".drive").forEach(button => {
+        button.addEventListener("click", function() {
+            if (selectedDrive) {
+                selectedDrive.classList.remove("selected");
+            }
+            selectedDrive = this;
+            this.classList.add("selected");
+            document.getElementById("drive-id").value = this.getAttribute("data-id");
+        });
+    });
+
+    // Evita múltiplos envios do formulário
+    document.getElementById("submit-btn").addEventListener("click", function() {
+        this.disabled = true;
+        this.closest("form").submit();
+    });
+});
+
+
+</script>
+
+<style>
+  .drive.selected {
+    background-color: #4CAF50;
+    color: white;
+  }
+</style>
+
+{% endblock content %}

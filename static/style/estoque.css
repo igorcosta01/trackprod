@@ -17,3 +17,11 @@
     background-color: #ffe0e0;
     cursor: not-allowed;
 }
+
+#produto_id {
+    color: black !important;
+  }
+  
+  #produto_id option {
+    color: black;
+  }

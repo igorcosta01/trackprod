@@ -93,6 +93,7 @@ def ordens_producao_entrada_estoque(request):
 def entrada_estoque(request, ordem_producao_id):
     drives = Drive.objects.order_by('rua', 'numero')
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+    produtos = Produto.objects.all()
 
     if request.method == 'POST':
         produto_codigo = request.POST.get('codigo_produto')
@@ -146,6 +147,72 @@ def entrada_estoque(request, ordem_producao_id):
             messages.error(request, f"Ocorreu um erro: {str(e)}")
             return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
 
-    return render(request, 'estoque_acabado/entrada_estoque.html', {'drives': drives, 'ordem_producao': ordem_producao})
+    return render(request, 'estoque_acabado/entrada_estoque_temp.html', {'drives': drives, 'ordem_producao': ordem_producao, 'produtos': produtos})
 
 
+@login_required
+def ordens_producao_entrada_estoque(request):
+    ordens_producao = OrdemProducao.objects.filter(status="finalizada", is_estoque=False).order_by('data_criacao')
+    context = {'ordens_producao': ordens_producao}
+    return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
+
+def entrada_estoque_temp(request):
+    drives = Drive.objects.order_by('rua', 'numero')
+    # ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+    produtos = Produto.objects.all()
+
+    if request.method == 'POST':
+        produto_codigo = request.POST.get('produto_id')
+        qtdEntrada = int(request.POST.get('qtdEntrada'))
+        localizacao_id = request.POST.get('drive_id')
+        matricula_funcionario = request.POST.get('matricula_funcionario')
+        lote = request.POST.get('matricula_funcionario')
+        data_fabricacao = request.POST.get('data_fabricacao')
+
+        produto = get_object_or_404(Produto, id=produto_codigo)
+        drive = get_object_or_404(Drive, id=localizacao_id, ocupado=False)
+
+        # Busca o funcionário pela matrícula
+        try:
+            funcionario = Funcionario.objects.get(matricula_funcionario=matricula_funcionario)
+        except Funcionario.DoesNotExist:
+            messages.error(request, 'Funcionário não encontrado!')
+            # return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
+
+        try:
+            with transaction.atomic():
+                # Criação do ProdutoAcabado
+                produto_acabado = ProdutoAcabado.objects.create(
+                    produto=produto,
+                    quantidade=0,  # Será atualizado pela movimentação
+                    localizacao=f"{drive.rua}{drive.numero}",
+                    lote = lote,
+                    data_fabricacao = data_fabricacao
+                )
+
+                # Marca o drive como Ocupado
+                drive.ocupado = True
+                drive.produto = produto
+                drive.save()
+
+                # # Adiciona um flag na OP que já foi dado entrada em estoque
+                # ordem_producao.is_estoque = True
+                # ordem_producao.save()
+
+                # Criação da movimentação
+                MovimentoEstoqueAcabado.objects.create(
+                    produto_acabado=produto_acabado,
+                    tipo_movimento='entrada',
+                    quantidade_movimentada=qtdEntrada,
+                    funcionario=funcionario,
+                    endereco=f"{drive.rua}{drive.numero}"
+                )
+
+                messages.success(request, 'Entrada de estoque realizada com sucesso!')
+                return redirect('list-produto-acabado')
+
+        except Exception as e:
+            messages.error(request, f"Ocorreu um erro: {str(e)}")
+            # return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
+
+    return render(request, 'estoque_acabado/entrada_estoque_temp.html', {'drives': drives, 'produtos': produtos})
