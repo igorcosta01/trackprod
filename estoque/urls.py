@@ -12,4 +12,5 @@ urlpatterns = [
     path('ordens_producao_finalizadas/', views.ordens_producao_entrada_estoque, name='ordens_producao_entrada_estoque'),
     path('entrada_estoque/<ordem_producao_id>/', views.entrada_estoque, name='entrada_estoque'),
     path('entrada_estoque_temp/', views.entrada_estoque_temp, name='entrada_estoque'),
+    path("api/enderecos/", views.get_enderecos, name="api_enderecos"),
 ]

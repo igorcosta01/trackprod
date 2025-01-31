@@ -64,24 +64,47 @@
         </div>
   
       <!-- Seção de Drive -->
-      <div class="col-md-12 mb-4">
-        <input type="hidden" name="drive_id" id="drive-id">
-        
-        {% for rua in "ABC" %}
-        <h6>Rua {{ rua }}</h6>
-        <div class="grid">
-          {% for drive in drives|dictsort:"numero" %}
-          {% if drive.rua == rua %}
-          <button type="button" class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}"
-            data-id="{{ drive.id }}" {% if drive.ocupado %}disabled{% endif %}>
-            {{ drive.rua }}{{ drive.numero }}
-          </button>
-          {% endif %}
-          {% endfor %}
-        </div>
-        {% endfor %}
+      <label for="endereco_sugerido">Endereço</label>
+      <div class="col-md-2 d-flex">
+        <!-- Endereço sugerido -->
+        <input type="text" class="form-control" id="endereco_sugerido" readonly value="{{ endereco_sugerido }}" style="background-color:rgb(0, 177, 47); color: white; height: 38px; text-align: center; font-weight: bold;">
+        <input type="hidden" name="drive_id" id="drive_id" value="{{ endereco_sugerido.id }}">
+    
+        <!-- Botão para abrir o modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEnderecos" style="margin-left: 10px;">
+            Alterar
+        </button>
+    </div>
+    <div class="modal fade" id="modalEnderecos" tabindex="-1" aria-labelledby="modalEnderecosLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="modalEnderecosLabel">Selecione um Endereço</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12 mb-3"
+                        <label for="select-rua">Seleciona a Rua</label>
+                        <select id="select-rua" class="form-select">
+                          <option value="" selected disabled>Escolha uma rua</option>
+                          {% for rua in ruas %}
+                          <option value="{{ rua}}">{{ rua }}</option>
+                          {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col-md-12">
+                        <div id="enderecos-container" class="grid"></div>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
       </div>
-  
+  </div>
+
+      </div>  
+        
       <div class="row mt-4">
         <!-- ID Funcionário -->
         <div class="col-md-3 mb-4">
@@ -102,14 +125,13 @@
 
         <div class="col-md-3 mb-4">
           <label for="data_fabricacao">Data de Fabricação</label>
-          <input type="date" class="form-control" name="data_fabricacao" id="data_fabricacao" required min="0">
+          <input type="date" class="form-control" name="data_fabricacao" id="data_fabricacao" required>
         </div>
       </div>
-
-
-  
       <button type="submit" class="btn btn-primary" id="submit-btn">Adicionar</button>
     </form>
+  </div>
+</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -125,25 +147,68 @@
 
     // Selecionar Drive e armazenar no campo hidden
     let selectedDrive = null;
-    document.querySelectorAll(".drive").forEach(button => {
-        button.addEventListener("click", function() {
-            if (selectedDrive) {
-                selectedDrive.classList.remove("selected");
-            }
-            selectedDrive = this;
-            this.classList.add("selected");
-            document.getElementById("drive-id").value = this.getAttribute("data-id");
-        });
+
+    // Quando a rua for selecionada, busca os endereços correspondentes
+    document.getElementById("select-rua").addEventListener("change", function() {
+        let ruaSelecionada = this.value;
+        let container = document.getElementById("enderecos-container");
+        container.innerHTML = "";  // Limpa os endereços anteriores
+
+        fetch(`/estoque/api/enderecos/?rua=${ruaSelecionada}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    container.innerHTML = "<p>Nenhum endereço disponível nesta rua.</p>";
+                } else {
+                    data.forEach(drive => {
+                        let btn = document.createElement("button");
+                        btn.classList.add("drive");
+                        btn.textContent = drive.rua + drive.numero;
+                        btn.dataset.id = drive.id;
+                        btn.disabled = drive.ocupado;
+
+                        if (drive.ocupado) {
+                            btn.classList.add("ocupado");
+                        } else {
+                            btn.classList.add("livre");
+                            btn.addEventListener("click", function() {
+                              event.preventDefault();
+                                if (selectedDrive) {
+                                    selectedDrive.classList.remove("selected");
+                                }
+                                selectedDrive = this;
+                                this.classList.add("selected");
+
+                                document.getElementById("drive_id").value = this.dataset.id;
+                                document.getElementById("endereco_sugerido").value = this.textContent;
+                            });
+                        }
+
+                        container.appendChild(btn);
+                    });
+                }
+            })
+            .catch(error => console.error("Erro ao buscar endereços:", error));
     });
 
-    // Evita múltiplos envios do formulário
-    document.getElementById("submit-btn").addEventListener("click", function() {
+    // Impedir envio se nenhum endereço for selecionado
+    document.getElementById("submit-btn").addEventListener("click", function(event) {
+        let driveId = document.getElementById("drive_id").value;
+        if (!driveId) {
+            event.preventDefault();
+            alert("Por favor, selecione um endereço antes de enviar.");
+            return;
+        }
         this.disabled = true;
         this.closest("form").submit();
     });
-});
-
-
+  
+      // Evita múltiplos envios do formulário
+      document.getElementById("submit-btn").addEventListener("click", function() {
+          this.disabled = true;
+          this.closest("form").submit();
+      });
+  });
 </script>
 
 <style>
@@ -154,3 +219,17 @@
 </style>
 
 {% endblock content %}
+
+                    {% comment %} {% for rua in "ABC" %}
+                    <h6>Rua {{ rua }}</h6>
+                    <div class="grid">
+                      {% for drive in drives|dictsort:"numero" %}
+                      {% if drive.rua == rua %}
+                      <button type="button" class="drive {% if drive.ocupado %}ocupado{% else %}livre{% endif %}"
+                        data-id="{{ drive.id }}" {% if drive.ocupado %}disabled{% endif %}>
+                        {{ drive.rua }}{{ drive.numero }}
+                      </button>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endfor %} {% endcomment %}

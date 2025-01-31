@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto, OrdemProducao, Drive
 from .forms import ProdutoAcabadoForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
@@ -157,16 +157,18 @@ def ordens_producao_entrada_estoque(request):
     return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
 
 def entrada_estoque_temp(request):
+    ruas = Drive.objects.values_list('rua', flat=True).distinct()
     drives = Drive.objects.order_by('rua', 'numero')
     # ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
     produtos = Produto.objects.all()
+    endereco_sugerido = Drive.objects.filter(ocupado=False).first()
 
     if request.method == 'POST':
         produto_codigo = request.POST.get('produto_id')
         qtdEntrada = int(request.POST.get('qtdEntrada'))
         localizacao_id = request.POST.get('drive_id')
         matricula_funcionario = request.POST.get('matricula_funcionario')
-        lote = request.POST.get('matricula_funcionario')
+        lote = request.POST.get('lote')
         data_fabricacao = request.POST.get('data_fabricacao')
 
         produto = get_object_or_404(Produto, id=produto_codigo)
@@ -215,4 +217,9 @@ def entrada_estoque_temp(request):
             messages.error(request, f"Ocorreu um erro: {str(e)}")
             # return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
 
-    return render(request, 'estoque_acabado/entrada_estoque_temp.html', {'drives': drives, 'produtos': produtos})
+    return render(request, 'estoque_acabado/entrada_estoque_temp.html', {'drives': drives, 'produtos': produtos, 'endereco_sugerido': endereco_sugerido, 'ruas': ruas})
+
+def get_enderecos(request):
+    rua = request.GET.get("rua")
+    enderecos = Drive.objects.filter(rua=rua).values("id", "rua", "numero", "ocupado")
+    return JsonResponse(list(enderecos), safe=False)
