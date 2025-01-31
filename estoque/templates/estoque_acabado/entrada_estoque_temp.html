@@ -64,8 +64,8 @@
         </div>
   
       <!-- Seção de Drive -->
-      <label for="endereco_sugerido">Endereço</label>
-      <div class="col-md-2 d-flex">
+      <label for="endereco_sugerido">Endereço Disponivel</label>
+      <div class="col-md-3 d-flex">
         <!-- Endereço sugerido -->
         <input type="text" class="form-control" id="endereco_sugerido" readonly value="{{ endereco_sugerido }}" style="background-color:rgb(0, 177, 47); color: white; height: 38px; text-align: center; font-weight: bold;">
         <input type="hidden" name="drive_id" id="drive_id" value="{{ endereco_sugerido.id }}">
@@ -145,6 +145,14 @@
         document.getElementById("descricao_produto").value = selectedOption.getAttribute("data-descricao") || "";
     });
 
+    let form = document.querySelector("form");  // Garante que pega o primeiro <form>
+      let submitBtn = document.getElementById("submit-btn");
+  
+      if (!form) {
+          console.error("Formulário não encontrado! Verifique se há um <form> válido.");
+          return;
+      }
+
     // Selecionar Drive e armazenar no campo hidden
     let selectedDrive = null;
 
@@ -191,24 +199,20 @@
             .catch(error => console.error("Erro ao buscar endereços:", error));
     });
 
-    // Impedir envio se nenhum endereço for selecionado
-    document.getElementById("submit-btn").addEventListener("click", function(event) {
-        let driveId = document.getElementById("drive_id").value;
-        if (!driveId) {
-            event.preventDefault();
-            alert("Por favor, selecione um endereço antes de enviar.");
-            return;
-        }
-        this.disabled = true;
-        this.closest("form").submit();
-    });
-  
-      // Evita múltiplos envios do formulário
-      document.getElementById("submit-btn").addEventListener("click", function() {
-          this.disabled = true;
-          this.closest("form").submit();
-      });
+    submitBtn.addEventListener("click", function (event) {
+      let driveId = document.getElementById("drive_id").value;
+
+      if (!driveId) {
+          event.preventDefault();
+          alert("Por favor, selecione um endereço antes de enviar.");
+          return;
+      }
+
+      // Desativa o botão para evitar múltiplos envios
+      this.disabled = true;
+      form.submit();
   });
+});
 </script>
 
 <style>
