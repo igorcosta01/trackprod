@@ -21,6 +21,10 @@
 
 {% block content %}
 </br>
+<form method="GET">
+  {{ filter_produto_acabado.form.as_p }}
+  <button type="submit">Filtrar</button>
+</form>
 <table class="table table-striped table-hover table-bordered">
   <thead>
     <tr>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import ProdutoAcabado, MovimentoEstoqueAcabado, Funcionario, Produto, OrdemProducao, Drive
-from .forms import ProdutoAcabadoForm
+from .filters import FilterProdutoAcabado
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,9 @@ def list_produto_acabado(request,):
     produto_acabado = ProdutoAcabado.objects.order_by('data_entrada').filter(tipo="acabado")
     ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
 
-    context = {'produto_acabado': produto_acabado, 'ultima_movimentacao': ultima_movimentacao}
+    filter_produto_acabado = FilterProdutoAcabado(request.GET, queryset=produto_acabado)
+
+    context = {'produto_acabado': filter_produto_acabado.qs, 'ultima_movimentacao': ultima_movimentacao, 'filter_produto_acabado': filter_produto_acabado}
     return render(request, 'estoque_acabado/list-produto-acabado.html', context)
 
 @login_required

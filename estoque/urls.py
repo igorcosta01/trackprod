@@ -19,6 +19,7 @@ urlpatterns = [
 
 
 
+
     path('list_estoque_intermediario', views.list_estoque_intermediario, name='list_estoque_intermediario'),
     path('entrada_estoque_intermediario', views.entrada_estoque_intermediario, name='entrada_estoque_intermediario'),
     path('produto_intermediario/<produto_intermediario_id>', views.produto_intermediario, name='produto_intermediario')
