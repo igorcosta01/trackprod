@@ -9,6 +9,7 @@ class Drive(models.Model):
     numero = models.PositiveIntegerField()
     ocupado = models.BooleanField(default=False)
     produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True, blank=True)
+    tipo = models.CharField(max_length=15,choices=[('acabado', 'Acabado'), ('intermediario', 'Intermediario')])
 
     class Meta:
         unique_together = ('rua', 'numero')
@@ -31,6 +32,7 @@ class ProdutoAcabado(models.Model):
     codigo_barra_pct = models.CharField(max_length=13, blank=True, null=True)
     lote = models.CharField(max_length=10, null=True)
     data_fabricacao = models.DateField(null=True)
+    tipo = models.CharField(max_length=15,choices=[('acabado', 'Acabado'), ('intermediario', 'Intermediario')])
 
     class Meta:
         verbose_name_plural = "Produtos Acabados"

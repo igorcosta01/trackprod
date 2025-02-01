@@ -7,12 +7,12 @@
 {% block header %}
     <div class="card-header d-flex justify-content-between">
       <div>
-          <h2 class="display-6 mb-0">Estoque Acabado</h2>
+          <h2 class="display-6 mb-0">Estoque Semi-Acabado</h2>
       </div>
       <div style="align-content: center;">
         {% block buttons %}
           <div class="d-grid gap-2">
-            <a href="{% url 'entrada_estoque' %}"><button type="button" class="btn btn-primary">Adicionar Entrada</button></a>
+            <a href="{% url 'entrada_estoque_intermediario' %}"><button type="button" class="btn btn-primary">Adicionar Entrada</button></a>
           </div>
         {% endblock buttons %}
       </div>
@@ -34,8 +34,8 @@
     </tr>
   </thead>
   <tbody class="table">
-    {% for pa in produto_acabado %}
-      <tr onclick="window.location.href='{% url 'produto_acabado' pa.id  %}'">
+    {% for pa in produto_armazenado %}
+      <tr onclick="window.location.href='{% url 'produto_intermediario' pa.id  %}'" style="cursor: pointer">
         <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
         <td scope="row">{{ pa.produto.codigo }}</td>
         <td>{{ pa.produto.cliente }}</td>

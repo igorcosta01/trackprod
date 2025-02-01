@@ -1,29 +1,41 @@
-.grid {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr); /* 10 drives por linha */
-    gap: 10px;
-}
 .drive {
-    padding: 10px;
+    padding: 5px 8px; /* Menor padding */
+    font-size: 12px; /* Fonte menor */
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
+    width: 60px;  /* Largura fixa para os botões */
+    height: 30px; /* Altura fixa para os botões */
 }
+
 .drive.livre {
     background-color: #e0ffe0;
 }
+
 .drive.ocupado {
     background-color: #ffe0e0;
     cursor: not-allowed;
 }
 
-#produto_id {
-    color: black !important;
-  }
-  
-  #produto_id option {
-    color: black;
-  }
+.drive.selected {
+    font-weight: bold;
+    background-color: rgb(41, 161, 45);
+    color: white;
+}
 
-  
+.grid {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr); /* 10 botões por linha */
+    gap: 5px;  /* Menor espaço entre os botões */
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 500px; /* Limitar a altura do modal */
+    overflow-y: auto; /* Permitir rolagem se necessário */
+}
+
+.row {
+    display: flex;
+}

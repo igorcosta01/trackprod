@@ -13,7 +13,7 @@ from django.db import transaction
 
 @login_required
 def list_produto_acabado(request,):
-    produto_acabado = ProdutoAcabado.objects.order_by('data_entrada')
+    produto_acabado = ProdutoAcabado.objects.order_by('data_entrada').filter(tipo="acabado")
     ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
 
     context = {'produto_acabado': produto_acabado, 'ultima_movimentacao': ultima_movimentacao}
@@ -149,15 +149,15 @@ def entrada_estoque(request, ordem_producao_id):
 
     return render(request, 'estoque_acabado/entrada_estoque_temp.html', {'drives': drives, 'ordem_producao': ordem_producao, 'produtos': produtos})
 
-
 @login_required
 def ordens_producao_entrada_estoque(request):
     ordens_producao = OrdemProducao.objects.filter(status="finalizada", is_estoque=False).order_by('data_criacao')
     context = {'ordens_producao': ordens_producao}
     return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
 
+@login_required
 def entrada_estoque_temp(request):
-    ruas = Drive.objects.values_list('rua', flat=True).distinct()
+    ruas = Drive.objects.values_list('rua', flat=True).filter(tipo="acabado").distinct()
     drives = Drive.objects.order_by('rua', 'numero')
     # ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
     produtos = Produto.objects.all()
@@ -170,6 +170,7 @@ def entrada_estoque_temp(request):
         matricula_funcionario = request.POST.get('matricula_funcionario')
         lote = request.POST.get('lote')
         data_fabricacao = request.POST.get('data_fabricacao')
+        tipo = "acabado"
 
         produto = get_object_or_404(Produto, id=produto_codigo)
         drive = get_object_or_404(Drive, id=localizacao_id, ocupado=False)
@@ -189,7 +190,8 @@ def entrada_estoque_temp(request):
                     quantidade=0,  # Será atualizado pela movimentação
                     localizacao=f"{drive.rua}{drive.numero}",
                     lote = lote,
-                    data_fabricacao = data_fabricacao
+                    data_fabricacao = data_fabricacao,
+                    tipo = tipo
                 )
 
                 # Marca o drive como Ocupado
@@ -223,3 +225,95 @@ def get_enderecos(request):
     rua = request.GET.get("rua")
     enderecos = Drive.objects.filter(rua=rua).values("id", "rua", "numero", "ocupado")
     return JsonResponse(list(enderecos), safe=False)
+
+
+
+
+#####################################################################
+#                                                                   #    
+#                       ESTOQUE INTERMEDIARIO                       #
+#                                                                   #
+#####################################################################
+
+@login_required
+def list_estoque_intermediario(request,):
+    produto_armazenado = ProdutoAcabado.objects.order_by('data_entrada').filter(tipo="intermediario")
+    ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
+
+    context = {'produto_armazenado': produto_armazenado, 'ultima_movimentacao': ultima_movimentacao}
+    return render(request, 'estoque_acabado/estoque_intermediario/list_estoque_intermediario.html', context)
+
+@login_required
+def ordens_producao_entrada_estoque(request):
+    ordens_producao = OrdemProducao.objects.filter(status="finalizada", is_estoque=False).order_by('data_criacao')
+    context = {'ordens_producao': ordens_producao}
+    return render(request, 'estoque_acabado/ordens_producao_finalizadas.html', context)
+
+def entrada_estoque_intermediario(request):
+    ruas = Drive.objects.values_list('rua', flat=True).filter(tipo="intermediario").distinct()
+    drives = Drive.objects.order_by('rua', 'numero')
+    # ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+    produtos = Produto.objects.all()
+    endereco_sugerido = Drive.objects.filter(ocupado=False).filter(tipo="intermediario").first()
+
+    if request.method == 'POST':
+        produto_codigo = request.POST.get('produto_id')
+        qtdEntrada = int(request.POST.get('qtdEntrada'))
+        localizacao_id = request.POST.get('drive_id')
+        matricula_funcionario = request.POST.get('matricula_funcionario')
+        lote = request.POST.get('lote')
+        data_fabricacao = request.POST.get('data_fabricacao')
+        tipo = "intermediario"
+
+        produto = get_object_or_404(Produto, id=produto_codigo)
+        drive = get_object_or_404(Drive, id=localizacao_id, ocupado=False)
+
+        # Busca o funcionário pela matrícula
+        try:
+            funcionario = Funcionario.objects.get(matricula_funcionario=matricula_funcionario)
+        except Funcionario.DoesNotExist:
+            messages.error(request, 'Funcionário não encontrado!')
+
+        try:
+            with transaction.atomic():
+                # Criação do ProdutoAcabado
+                produto_acabado = ProdutoAcabado.objects.create(
+                    produto=produto,
+                    quantidade=0,  # Será atualizado pela movimentação
+                    localizacao=f"{drive.rua}{drive.numero}",
+                    lote = lote,
+                    data_fabricacao = data_fabricacao,
+                    tipo = tipo
+                )
+
+                # Marca o drive como Ocupado
+                drive.ocupado = True
+                drive.produto = produto
+                drive.save()
+
+                # Criação da movimentação
+                MovimentoEstoqueAcabado.objects.create(
+                    produto_acabado=produto_acabado,
+                    tipo_movimento='entrada',
+                    quantidade_movimentada=qtdEntrada,
+                    funcionario=funcionario,
+                    endereco=f"{drive.rua}{drive.numero}"
+                )
+
+                messages.success(request, 'Entrada de estoque realizada com sucesso!')
+                return redirect('list_estoque_intermediario')
+
+        except Exception as e:
+            messages.error(request, f"Ocorreu um erro: {str(e)}")
+            # return redirect('entrada_estoque', ordem_producao_id=ordem_producao_id)
+
+    return render(request, 'estoque_acabado/estoque_intermediario/entrada_estoque_inter.html', {'drives': drives, 'produtos': produtos, 'endereco_sugerido': endereco_sugerido, 'ruas': ruas})
+
+@login_required
+def produto_intermediario(request, produto_intermediario_id):
+    produto_intermediario = ProdutoAcabado.objects.get(id = produto_intermediario_id)
+
+    movimentacoes = MovimentoEstoqueAcabado.objects.filter(produto_acabado=produto_intermediario)
+
+    context = {'movimentacoes': movimentacoes, 'produto_intermediario': produto_intermediario}
+    return render(request, 'estoque_acabado/estoque_intermediario/produto_intermediario.html', context)

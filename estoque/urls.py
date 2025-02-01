@@ -13,4 +13,13 @@ urlpatterns = [
     # path('entrada_estoque/<ordem_producao_id>/', views.entrada_estoque, name='entrada_estoque'),
     path('entrada_estoque_temp/', views.entrada_estoque_temp, name='entrada_estoque'),
     path("api/enderecos/", views.get_enderecos, name="api_enderecos"),
+
+
+
+
+
+
+    path('list_estoque_intermediario', views.list_estoque_intermediario, name='list_estoque_intermediario'),
+    path('entrada_estoque_intermediario', views.entrada_estoque_intermediario, name='entrada_estoque_intermediario'),
+    path('produto_intermediario/<produto_intermediario_id>', views.produto_intermediario, name='produto_intermediario')
 ]

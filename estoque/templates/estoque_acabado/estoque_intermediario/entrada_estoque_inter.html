@@ -6,7 +6,7 @@
 {% block header %}
     <div class="card-header d-flex justify-content-between">
       <div>
-          <h2 class="display-6 mb-0">Entrada Estoque Acabado</h2>
+          <h2 class="display-6 mb-0">Entrada Estoque Semi-Acabado</h2>
       </div>
       <div style="align-content: center;">
       </div>
@@ -20,7 +20,7 @@
 {% endblock %}
 
 <div class="container-fluid">
-    <form method="POST" action="{% url 'entrada_estoque' %}">
+    <form method="POST" action="{% url 'entrada_estoque_intermediario' %}">
       {% csrf_token %}
       <div class="row">
         <!-- Produto -->
@@ -64,12 +64,17 @@
         </div>
   
       <!-- Seção de Drive -->
-      <label for="endereco_sugerido">Endereço Disponivel</label>
+      <label for="endereco_sugerido">Drive-In Disponivel</label>
       <div class="col-md-3 d-flex">
         <!-- Endereço sugerido -->
-        <input type="text" class="form-control" id="endereco_sugerido" readonly value="{{ endereco_sugerido }}" style="background-color:rgb(0, 177, 47); color: white; height: 38px; text-align: center; font-weight: bold;">
-        <input type="hidden" name="drive_id" id="drive_id" value="{{ endereco_sugerido.id }}">
-    
+
+        {% if endereco_sugerido is None %}
+          <input type="text" class="form-control" id="endereco_sugerido" readonly value="Não há vagas" style="background-color:rgb(211, 32, 0); color: white; height: 38px; text-align: center; font-weight: bold;">
+        {% else %}
+          <input type="text" class="form-control" id="endereco_sugerido" readonly value="{{ endereco_sugerido }}" style="background-color:rgb(0, 177, 47); color: white; height: 38px; text-align: center; font-weight: bold;">
+          <input type="hidden" name="drive_id" id="drive_id" value="{{ endereco_sugerido.id }}">
+        {% endif %}
+
         <!-- Botão para abrir o modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEnderecos" style="margin-left: 10px;">
             Alterar
@@ -89,7 +94,7 @@
                         <select id="select-rua" class="form-select">
                           <option value="" selected disabled>Escolha uma rua</option>
                           {% for rua in ruas %}
-                          <option value="{{ rua}}">{{ rua }}</option>
+                            <option value="{{ rua }}">{{ rua }}</option>
                           {% endfor %}
                           </select>
                       </div>
