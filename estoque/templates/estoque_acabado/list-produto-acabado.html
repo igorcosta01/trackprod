@@ -20,11 +20,28 @@
 {% endblock header %}
 
 {% block content %}
-</br>
-<form method="GET">
-  {{ filter_produto_acabado.form.as_p }}
-  <button type="submit">Filtrar</button>
+<form method="GET" class="row g-2 justify-content-between">
+<div class="row mb-4 d-flex justify-content-between">
+  <!-- Campo Produto -->
+  <div class="col-md-4">
+      <label for="produto" class="form-label">{{ filter_produto_acabado.form.produto.label }}</label>
+      {{ filter_produto_acabado.form.produto }}
+  </div>
+
+  <!-- Campo Localização -->
+  <div class="col-md-4">
+      <label for="localizacao" class="form-label">{{ filter_produto_acabado.form.localizacao.label }}</label>
+      {{ filter_produto_acabado.form.localizacao }}
+  </div>
+
+  <!-- Botões de Ação -->
+  <div class="col-md-4 d-flex">
+      <button type="submit" class="btn btn-primary me-2">Filtrar</button>
+      <a href="{% url 'list-produto-acabado' %}" class="btn btn-secondary">Limpar</a>
+  </div>
+</div>
 </form>
+
 <table class="table table-striped table-hover table-bordered">
   <thead>
     <tr>
