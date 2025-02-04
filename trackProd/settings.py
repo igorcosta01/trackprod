@@ -131,3 +131,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]  # Adicione isso para usar a pasta est√
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "/users/login"
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://trackprod.irfy.com.br",
+    "http://trackprod.irfy.com.br",
+]
