@@ -21,26 +21,29 @@
 
 {% block content %}
 <form method="GET" class="row g-2 justify-content-between">
-<div class="row mb-4 d-flex justify-content-between">
-  <!-- Campo Produto -->
-  <div class="col-md-4">
+  <div class="row mb-4 d-flex justify-content-start align-items-center w-100">
+
+    <!-- Campo Produto -->
+    <div class="col-md-2">
       <label for="produto" class="form-label">{{ filter_produto_acabado.form.produto.label }}</label>
       {{ filter_produto_acabado.form.produto }}
-  </div>
+    </div>
 
-  <!-- Campo Localização -->
-  <div class="col-md-4">
+    <!-- Campo Localização -->
+    <div class="col-md-2">
       <label for="localizacao" class="form-label">{{ filter_produto_acabado.form.localizacao.label }}</label>
       {{ filter_produto_acabado.form.localizacao }}
-  </div>
+    </div>
 
-  <!-- Botões de Ação -->
-  <div class="col-md-4 d-flex">
-      <button type="submit" class="btn btn-primary me-2">Filtrar</button>
-      <a href="{% url 'list-produto-acabado' %}" class="btn btn-secondary">Limpar</a>
+    <!-- Botões de Ação -->
+    <div class="col-md-3 d-flex align-items-center mt-4">
+      <button type="submit" class="btn btn-success btn-sm me-2 mt-2">Filtrar</button>
+      <a href="{% url 'list-produto-acabado' %}" class="btn btn-secondary btn-sm mt-2">Limpar</a>
+    </div>
+
   </div>
-</div>
 </form>
+
 
 <table class="table table-striped table-hover table-bordered">
   <thead>
@@ -56,7 +59,7 @@
   </thead>
   <tbody class="table">
     {% for pa in produto_acabado %}
-      <tr onclick="window.location.href='{% url 'produto_acabado' pa.id  %}'">
+      <tr onclick="window.location.href='{% url 'produto_acabado' pa.id  %}'" style="cursor: pointer;">
         <!-- Apesar do HTML está apontando erro, essa linha funciona normalmente -->
         <td scope="row">{{ pa.produto.codigo }}</td>
         <td>{{ pa.produto.cliente }}</td>
@@ -66,9 +69,11 @@
         <td style="text-align: center;">{{ pa.data_fabricacao | date:'d/m/Y' }}</td>
         {% comment %} <td style="text-align: center;"><a><button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">Despachar</button></a></td> {% endcomment %}
       </tr>
-    {% empty %}
-      Não há pedidos.
-    {% endfor %}
+      {% empty %}
+        <tr>
+          <td colspan="6" style="text-align: center; font-weight: 300;">Não há produtos com o filtro aplicado.</td>
+        </tr>
+      {% endfor %}
   </tbody>
 </table>
 

@@ -238,11 +238,13 @@ def get_enderecos(request):
 #####################################################################
 
 @login_required
-def list_estoque_intermediario(request,):
+def list_estoque_intermediario(request):
     produto_armazenado = ProdutoAcabado.objects.order_by('data_entrada').filter(tipo="intermediario")
     ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
 
-    context = {'produto_armazenado': produto_armazenado, 'ultima_movimentacao': ultima_movimentacao}
+    filter_produto_armazenado = FilterProdutoAcabado(request.GET, queryset=produto_armazenado)
+
+    context = {'produto_armazenado': filter_produto_armazenado.qs, 'ultima_movimentacao': ultima_movimentacao, 'filter_produto_armazenado': filter_produto_armazenado}
     return render(request, 'estoque_acabado/estoque_intermediario/list_estoque_intermediario.html', context)
 
 @login_required
