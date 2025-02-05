@@ -29,14 +29,14 @@
           <select class="form-select" name="produto_id" id="produto_id" required>
             <option value="" disabled selected>Selecione o produto</option>
             {% for produto in produtos %}
-            <option value="{{ produto.id }}" 
+            <option value="{{produto.id }}" 
                     data-codigo="{{ produto.codigo }}" 
                     data-cliente="{{ produto.cliente }}" 
                     data-quantidade="{{ produto.quantidade }}"
                     data-tipo="{{ produto.get_tipo_display }}"
                     data-descricao="{{ produto.descricao }}"
                     data-volume="{{ produto.volume }}">
-              {{ produto.id }}
+              {{ produto.codigo }}
             </option>
             {% endfor %}
           </select>
