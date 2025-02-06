@@ -28,6 +28,7 @@ def produto_acabado(request, produto_acabado_id):
     movimentacoes = MovimentoEstoqueAcabado.objects.filter(produto_acabado=produto_acabado)
 
     context = {'movimentacoes': movimentacoes, 'produto_acabado': produto_acabado}
+
     return render(request, 'estoque_acabado/produto_acabado.html', context)
 
 @login_required
@@ -73,6 +74,10 @@ def mov_estoque_acabado(request):
 
         funcionario = get_object_or_404(Funcionario, matricula_funcionario=matricula_funcionario)
 
+        rua = endereco[0]  # Primeira letra é a rua
+        numero = int(endereco[1:])  # O restante é o número
+        drive = get_object_or_404(Drive, rua=rua, numero=numero)
+
         # Cria uma nova movimentação de estoque
         nova_movimentacao = MovimentoEstoqueAcabado.objects.create(
             produto_acabado=produto_acabado,
@@ -82,6 +87,14 @@ def mov_estoque_acabado(request):
             data_mov=data_mov,
             endereco=endereco,
         )
+
+        if tipo_movimento == 'saida' and quantidade >= produto_acabado.quantidade:
+            drive.ocupado = False
+            drive.produto = None
+            drive.save()
+
+            produto_acabado.localizacao = None
+            produto_acabado.save()
 
         # Redireciona para uma página de sucesso ou detalhe do produto acabado
         return HttpResponseRedirect(reverse('produto_acabado', args=[produto_acabado.id]))
