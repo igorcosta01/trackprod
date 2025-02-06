@@ -12,7 +12,7 @@ from django.db import transaction
 # Create your views here.
 
 @login_required
-def list_produto_acabado(request,):
+def list_produto_acabado(request):
     produto_acabado = ProdutoAcabado.objects.order_by('data_entrada').filter(tipo="acabado")
     ultima_movimentacao = MovimentoEstoqueAcabado.objects.order_by('data_mov').last()
 
