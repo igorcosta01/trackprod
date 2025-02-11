@@ -11,6 +11,37 @@
 
     <!-- {% if user.is_authenticated %} -->
 
+    <iframe width="1270" height="953" src="https://lookerstudio.google.com/embed/reporting/36d67d57-1ca5-45ac-8d9b-9c6eac425472/page/jpinE" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+
+    {% comment %} <div id="container" style="width: 80%; height: 400px; margin: auto;"></div>
+
+    <script>
+        fetch('producao/api/dados_dashboard/')
+        .then(response => response.json())
+        .then(data => {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Produção Mensal'
+                },
+                xAxis: {
+                    categories: data.categories
+                },
+                yAxis: {
+                    title: {
+                        text: 'Quantidade'
+                    }
+                },
+                series: [{
+                    name: 'Produção',
+                    data: data.values
+                }]
+            });
+        });
+    </script> {% endcomment %}
+
     {% else %}
 
         <div class="text-center">
@@ -21,5 +52,6 @@
         </div>
 
     {% endif %}
+
 
 {% endblock content %}

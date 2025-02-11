@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import OrdemProducao, Maquina, ApontamentoProducao, Produto
 from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -10,6 +10,13 @@ from time import sleep
 from django.contrib import messages
 
 # Create your views here.
+
+def dados_dashboard(request):
+    dados = {
+        "categories": ["Jan", "Fev", "Mar"],
+        "values": [150, 200, 250]
+    }
+    return JsonResponse(dados)
 
 def index(request):
     if request.user.is_authenticated:
