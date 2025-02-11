@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from time import sleep
+from django.contrib import messages
 
 # Create your views here.
 
@@ -122,32 +123,54 @@ def edit_maquina(request, maquina_id):
 
 
 ####################### Apontamento ##################################
+# @login_required
+# def apontar_ordem_producao(request, ordem_producao_id):
+#     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
+#     op_finalizada = False
+
+#     if request.method == 'POST':
+#         form = ApontamentoProducaoForm(request.POST)
+#         if ordem_producao.status == 'finalizada':
+#             op_finalizada = True
+#         elif form.is_valid():
+#             apontamento = form.save(commit=False)
+#             apontamento.ordem_producao = ordem_producao
+#             apontamento.inicio_producao = timezone.now()
+#             apontamento.save()
+#             messages.success = "Salvo com Sucesso"
+#             return HttpResponseRedirect(reverse('list_ordens'))
+#     else:
+#         form = ApontamentoProducaoForm()
+
+#     context = { 'form': form, 'ordem_producao': ordem_producao}
+#     return render(request, 'producao/apontamento_form.html', context)
+
 @login_required
 def apontar_ordem_producao(request, ordem_producao_id):
     ordem_producao = get_object_or_404(OrdemProducao, id=ordem_producao_id)
     op_finalizada = False
-    mostrar_alerta = False  # Controle para exibir o alerta apenas após o POST
 
     if request.method == 'POST':
         form = ApontamentoProducaoForm(request.POST)
+        
         if ordem_producao.status == 'finalizada':
             op_finalizada = True
-            mostrar_alerta = True  # Exibe o alerta somente após tentar salvar
+            messages.warning(request, "Esta ordem de produção já foi finalizada.")
         elif form.is_valid():
             apontamento = form.save(commit=False)
-            apontamento.ordem_producao = ordem_producao
-            apontamento.inicio_producao = timezone.now()
-            apontamento.save()
-            msg = "Salvo com Sucesso"
-            sleep(2)
-            return HttpResponseRedirect(reverse('list_ordens'))
+
+            quantidade_apontada = form.cleaned_data['quantidade_produzida']
+            if quantidade_apontada > ordem_producao.quantidade:
+                messages.warning(request, "O valor inserido não pode ser maior que a quantidade da OP.")
+            else:
+                apontamento.ordem_producao = ordem_producao
+                apontamento.inicio_producao = timezone.now()
+                apontamento.save()
+                messages.success(request, "Salvo com sucesso!")
+                return HttpResponseRedirect(reverse('list_ordens'))  # Redirecionamento após sucesso
+        
     else:
         form = ApontamentoProducaoForm()
 
-    context = {
-        # 'msg': msg,
-        'form': form,
-        'ordem_producao': ordem_producao,
-        'mostrar_alerta': mostrar_alerta  # Passa a flag para o template
-    }
+    context = {'form': form, 'ordem_producao': ordem_producao}
     return render(request, 'producao/apontamento_form.html', context)

@@ -1,2 +1,3 @@
 .vscod
 .env
+.db.sqlite3

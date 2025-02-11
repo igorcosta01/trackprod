@@ -4,6 +4,7 @@ from .models import Produto, Funcionario
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -54,6 +55,7 @@ def novo_funcionario(request):
         if form.is_valid():
             novo_funcionario = form.save(commit=False)
             novo_funcionario.save()
+            messages.success(request, "Salvo com sucesso")
             return HttpResponseRedirect(reverse('list_funcionarios'))
     
     context = {'form': form}
