@@ -13,5 +13,6 @@ urlpatterns = [
     path('maquina/<maquina_id>', views.maquina, name='maquina'),
     path('edit_maquina/<maquina_id>', views.edit_maquina, name='edit_maquina'),
     path('api/dados_dashboard/', views.dados_dashboard, name='dados_dashboard'),
+    path('api/total_solicitado/', views.total_solicitado, name='total_solicitado'),
 
 ]
