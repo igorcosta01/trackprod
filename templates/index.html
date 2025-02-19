@@ -1,27 +1,83 @@
 {% extends "base.html" %}
 
 {% block header %}
-</br>
-<div class="py-3 bg-light text-center">
-    <h2 class="display-5">TrackProd</h2>
+<div class="card-header d-flex justify-content-between">
+    <div>
+        <h2 class="display-6 mb-0">Visão Geral</strong></h2>
+    </div>
+    <div style="align-content: center;">
+    </div>
 </div>
 {% endblock header %}
 
 {% block content %}
 
-    <!-- {% if user.is_authenticated %} -->
+    {% if user.is_authenticated %}
 
-    <iframe width="1250" height="750" src="https://lookerstudio.google.com/embed/reporting/18c8aac3-e58e-44d2-8353-f0d526288e70/page/ORlpD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    <iframe width="1245" height="934" src="https://lookerstudio.google.com/embed/reporting/36d67d57-1ca5-45ac-8d9b-9c6eac425472/page/jpinE" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
 
-    {% else %}
+    {% comment %} <div id="total-solicitado-card" style="
+    width: 200px; 
+    height: 100px; 
+    background-color: #f8f9fa; 
+    border-radius: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 24px; 
+    font-weight: bold; 
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    text-align: center;
+">
+    Carregando...
+</div>
 
-        <div class="text-center">
-            <a class="btn btn-primary" href="">
-                Crie uma conta para utilizar a aplicação irfyNotes
-            </a>
+    <div id="container" style="width: 80%; height: 400px; margin: auto;"></div>
 
-        </div>
 
+    <script>
+        fetch('/producao/api/total_solicitado/')
+        .then(response => response.json())
+        .then(data => {
+            // Atualiza o valor no card
+            document.getElementById('total-solicitado-card').innerText = `Total Solicitado: ${data.total_solicitado}`;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar o total solicitado:', error);
+            document.getElementById('total-solicitado-card').innerText = "Erro ao carregar";
+        });
+    </script>
+
+
+    <script>
+        fetch('/producao/api/dados_dashboard/')
+        .then(response => response.json())
+        .then(data => {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Produção Mensal'
+                },
+                xAxis: {
+                    categories: data.categories
+                },
+                yAxis: {
+                    title: {
+                        text: 'Quantidade Produzida'
+                    }
+                },
+                series: [{
+                    name: 'Produção',
+                    data: data.values
+                }]
+            });
+        });
+        
+    </script> {% endcomment %}
     {% endif %}
+
 
 {% endblock content %}

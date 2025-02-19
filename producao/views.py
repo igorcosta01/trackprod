@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import OrdemProducao, Maquina, ApontamentoProducao, Produto
 from .forms import OrdemProducaoForm, MaquinaForm, EditMaquinaForm, ApontamentoProducaoForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -10,6 +10,36 @@ from time import sleep
 from django.contrib import messages
 
 # Create your views here.
+
+def dados_dashboard(request):
+    # Obtém a data de início e fim do mês atual
+    hoje = timezone.now()
+    primeiro_dia_mes = hoje.replace(day=1)
+    
+    # Filtra apontamentos do mês atual
+    apontamentos_mes = ApontamentoProducao.objects.filter(inicio_producao__gte=primeiro_dia_mes, inicio_producao__lte=hoje)
+
+    # Soma a quantidade produzida por dia
+    producao_por_dia = {}
+    for apontamento in apontamentos_mes:
+        data = apontamento.inicio_producao.strftime('%d/%m/%Y')
+        producao_por_dia[data] = producao_por_dia.get(data, 0) + apontamento.quantidade_produzida
+
+    # Ordena por data
+    categorias = sorted(producao_por_dia.keys())
+    valores = [producao_por_dia[data] for data in categorias]
+
+    # Retorna os dados para o Highcharts
+    return JsonResponse({
+        "categories": categorias,
+        "values": valores
+    })
+
+def total_solicitado(request):
+    # Soma todas as quantidades de produção solicitadas
+    total = sum(int(op.quantidade) for op in OrdemProducao.objects.all())
+
+    return JsonResponse({"total_solicitado": total})
 
 def index(request):
     if request.user.is_authenticated:
